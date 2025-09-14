@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cross",
+  "textures": {
+    "cross": "twisted_and_carved:block/twisted_sapling"
+  }
+}

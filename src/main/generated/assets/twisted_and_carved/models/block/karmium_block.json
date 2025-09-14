@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "twisted_and_carved:block/karmium_block"
+  }
+}

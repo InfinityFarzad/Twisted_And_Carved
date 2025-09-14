@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "powered=false": {
+      "model": "twisted_and_carved:block/twisted_pressure_plate"
+    },
+    "powered=true": {
+      "model": "twisted_and_carved:block/twisted_pressure_plate_down"
+    }
+  }
+}

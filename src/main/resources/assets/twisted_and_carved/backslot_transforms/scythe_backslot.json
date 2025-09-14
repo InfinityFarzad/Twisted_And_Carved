@@ -1,0 +1,8 @@
+{
+  "item": "twisted_and_carved:twisted_scythe",
+  "scale": [1.7, 1.7, 1.7],
+  "rotation": [0.0, 0.0, 0.0],
+  "translation": [0.0, 0.0, 0.0],
+  "mode": "THIRD_PERSON_RIGHT_HAND",
+  "sway": 1.0
+}

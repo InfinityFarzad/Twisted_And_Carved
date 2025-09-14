@@ -1,0 +1,16 @@
+// 1.21.5	-999999999-01-01T00:00:00	Twisted And Carved/Tags for minecraft:item
+4c391b2757703dcf242cd43aa91b7ba2acac990e data/minecraft/tags/item/axes.json
+54e9f0cb8a5f0b5a81abd17fcca4ebed4f1ae269 data/minecraft/tags/item/fence_gates.json
+0b5357f50a7f211388f48a8eab042c37c9e2c0a4 data/minecraft/tags/item/hoes.json
+48b6e3f33ca6baf30d6ddf6c0f5fd608804c6c6b data/minecraft/tags/item/leaves.json
+312f0d2ad083bac6516fa8b4ceee96744fd46b21 data/minecraft/tags/item/logs_that_burn.json
+0880d0e48372efa51c975d257090b38082a98acf data/minecraft/tags/item/planks.json
+be9abde1cb7057474e6f4c4e08c7d9b6f9ee5c32 data/minecraft/tags/item/saplings.json
+0a6f50fdfb319fa53a6c181b06aa8ecf72993444 data/minecraft/tags/item/wooden_buttons.json
+2871227415406bcaabd12202811f19c48f86d0c7 data/minecraft/tags/item/wooden_doors.json
+4dd2dadbfc22ec647774557ce683e3b6183ac1a9 data/minecraft/tags/item/wooden_fences.json
+6c8d808e9b1861457f41332d6fc71ea0fe11615b data/minecraft/tags/item/wooden_pressure_plates.json
+93abda9720cad071fc5dea9903ac9a16b26f326c data/minecraft/tags/item/wooden_slabs.json
+54fef28d79e9d3b2f1a1569739f533f451bd5359 data/minecraft/tags/item/wooden_stairs.json
+ff99ba3a05f6bccb9842c1436704f588aa406abf data/minecraft/tags/item/wooden_trapdoors.json
+98e509bdd7c5a37fc7bedbd0ad585a763d6dc857 data/twisted_and_carved/tags/item/twisted_tool_repair_ingredient.json

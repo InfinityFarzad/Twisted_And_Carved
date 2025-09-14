@@ -1,0 +1,32 @@
+{
+  "model": {
+    "type": "minecraft:select",
+    "cases": [
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "twisted_and_carved:item/twisted_glaive"
+        },
+        "when": [
+          "gui",
+          "ground",
+          "fixed"
+        ]
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "twisted_and_carved:item/twisted_glaive_handheld"
+        },
+        "when": [
+          "firstperson_righthand",
+          "firstperson_lefthand",
+          "thirdperson_righthand",
+          "thirdperson_lefthand",
+          "head"
+        ]
+      }
+    ],
+    "property": "minecraft:display_context"
+  }
+}

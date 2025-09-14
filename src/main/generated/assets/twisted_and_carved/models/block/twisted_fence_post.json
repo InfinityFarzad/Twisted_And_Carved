@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/fence_post",
+  "textures": {
+    "texture": "twisted_and_carved:block/twisted_planks"
+  }
+}

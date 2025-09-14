@@ -1,0 +1,31 @@
+{
+  "anvil_cost": 5,
+  "description": {
+    "translate": "enchantment.twisted_and_carved.tomahawk"
+  },
+  "effects": {
+    "minecraft:post_attack": [
+      {
+        "affected": "victim",
+        "effect": {
+          "type": "twisted_and_carved:tomahawk_effect"
+        },
+        "enchanted": "attacker"
+      }
+    ]
+  },
+  "max_cost": {
+    "base": 50,
+    "per_level_above_first": 0
+  },
+  "max_level": 1,
+  "min_cost": {
+    "base": 20,
+    "per_level_above_first": 0
+  },
+  "slots": [
+    "hand"
+  ],
+  "supported_items": "#twisted_and_carved:tomahawk_enchantable",
+  "weight": 3
+}

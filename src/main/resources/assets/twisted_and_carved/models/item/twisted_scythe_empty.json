@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "twisted_and_carved:item/twisted_scythe_empty"
+  }
+}

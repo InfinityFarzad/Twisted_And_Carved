@@ -1,0 +1,32 @@
+{
+  "scythe_sweep_0": {
+    "subtitle": "sound.twisted_and_carved.scythe_sweep_0",
+    "sounds": [
+      "twisted_and_carved:scythe_sweep_0"
+    ]
+  },
+  "scythe_sweep_1": {
+    "subtitle": "sound.twisted_and_carved.scythe_sweep_1",
+    "sounds": [
+      "twisted_and_carved:scythe_sweep_1"
+    ]
+  },
+  "scythe_sweep_2": {
+    "subtitle": "sound.twisted_and_carved.scythe_sweep_2",
+    "sounds": [
+      "twisted_and_carved:scythe_sweep_2"
+    ]
+  },
+  "twisted_glaive_sweep": {
+    "subtitle": "sound.twisted_and_carved.twisted_glaive_sweep",
+    "sounds": [
+      "twisted_and_carved:twisted_glaive_sweep"
+    ]
+  },
+  "parry": {
+    "subtitle": "sound.twisted_and_carved.parry",
+    "sounds": [
+      "twisted_and_carved:parry"
+    ]
+  }
+}

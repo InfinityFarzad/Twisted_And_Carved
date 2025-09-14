@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:smithing_transform",
+  "addition": "#minecraft:netherite_tool_materials",
+  "base": "twisted_and_carved:twisted_falchion_piece",
+  "result": {
+    "count": 1,
+    "id": "twisted_and_carved:twisted_falchion"
+  },
+  "template": "twisted_and_carved:twisted_upgrade_smithing_template"
+}

@@ -1,0 +1,44 @@
+{
+	"schemaVersion": 1,
+	"id": "twisted_and_carved",
+	"version": "${version}",
+	"name": "Twisted And Carved",
+	"description": "This is an example description! Tell everyone what your mod is about!",
+	"authors": [
+		"Me!"
+	],
+	"contact": {
+		"homepage": "https://modrinth.com/mod/twisted-and-carved",
+		"sources": "https://github.com/InfinityFarzad/Twisted_And_Carved"
+	},
+	"license": "ARR",
+	"icon": "assets/twisted_and_carved/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"net.farzad.twisted_and_carved.common.TwistedAndCarved"
+		],
+		"fabric-datagen": [
+			"net.farzad.twisted_and_carved.common.TwistedAndCarvedDataGenerator"
+		],
+		"client": [
+			"net.farzad.twisted_and_carved.client.TwistedAndCarvedClient"
+		],
+		"terrablender": [
+			"net.farzad.twisted_and_carved.common.TwistedAndCarved"
+		]
+
+	},
+	"mixins": [
+		"twisted_and_carved.mixins.json"
+	],
+	"depends": {
+		"fabricloader": ">=0.16.14",
+		"minecraft": "~1.21.5",
+		"java": ">=21",
+		"fabric-api": "*"
+	},
+	"suggests": {
+		"another-mod": "*"
+	}
+}

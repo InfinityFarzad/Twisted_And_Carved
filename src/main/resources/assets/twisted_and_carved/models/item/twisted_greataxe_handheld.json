@@ -1,0 +1,84 @@
+{
+  "credit": "Made with Blockbench",
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "twisted_and_carved:item/twisted_greataxe_handheld"
+  },
+  "display": {
+    "thirdperson_righthand": {
+      "rotation": [
+        -52,
+        -90,
+        0
+      ],
+      "translation": [
+        -0.5,
+        5,
+        0
+      ],
+      "scale": [
+        1.7,
+        1.7,
+        1.7
+      ]
+    },
+    "thirdperson_lefthand": {
+      "rotation": [
+        -52,
+        90,
+        0
+      ],
+      "translation": [
+        -0.5,
+        5,
+        0
+      ],
+      "scale": [
+        1.7,
+        1.7,
+        1.7
+      ]
+    },
+    "firstperson_righthand": {
+      "rotation": [
+        0,
+        -90,
+        25
+      ],
+      "translation": [
+        1.13,
+        4.45,
+        2.13
+      ],
+      "scale": [
+        1.3,
+        1.3,
+        1.3
+      ]
+    },
+    "firstperson_lefthand": {
+      "rotation": [
+        0,
+        90,
+        -25
+      ],
+      "translation": [
+        1.13,
+        4.45,
+        2.13
+      ],
+      "scale": [
+        1.3,
+        1.3,
+        1.3
+      ]
+    },
+    "fixed": {
+      "scale": [
+        2,
+        2,
+        2
+      ]
+    }
+  }
+}

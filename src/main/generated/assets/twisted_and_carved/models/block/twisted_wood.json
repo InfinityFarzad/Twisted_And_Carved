@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "twisted_and_carved:block/twisted_log",
+    "side": "twisted_and_carved:block/twisted_log"
+  }
+}

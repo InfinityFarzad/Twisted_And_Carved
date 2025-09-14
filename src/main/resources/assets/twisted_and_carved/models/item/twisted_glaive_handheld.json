@@ -1,0 +1,84 @@
+{
+  "credit": "Made with Blockbench",
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "twisted_and_carved:item/twisted_glaive_handheld"
+  },
+  "display": {
+    "thirdperson_righthand": {
+      "rotation": [
+        -47,
+        -90,
+        0
+      ],
+      "translation": [
+        -0.5,
+        13.5,
+        1.5
+      ],
+      "scale": [
+        2.55,
+        2.55,
+        1.2
+      ]
+    },
+    "thirdperson_lefthand": {
+      "rotation": [
+        -47,
+        90,
+        0
+      ],
+      "translation": [
+        -0.5,
+        13.5,
+        1.5
+      ],
+      "scale": [
+        2.55,
+        2.55,
+        1.2
+      ]
+    },
+    "firstperson_righthand": {
+      "rotation": [
+        -31,
+        -90,
+        0
+      ],
+      "translation": [
+        1.13,
+        8.45,
+        1.88
+      ],
+      "scale": [
+        2.04,
+        2.04,
+        1.4
+      ]
+    },
+    "firstperson_lefthand": {
+      "rotation": [
+        -31,
+        90,
+        0
+      ],
+      "translation": [
+        1.13,
+        8.45,
+        1.88
+      ],
+      "scale": [
+        2.04,
+        2.04,
+        1.4
+      ]
+    },
+    "fixed": {
+      "scale": [
+        2,
+        2,
+        2
+      ]
+    }
+  }
+}
