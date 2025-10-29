@@ -10,7 +10,7 @@ import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 
 
-public class ModParticles {
+public class     ModParticles {
     public static final SimpleParticleType TWISTED_SWEEP_ATTACK = FabricParticleTypes.simple();
     public static final SimpleParticleType TWISTED_GLAIVE_SWEEP = FabricParticleTypes.simple();
     public static final SimpleParticleType PARRY_PARTICLE = FabricParticleTypes.simple();

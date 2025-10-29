@@ -2,7 +2,6 @@ package net.farzad.twisted_and_carved.common.entity.custom;
 
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
-import net.fabricmc.loader.impl.lib.sat4j.core.Vec;
 import net.farzad.twisted_and_carved.common.component.ModDataComponents;
 import net.farzad.twisted_and_carved.common.entity.ModEntities;
 import net.farzad.twisted_and_carved.common.item.ModItems;
@@ -18,7 +17,6 @@ import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.entity.projectile.PersistentProjectileEntity;
-import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.RegistryKeys;
@@ -28,15 +26,11 @@ import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.EntityHitResult;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
-
-import static net.farzad.twisted_and_carved.common.util.EntityUtil.hasEmptySlot;
-import static net.farzad.twisted_and_carved.common.util.EntityUtil.returnToSlot;
 
 public class TwistedScytheEntity extends PersistentProjectileEntity {
 
@@ -45,13 +39,13 @@ public class TwistedScytheEntity extends PersistentProjectileEntity {
     public boolean isPlayingSound;
     public LivingEntity prevOwner;
     public float damageMultiplier;
-    private ItemStack stack;
+    public int returnTimer;
 
     public TwistedScytheEntity(World world, LivingEntity owner, ItemStack stack) {
         super(ModEntities.TWISTED_SCYTHE_ENTITY, owner, world, stack, null);
         this.isPlayingSound = false;
         this.prevOwner = owner;
-        this.stack = stack;
+        this.returnTimer = -50;
     }
 
     public TwistedScytheEntity(EntityType<? extends TwistedScytheEntity> entityType, World world) {
@@ -82,44 +76,63 @@ public class TwistedScytheEntity extends PersistentProjectileEntity {
 
         entity.velocityModified = true;
     }
-    /*
-    * TODO :
-    *  make the scythe return to the inventory when "shouldReturn" is true
-    * */
 
+    /*
+     * TODO :
+     *  make the scythe return to the inventory when "shouldReturn" is true
+     * */
+
+
+    /*
+     * TODO
+     *  FARZAD FOR THE LOVE OF GOD FINISH THIS ALREADY YOU GODDAMN
+     */
 
     public void tick() {
 
-        if (this.inGroundTime > 75) {
+        if (this.inGroundTime > 75) { //logic incase the player gets stuck
             this.shouldReturn = true;
             this.isGripped = false;
         }
 
+        // if the scythe is in ground, set the ground mode to true
         if (this.isInGround()) {
             this.isGripped = true;
         }
+
+        // if the owner exists and the distance of the scythe to them is not greater then 35 or lesser then 8 and the gripped mode is true,
+        // play the return sound and set the gripped mode to false else if its griped and it shouldnt return, procceed and pullt the entity towards you
+        // also check for ``inGroundTime >= 1`` so the action does not activate
         Entity entity = this.getOwner();
         if (entity != null) {
             if (distanceTo(this.getOwner()) > 35 || (distanceTo(this.getOwner()) <= 8 && inGroundTime >= 1 && isGripped)) {
                 this.playSound(SoundEvents.ITEM_TRIDENT_RETURN, 1.0F, 1.0F);
                 this.shouldReturn = true;
                 this.isGripped = false;
-            }else
-            if (isGripped && !shouldReturn) {
+            } else if (isGripped && !shouldReturn) {
                 pullOwner(entity);
             }
 
         }
 
-        if ((this.shouldReturn || this.isNoClip()) && entity != null) {
-            if (!this.isOwnerAlive()) {
-                this.discard();
-            } else {
-                if (!(entity instanceof PlayerEntity) && this.getPos().distanceTo(entity.getEyePos()) < (double) entity.getWidth() + 1.0) {
-                    this.discard();
-                    return;
-                }
+
+        // RETURN LOGIC
+
+        // if the scythe should return and the entity exists,
+        if ((this.shouldReturn || this.isNoClip()) && !this.isGripped && entity != null) {
+
+            this.setNoClip(true);
+            Vec3d vec3d = entity.getEyePos().subtract(this.getPos());
+            //this.setPos(this.getX(), this.getY() + vec3d.y * 0.015 * 2, this.getZ());
+            Vec3d vel = this.getPos().subtract(this.getOwner().getPos());
+            this.setVelocity(new Vec3d(2.8,2.8,2.8).multiply(vel).multiply(-1).normalize());
+            if (this.returnTimer == 0) {
+                this.playSound(SoundEvents.ITEM_TRIDENT_RETURN, 1.0F, 1.0F);
             }
+            if (entity instanceof PlayerEntity entity1 && this.getScytheStack(entity1) == null) {
+                this.discard();
+            }
+            ++this.returnTimer;
         }
 
         //playSound();
@@ -171,7 +184,7 @@ public class TwistedScytheEntity extends PersistentProjectileEntity {
 
                 if (entity instanceof LivingEntity livingEntity) {
                     pullOwner(livingEntity);
-                    getScytheStack((PlayerEntity) this.getOwner()).set(ModDataComponents.TWISTED_SCYTHE_GRAPPLING,false);
+                    getScytheStack((PlayerEntity) this.getOwner()).set(ModDataComponents.TWISTED_SCYTHE_GRAPPLING, false);
                     this.shouldReturn = true;
                     this.isGripped = true;
                     this.onHit(livingEntity);
@@ -211,8 +224,11 @@ public class TwistedScytheEntity extends PersistentProjectileEntity {
 
     private ItemStack getScytheStack(PlayerEntity player) {
         PlayerInventory inv = player.getInventory();
-        ItemStack stack1 = inv.getStack(inv.getSlotWithStack(this.getWeaponStack()));
-        return stack1;
+        if (inv.getSlotWithStack(this.getWeaponStack()) != -1) {
+            return inv.getStack(inv.getSlotWithStack(this.getWeaponStack()));
+        } else {
+            return player.getOffHandStack();
+        }
     }
 
 
@@ -220,7 +236,8 @@ public class TwistedScytheEntity extends PersistentProjectileEntity {
     public void onPlayerCollision(PlayerEntity player) {
         if (this.isOwner(player) || this.getOwner() == null) {
             if (!this.getWorld().isClient && (this.isInGround() || this.isNoClip() || shouldReturn)) {
-                getScytheStack(player).set(ModDataComponents.TWISTED_SCYTHE_GRAPPLING,false);
+                getScytheStack(player).set(ModDataComponents.TWISTED_SCYTHE_GRAPPLING, false);
+
                 this.discard();
             }
         }
@@ -231,6 +248,7 @@ public class TwistedScytheEntity extends PersistentProjectileEntity {
         this.shouldReturn = nbt.getBoolean("DealtDamage").get();
         this.isPlayingSound = nbt.getBoolean("IsPlayingSound").get();
         this.isGripped = nbt.getBoolean("isGripped").get();
+        this.returnTimer = nbt.getInt("returnTimer").get();
     }
 
     @Override
@@ -243,13 +261,13 @@ public class TwistedScytheEntity extends PersistentProjectileEntity {
         nbt.putBoolean("DealtDamage", this.shouldReturn);
         nbt.putBoolean("IsPlayingSound", this.isPlayingSound);
         nbt.putBoolean("isGripped", this.isGripped);
+        nbt.putInt("returnTimer", this.returnTimer);
     }
 
     public void age() {
         if (this.pickupType != PickupPermission.ALLOWED) {
             super.age();
         }
-
     }
 
     protected float getDragInWater() {

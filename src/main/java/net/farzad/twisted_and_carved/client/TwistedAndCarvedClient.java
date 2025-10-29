@@ -55,6 +55,11 @@ public class TwistedAndCarvedClient implements ClientModInitializer {
         BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.TWISTED_SAPLING, RenderLayer.getCutout());
         BooleanProperties.ID_MAPPER.put(Identifier.of(TwistedAndCarved.MOD_ID,"twisted_scythe_grappling"),TwistedScytheGrapplingProperty.CODEC);
 
+
+        /*
+          TODO :
+           make this use hudlayerregistraition dipshit
+         */
         HudRenderCallback.EVENT.register((drawContext, tickDeltaManager) -> {
             Matrix4f transformationMatrix = drawContext.getMatrices().peek().getPositionMatrix();
             Tessellator tessellator = Tessellator.getInstance();

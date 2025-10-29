@@ -24,6 +24,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.StackReference;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ToolMaterial;
@@ -33,13 +34,12 @@ import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.registry.entry.RegistryEntryList;
 import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.registry.tag.TagKey;
+import net.minecraft.screen.ScreenHandler;
+import net.minecraft.screen.slot.Slot;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Formatting;
-import net.minecraft.util.Hand;
-import net.minecraft.util.Identifier;
+import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
@@ -47,7 +47,7 @@ import net.minecraft.world.World;
 
 import java.util.List;
 
-public class TwistedFalchionItem extends Item {
+public class TwistedFalchionItem extends TwistedToolItem {
 
     public TwistedFalchionItem(float attackDamage, float attackSpeed, double attackRange, Settings settings) {
         super(applyToolSettings(settings, BlockTags.LEAVES, attackDamage, attackSpeed, attackRange));
@@ -91,6 +91,7 @@ public class TwistedFalchionItem extends Item {
             }
         }
     }
+
 
     @Override
     public ActionResult use(World world, PlayerEntity user, Hand hand) {

@@ -3,6 +3,7 @@ package net.farzad.twisted_and_carved.common.datagen;
 import net.fabricmc.fabric.api.client.datagen.v1.provider.FabricModelProvider;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.farzad.twisted_and_carved.common.block.ModBlocks;
+import net.farzad.twisted_and_carved.common.item.ModItems;
 import net.minecraft.client.data.BlockStateModelGenerator;
 import net.minecraft.client.data.ItemModelGenerator;
 import net.minecraft.client.data.Models;

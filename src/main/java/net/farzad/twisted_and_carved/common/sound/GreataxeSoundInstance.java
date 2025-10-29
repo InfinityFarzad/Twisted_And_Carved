@@ -12,7 +12,7 @@ public class GreataxeSoundInstance extends MovingSoundInstance {
 
     public GreataxeSoundInstance(TwistedGreataxeEntity twistedGreataxe, SoundCategory soundCategory) {
         super(SoundEvents.ITEM_ELYTRA_FLYING, soundCategory, SoundInstance.createRandom());
-        this.volume = (float) (0.65f / twistedGreataxe.getPos().distanceTo(twistedGreataxe.getOwner().getPos()));
+        this.volume = (float) (2f / twistedGreataxe.getPos().distanceTo(twistedGreataxe.getOwner().getPos()));
         this.pitch = 1.0f + random.nextBetween(-2, 2);
         this.repeat = true;
         this.setPositionToEntity();

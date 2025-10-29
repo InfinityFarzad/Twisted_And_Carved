@@ -2,9 +2,11 @@ package net.farzad.twisted_and_carved.common.item;
 
 import net.farzad.twisted_and_carved.common.TwistedAndCarved;
 import net.farzad.twisted_and_carved.common.component.ModDataComponents;
+import net.farzad.twisted_and_carved.common.component.TwistedSpiritComponent;
 import net.farzad.twisted_and_carved.common.item.custom.*;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.item.ToolMaterial;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
@@ -38,11 +40,17 @@ public class ModItems {
                     .enchantable(ToolMaterial.NETHERITE.enchantmentValue())
             );
 
+    public static final Item TWISTED_SPIRIT =
+            register("twisted_spirit",Item::new, new Item.Settings()
+                    .rarity(Rarity.UNCOMMON).fireproof().maxCount(1)
+            );
+
     public static final Item TWISTED_FALCHION =
             register("twisted_falchion", (settings) -> {
                 return new TwistedFalchionItem(6, -2.5f, -0.1, settings);
             }, new Item.Settings()
                     .component(DataComponentTypes.TOOLTIP_STYLE, Identifier.ofVanilla("twisted"))
+                    .component(ModDataComponents.TWISTED_SPIRIT, ItemStack.EMPTY)
                     .component(ModDataComponents.BLOOD_CHARGE, 0)
                     .rarity(Rarity.UNCOMMON)
                     .maxCount(1));
@@ -88,6 +96,11 @@ public class ModItems {
 
     public static final Item RAW_KARMIUM = register("raw_karmium", Item::new, new Item.Settings()
             .component(DataComponentTypes.TOOLTIP_STYLE, Identifier.ofVanilla("twisted"))
+            .rarity(Rarity.UNCOMMON));
+
+    public static final Item BLEEDING_SPIRIT = register("bleeding_spirit", TwistedSpiritItem::new, new Item.Settings()
+            .component(DataComponentTypes.TOOLTIP_STYLE, Identifier.ofVanilla("twisted"))
+            .component(ModDataComponents.TWISTED_SPIRIT_DATA, TwistedSpiritComponent.EMPTY)
             .rarity(Rarity.UNCOMMON));
 
 

@@ -46,7 +46,7 @@ import java.util.List;
 
 import static net.farzad.twisted_and_carved.common.util.EnchantmentUtil.hasEnchantment;
 
-public class TwistedGreataxeItem extends Item {
+public class TwistedGreataxeItem extends TwistedToolItem {
 
     final private int maxCharge = 14;
 

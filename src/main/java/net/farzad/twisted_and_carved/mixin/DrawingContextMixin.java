@@ -2,11 +2,13 @@ package net.farzad.twisted_and_carved.mixin;
 
 import net.farzad.twisted_and_carved.common.component.ModDataComponents;
 import net.farzad.twisted_and_carved.common.item.ModItems;
+import net.farzad.twisted_and_carved.common.item.custom.TwistedToolItem;
 import net.farzad.twisted_and_carved.common.util.ModTags;
 import net.farzad.twisted_and_carved.common.util.interfaces.TwistedGlintInterface;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.RenderLayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.ColorHelper;
 import org.spongepowered.asm.mixin.Mixin;
@@ -43,11 +45,10 @@ public class DrawingContextMixin implements TwistedGlintInterface {
 
     @Override
     public void twistedAndCarved$drawItemGlint(ItemStack item, int x, int y) {
-        if (!item.isEmpty() && item.isIn(ModTags.Items.TWISTED_TOOL)) {
+        if (!item.isEmpty() && item.isIn(ModTags.Items.TWISTED_TOOL) && TwistedToolItem.hasAura(item.getOrDefault(ModDataComponents.TWISTED_SPIRIT, ItemStack.EMPTY))) {
             DrawContext drawContext = (DrawContext) (Object) this;
-            //drawContext.fillGradient(RenderLayer.getGui(),x,y + 8,x + 16, y, ColorHelper.withAlpha(50,12779591),ColorHelper.withAlpha(2,16711693), 200);
-                drawContext.fillGradient(RenderLayer.getGui(),x,y,x +16, y + 8,ColorHelper.withAlpha(2,16711693),  ColorHelper.withAlpha(45,12779591),200);
-                drawContext.fillGradient(RenderLayer.getGui(),x,y + 8,x +16, y + 16,ColorHelper.withAlpha(45,12779591),  ColorHelper.withAlpha(2,16711693),200);
+            drawContext.fillGradient(RenderLayer.getGui(),x,y,x +16, y + 8,ColorHelper.withAlpha(2,16711693),  ColorHelper.withAlpha(45,12779591),200);
+            drawContext.fillGradient(RenderLayer.getGui(),x,y + 8,x +16, y + 16,ColorHelper.withAlpha(45,12779591),  ColorHelper.withAlpha(2,16711693),200);
 
         }
     }
