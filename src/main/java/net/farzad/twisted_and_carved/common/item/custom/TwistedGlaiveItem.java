@@ -24,8 +24,6 @@ import net.minecraft.world.World;
 
 import java.util.List;
 
-import static net.farzad.twisted_and_carved.common.util.EnchantmentUtil.hasEnchantment;
-
 public class TwistedGlaiveItem extends TwistedToolItem {
 
     public TwistedGlaiveItem(Settings settings) {

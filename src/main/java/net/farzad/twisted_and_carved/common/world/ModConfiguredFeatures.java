@@ -15,10 +15,8 @@ import net.minecraft.world.gen.foliage.MegaPineFoliagePlacer;
 import net.minecraft.world.gen.stateprovider.BlockStateProvider;
 import net.minecraft.world.gen.stateprovider.WeightedBlockStateProvider;
 import net.minecraft.world.gen.treedecorator.PlaceOnGroundTreeDecorator;
-import net.minecraft.world.gen.treedecorator.TreeDecorator;
 import net.minecraft.world.gen.trunk.MegaJungleTrunkPlacer;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.OptionalInt;
 

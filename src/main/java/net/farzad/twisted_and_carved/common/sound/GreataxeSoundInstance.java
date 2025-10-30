@@ -4,7 +4,6 @@ import net.farzad.twisted_and_carved.common.entity.custom.TwistedGreataxeEntity;
 import net.minecraft.client.sound.MovingSoundInstance;
 import net.minecraft.client.sound.SoundInstance;
 import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 
 public class GreataxeSoundInstance extends MovingSoundInstance {

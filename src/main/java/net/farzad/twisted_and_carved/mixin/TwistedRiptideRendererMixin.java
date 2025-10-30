@@ -2,7 +2,6 @@ package net.farzad.twisted_and_carved.mixin;
 
 import net.farzad.twisted_and_carved.common.TwistedAndCarved;
 import net.farzad.twisted_and_carved.common.item.ModItems;
-import net.farzad.twisted_and_carved.common.util.EnchantmentUtil;
 import net.farzad.twisted_and_carved.common.util.TwistedWeaponUtil;
 import net.farzad.twisted_and_carved.common.util.interfaces.TwistedRiptideMixinInterface;
 import net.farzad.twisted_and_carved.common.util.interfaces.TwistedRiptideRenderState;

@@ -45,8 +45,6 @@ import java.util.Map;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
-import static net.farzad.twisted_and_carved.common.util.EnchantmentUtil.hasEnchantment;
-
 public class TwistedScytheItem extends TwistedToolItem {
 
     protected static final Map<Block, Pair<Predicate<ItemUsageContext>, Consumer<ItemUsageContext>>> TILLING_ACTIONS;

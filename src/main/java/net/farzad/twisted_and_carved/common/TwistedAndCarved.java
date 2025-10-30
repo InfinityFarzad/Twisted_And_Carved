@@ -1,7 +1,6 @@
 package net.farzad.twisted_and_carved.common;
 
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
 import net.fabricmc.fabric.api.registry.StrippableBlockRegistry;
 import net.farzad.twisted_and_carved.client.particle.ModParticles;
@@ -18,7 +17,6 @@ import net.farzad.twisted_and_carved.common.util.TwistedWeaponUtil;
 import net.farzad.twisted_and_carved.common.world.ModBiomes;
 import net.farzad.twisted_and_carved.common.world.TwistedForestRegions;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.component.DataComponentTypes;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
@@ -27,8 +25,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import terrablender.api.Regions;
 import terrablender.api.TerraBlenderApi;
-
-import static net.farzad.twisted_and_carved.common.util.EnchantmentUtil.hasEnchantment;
 
 public class TwistedAndCarved implements ModInitializer, TerraBlenderApi {
     public static final String MOD_ID = "twisted_and_carved";

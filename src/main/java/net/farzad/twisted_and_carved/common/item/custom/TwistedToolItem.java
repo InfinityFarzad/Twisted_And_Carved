@@ -2,7 +2,6 @@ package net.farzad.twisted_and_carved.common.item.custom;
 
 import net.farzad.twisted_and_carved.common.component.ModDataComponents;
 import net.farzad.twisted_and_carved.common.util.ModTags;
-import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.StackReference;
