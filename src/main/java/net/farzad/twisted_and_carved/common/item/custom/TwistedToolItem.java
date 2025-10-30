@@ -25,17 +25,19 @@ public class TwistedToolItem extends Item {
             return false;
         }
         else {
-            if (stored.isEmpty() && !cursorStackReference.get().isEmpty() && clickType.equals(ClickType.RIGHT) && hasAura(cursorStackReference.get()) && isValidType(cursorStackReference.get())) {
+            if (!player.getItemCooldownManager().isCoolingDown(stack) && stored.isEmpty() && !cursorStackReference.get().isEmpty() && clickType.equals(ClickType.RIGHT) && hasAura(cursorStackReference.get()) && isValidType(cursorStackReference.get())) {
                 stack.set(ModDataComponents.TWISTED_SPIRIT, cursorStackReference.get());
                 cursorStackReference.set(ItemStack.EMPTY);
                 onContentChanged(player);
                 playSpiritCastingSound(player);
+                player.getItemCooldownManager().set(stack, 10);
                 return true;
-            } else if (!stored.isEmpty() && cursorStackReference.get().isEmpty() && clickType.equals(ClickType.LEFT)) {
+            } else if (!player.getItemCooldownManager().isCoolingDown(stack) && !stored.isEmpty() && cursorStackReference.get().isEmpty() && clickType.equals(ClickType.LEFT)) {
                 cursorStackReference.set(stored);
                 stack.set(ModDataComponents.TWISTED_SPIRIT, ItemStack.EMPTY);
                 onContentChanged(player);
                 playSpiritUnCastingSound(player);
+                player.getItemCooldownManager().set(stack, 10);
                 return true;
             } else {
                 return false;

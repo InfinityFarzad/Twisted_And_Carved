@@ -27,7 +27,7 @@
   "tooltip.twisted_and_carved.twisted_harvest": "[ %s ] to clear a area of crops",
   "tooltip.twisted_and_carved.twisted_greataxe_info": "Future Lore",
   "tooltip.twisted_and_carved.twisted_glaive_info": "Future Lore",
-  "tooltip.twisted_and_carved.twisted_spirit": "current spirit : [ %s ]",
+  "tooltip.twisted_and_carved.twisted_spirit": "Current Spirit : [ %s ]",
   "item.twisted_and_carved.twisted_upgrade_smithing_template": "Twisted Upgrade",
   "item.twisted_and_carved.smithing_template.twisted_upgrade.additions_slot_description": "Add Netherite Ingot",
   "item.twisted_and_carved.smithing_template.twisted_upgrade.applies_to": "Twisted Tool Piece",
