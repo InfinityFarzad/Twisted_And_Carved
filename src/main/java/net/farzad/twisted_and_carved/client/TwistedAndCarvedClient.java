@@ -17,13 +17,15 @@ import net.farzad.twisted_and_carved.client.render.TwistedScytheEntityRenderer;
 import net.farzad.twisted_and_carved.common.TwistedAndCarved;
 import net.farzad.twisted_and_carved.common.block.ModBlocks;
 import net.farzad.twisted_and_carved.common.component.ModDataComponents;
-import net.farzad.twisted_and_carved.common.enchantment.ModEnchantmentEffects;
+import net.farzad.twisted_and_carved.common.component.TwistedSpiritComponent;
+
 import net.farzad.twisted_and_carved.common.entity.ModEntities;
 import net.farzad.twisted_and_carved.common.entity.custom.TwistedGreataxeEntity;
 import net.farzad.twisted_and_carved.common.item.ModItems;
 import net.farzad.twisted_and_carved.common.networking.GreataxeSoundLoopS2CPayload;
 import net.farzad.twisted_and_carved.common.sound.GreataxeSoundInstance;
 import net.farzad.twisted_and_carved.common.util.EnchantmentUtil;
+import net.farzad.twisted_and_carved.common.util.TwistedWeaponUtil;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.particle.LeavesParticle;
 import net.minecraft.client.particle.SweepAttackParticle;
@@ -70,7 +72,7 @@ public class TwistedAndCarvedClient implements ClientModInitializer {
 
 
             Identifier texture = Identifier.of(TwistedAndCarved.MOD_ID, "textures/gui/blood_bar_" + getBloodChargeOverlay(stack) + ".png");
-            if (stack.isOf(ModItems.TWISTED_FALCHION) && EnchantmentUtil.hasEnchantment(stack, ModEnchantmentEffects.BLEEDING)) {
+            if (stack.isOf(ModItems.TWISTED_FALCHION) && TwistedWeaponUtil.getAbilityID(stack) == "bleeding") {
 
                 drawContext.drawTexture(RenderLayer::getGuiTextured, texture, client.getWindow().getScaledWidth() / 2 + 120, client.getWindow().getScaledHeight() - 28, 0, 0, 64, 32, 64, 32);
             }

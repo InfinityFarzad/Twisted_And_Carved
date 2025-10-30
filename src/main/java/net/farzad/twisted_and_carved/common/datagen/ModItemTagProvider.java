@@ -43,6 +43,12 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
         getOrCreateTagBuilder(ItemTags.FENCE_GATES).add(ModBlocks.TWISTED_FENCE_GATE.asItem());
         getOrCreateTagBuilder(ItemTags.WOODEN_FENCES).add(ModBlocks.TWISTED_FENCE.asItem());
         getOrCreateTagBuilder(ModTags.Items.TWISTED_SPIRIT).add(ModItems.BLEEDING_SPIRIT);
+        getOrCreateTagBuilder(ModTags.Items.TWISTED_SPIRIT).add(ModItems.HARVEST_SPIRIT);
+        getOrCreateTagBuilder(ModTags.Items.TWISTED_SPIRIT).add(ModItems.GRAPPLING_SPIRIT);
+        getOrCreateTagBuilder(ModTags.Items.TWISTED_SPIRIT).add(ModItems.STRIDE_SPIRIT);
+        getOrCreateTagBuilder(ModTags.Items.TWISTED_SPIRIT).add(ModItems.SWEEPING_SPIRIT);
+        getOrCreateTagBuilder(ModTags.Items.TWISTED_SPIRIT).add(ModItems.TOMAHAWK_SPIRIT);
+
 
 
     }

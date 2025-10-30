@@ -5,10 +5,10 @@ import com.google.common.collect.Maps;
 import com.mojang.datafixers.util.Pair;
 import net.farzad.twisted_and_carved.common.TwistedAndCarved;
 import net.farzad.twisted_and_carved.common.component.ModDataComponents;
-import net.farzad.twisted_and_carved.common.enchantment.ModEnchantmentEffects;
-import net.farzad.twisted_and_carved.common.entity.custom.TwistedGreataxeEntity;
+import net.farzad.twisted_and_carved.common.component.TwistedSpiritComponent;
 import net.farzad.twisted_and_carved.common.entity.custom.TwistedScytheEntity;
 import net.farzad.twisted_and_carved.common.util.ModTags;
+import net.farzad.twisted_and_carved.common.util.TwistedWeaponUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -89,6 +89,11 @@ public class TwistedScytheItem extends TwistedToolItem {
         };
     }
 
+    @Override
+    public boolean isValidType(ItemStack stack) {
+        return stack.getOrDefault(ModDataComponents.TWISTED_SPIRIT_DATA, TwistedSpiritComponent.EMPTY).type() == "scythe";
+    }
+
     private static void clearField(int range, World world, PlayerEntity user, Hand hand) {
         for (int x = -range; x <= range; x++) {
             for (int z = -range; z <= range; z++) {
@@ -120,7 +125,7 @@ public class TwistedScytheItem extends TwistedToolItem {
     public boolean onStoppedUsing(ItemStack stack, World world, LivingEntity user, int remainingUseTicks) {
         int useTime = this.getMaxUseTime(stack, user) - remainingUseTicks;
         if (user instanceof PlayerEntity player) {
-            if (hasEnchantment(stack, ModEnchantmentEffects.GRAPPLING)) {
+            if (TwistedWeaponUtil.getAbilityID(stack) == "grappling") {
                 if (useTime < 10) {
                     return false;
                 } else {
@@ -140,8 +145,8 @@ public class TwistedScytheItem extends TwistedToolItem {
 
     public ActionResult use(World world, PlayerEntity user, Hand hand) {
         ItemStack itemStack = user.getStackInHand(hand);
-        if ((hasEnchantment(itemStack, ModEnchantmentEffects.HARVEST)) || (hasEnchantment(itemStack, ModEnchantmentEffects.GRAPPLING))) {
-            if (hasEnchantment(itemStack,ModEnchantmentEffects.HARVEST) && user.isSneaking()) {
+        if (TwistedWeaponUtil.getAbilityID(itemStack) == "harvest" || TwistedWeaponUtil.getAbilityID(itemStack) == "grappling") {
+            if (TwistedWeaponUtil.getAbilityID(itemStack) == "harvest" && user.isSneaking()) {
                 clearField(5,world,user,hand);
                 return ActionResult.PASS;
             }
@@ -154,7 +159,7 @@ public class TwistedScytheItem extends TwistedToolItem {
     }
 
     public ActionResult useOnBlock(ItemUsageContext context) {
-        if (hasEnchantment(context.getStack(), ModEnchantmentEffects.HARVEST)) {
+        if (TwistedWeaponUtil.getAbilityID(context.getStack()) == "harvest") {
             World world = context.getWorld();
             BlockPos blockPos = context.getBlockPos();
             Pair<Predicate<ItemUsageContext>, Consumer<ItemUsageContext>> pair = TILLING_ACTIONS.get(world.getBlockState(blockPos).getBlock());
@@ -163,7 +168,7 @@ public class TwistedScytheItem extends TwistedToolItem {
             } else {
                 Predicate<ItemUsageContext> predicate = pair.getFirst();
                 Consumer<ItemUsageContext> consumer = pair.getSecond();
-                if (predicate.test(context) && !context.getPlayer().isSneaking() && hasEnchantment(context.getStack(), ModEnchantmentEffects.HARVEST)) {
+                if (predicate.test(context) && !context.getPlayer().isSneaking() && TwistedWeaponUtil.getAbilityID(context.getStack()) == "harvest") {
                     PlayerEntity playerEntity = context.getPlayer();
                     world.playSound(playerEntity, blockPos, SoundEvents.ITEM_HOE_TILL, SoundCategory.BLOCKS, 1.0F, 1.0F);
                     if (!world.isClient) {

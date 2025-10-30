@@ -1,9 +1,9 @@
 package net.farzad.twisted_and_carved.mixin;
 
 import net.farzad.twisted_and_carved.common.TwistedAndCarved;
-import net.farzad.twisted_and_carved.common.enchantment.ModEnchantmentEffects;
 import net.farzad.twisted_and_carved.common.item.ModItems;
 import net.farzad.twisted_and_carved.common.util.EnchantmentUtil;
+import net.farzad.twisted_and_carved.common.util.TwistedWeaponUtil;
 import net.farzad.twisted_and_carved.common.util.interfaces.TwistedRiptideMixinInterface;
 import net.farzad.twisted_and_carved.common.util.interfaces.TwistedRiptideRenderState;
 import net.minecraft.client.render.OverlayTexture;
@@ -38,7 +38,7 @@ public class TwistedRiptideRendererMixin {
     private void twisted_and_carved$causeTwistedRiptide(MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i, PlayerEntityRenderState playerEntityRenderState, float f, float g, CallbackInfo ci) throws NoSuchFieldException {
         PlayerEntity player = ((((TwistedRiptideRenderState)playerEntityRenderState).twistedAndCarved$getPlayer()));
         ItemStack stack = ((TwistedRiptideMixinInterface)player).twistedAndCarved$getRiptideStack();
-        boolean shouldIUseThisCustomRiptide = (stack != null) && stack.isOf(ModItems.TWISTED_GREATAXE) && EnchantmentUtil.hasEnchantment(stack, ModEnchantmentEffects.STRIDE);
+        boolean shouldIUseThisCustomRiptide = (stack != null) && stack.isOf(ModItems.TWISTED_GREATAXE) && TwistedWeaponUtil.getAbilityID(stack) == "stride";
         if (playerEntityRenderState.usingRiptide && shouldIUseThisCustomRiptide) {
             VertexConsumer vertexConsumer = vertexConsumerProvider.getBuffer(this.model.getLayer(TEXTURE2));
             this.model.setAngles(playerEntityRenderState);

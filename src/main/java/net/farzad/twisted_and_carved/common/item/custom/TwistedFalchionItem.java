@@ -4,11 +4,12 @@ import net.farzad.twisted_and_carved.client.particle.ModParticles;
 import net.farzad.twisted_and_carved.client.particle.custom.FalchionSlashEffect;
 import net.farzad.twisted_and_carved.common.TwistedAndCarved;
 import net.farzad.twisted_and_carved.common.component.ModDataComponents;
-import net.farzad.twisted_and_carved.common.enchantment.ModEnchantmentEffects;
+import net.farzad.twisted_and_carved.common.component.TwistedSpiritComponent;
 import net.farzad.twisted_and_carved.common.item.ModItems;
 import net.farzad.twisted_and_carved.common.sound.ModSounds;
 import net.farzad.twisted_and_carved.common.util.EnchantmentUtil;
 import net.farzad.twisted_and_carved.common.util.ModDamageTypes;
+import net.farzad.twisted_and_carved.common.util.TwistedWeaponUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -92,6 +93,10 @@ public class TwistedFalchionItem extends TwistedToolItem {
         }
     }
 
+    @Override
+    public boolean isValidType(ItemStack stack) {
+        return stack.getOrDefault(ModDataComponents.TWISTED_SPIRIT_DATA, TwistedSpiritComponent.EMPTY).type() == "falchion";
+    }
 
     @Override
     public ActionResult use(World world, PlayerEntity user, Hand hand) {
@@ -114,7 +119,7 @@ public class TwistedFalchionItem extends TwistedToolItem {
     }
 
     public void postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
-        if (attacker instanceof PlayerEntity player && EnchantmentUtil.hasEnchantment(stack, ModEnchantmentEffects.BLEEDING)) {
+        if (attacker instanceof PlayerEntity player && TwistedWeaponUtil.getAbilityID(stack) == "bleeding") {
             int amount = player.getWorld().random.nextBetween(1, 3) * 5;
 
             if (!(getBlood(stack) + amount >= 100)) {

@@ -2,9 +2,10 @@ package net.farzad.twisted_and_carved.common.item.custom;
 
 import net.farzad.twisted_and_carved.common.TwistedAndCarved;
 import net.farzad.twisted_and_carved.common.component.ModDataComponents;
-import net.farzad.twisted_and_carved.common.enchantment.ModEnchantmentEffects;
+import net.farzad.twisted_and_carved.common.component.TwistedSpiritComponent;
 import net.farzad.twisted_and_carved.common.entity.custom.TwistedGreataxeEntity;
 import net.farzad.twisted_and_carved.common.item.ModItems;
+import net.farzad.twisted_and_carved.common.util.TwistedWeaponUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -95,13 +96,18 @@ public class TwistedGreataxeItem extends TwistedToolItem {
     }
 
     @Override
+    public boolean isValidType(ItemStack stack) {
+        return stack.getOrDefault(ModDataComponents.TWISTED_SPIRIT_DATA, TwistedSpiritComponent.EMPTY).type() == "greataxe";
+    }
+
+    @Override
     public void postDamageEntity(ItemStack stack, LivingEntity target, LivingEntity attacker) {
         stack.damage(0, attacker, EquipmentSlot.MAINHAND);
     }
 
     @Override
     public boolean isItemBarVisible(ItemStack stack) {
-        return getCharge(stack) >= 1 && hasEnchantment(stack, ModEnchantmentEffects.STRIDE);
+        return getCharge(stack) >= 1 && TwistedWeaponUtil.getAbilityID(stack) == "stride";
     }
 
     @Override
@@ -116,7 +122,7 @@ public class TwistedGreataxeItem extends TwistedToolItem {
 
     @Override
     public void postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
-        if (getCharge(stack) < maxCharge && hasEnchantment(stack, ModEnchantmentEffects.STRIDE)) {
+        if (getCharge(stack) < maxCharge && TwistedWeaponUtil.getAbilityID(stack) == "stride") {
             setCharge(stack, getCharge(stack) + 1);
         }
 
@@ -134,12 +140,12 @@ public class TwistedGreataxeItem extends TwistedToolItem {
     public boolean onStoppedUsing(ItemStack stack, World world, LivingEntity user, int remainingUseTicks) {
         int useTime = this.getMaxUseTime(stack, user) - remainingUseTicks;
         if (user instanceof PlayerEntity player) {
-            if (hasEnchantment(stack, ModEnchantmentEffects.STRIDE)) {
+            if (TwistedWeaponUtil.getAbilityID(stack) == "stride") {
                 applyDashMovement((PlayerEntity) user, stack);
                 setCharge(stack, getCharge(stack) - (maxCharge / 2));
                 return true;
 
-            } else if (hasEnchantment(stack, ModEnchantmentEffects.TOMAHAWK)) {
+            } else if (TwistedWeaponUtil.getAbilityID(stack) == "tomahawk") {
                 if (useTime < 10) {
                     return false;
                 } else {
@@ -159,7 +165,7 @@ public class TwistedGreataxeItem extends TwistedToolItem {
 
     public ActionResult use(World world, PlayerEntity user, Hand hand) {
         ItemStack itemStack = user.getStackInHand(hand);
-        if ((hasEnchantment(itemStack, ModEnchantmentEffects.TOMAHAWK)) || (hasEnchantment(itemStack, ModEnchantmentEffects.STRIDE) && !(getCharge(itemStack) < (maxCharge / 2)))) {
+        if ((TwistedWeaponUtil.getAbilityID(itemStack) == "tomahawk") || (TwistedWeaponUtil.getAbilityID(itemStack) == "stride" && !(getCharge(itemStack) < (maxCharge / 2)))) {
             user.setCurrentHand(hand);
             return ActionResult.CONSUME;
         } else {

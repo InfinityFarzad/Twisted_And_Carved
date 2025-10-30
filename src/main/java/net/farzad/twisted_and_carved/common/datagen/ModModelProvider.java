@@ -38,5 +38,6 @@ public class ModModelProvider extends FabricModelProvider {
     @Override
     public void generateItemModels(ItemModelGenerator itemModelGenerator) {
         itemModelGenerator.register(ModBlocks.TWISTED_SAPLING.asItem(), Models.GENERATED);
+
     }
 }

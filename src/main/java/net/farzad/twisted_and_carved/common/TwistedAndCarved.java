@@ -7,7 +7,6 @@ import net.fabricmc.fabric.api.registry.StrippableBlockRegistry;
 import net.farzad.twisted_and_carved.client.particle.ModParticles;
 import net.farzad.twisted_and_carved.common.block.ModBlocks;
 import net.farzad.twisted_and_carved.common.component.ModDataComponents;
-import net.farzad.twisted_and_carved.common.enchantment.ModEnchantmentEffects;
 import net.farzad.twisted_and_carved.common.entity.ModEntities;
 import net.farzad.twisted_and_carved.common.item.ModItemGroups;
 import net.farzad.twisted_and_carved.common.item.ModItems;
@@ -15,9 +14,12 @@ import net.farzad.twisted_and_carved.common.item.custom.TwistedItemPieceItem;
 import net.farzad.twisted_and_carved.common.networking.ModNetworking;
 import net.farzad.twisted_and_carved.common.sound.ModSounds;
 import net.farzad.twisted_and_carved.common.util.TwistedToolPiecePlacer;
+import net.farzad.twisted_and_carved.common.util.TwistedWeaponUtil;
 import net.farzad.twisted_and_carved.common.world.ModBiomes;
 import net.farzad.twisted_and_carved.common.world.TwistedForestRegions;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
@@ -35,7 +37,6 @@ public class TwistedAndCarved implements ModInitializer, TerraBlenderApi {
     @Override
     public void onInitialize() {
         ModItems.init();
-        ModEnchantmentEffects.init();
         ModDataComponents.init();
         ModBlocks.init();
         ModParticles.init();
@@ -58,17 +59,34 @@ public class TwistedAndCarved implements ModInitializer, TerraBlenderApi {
 
     private static void applyItemTooltips() {
         ItemTooltipCallback.EVENT.register((itemStack, tooltipContext, tooltipType, list) -> {
+            if (itemStack.contains(ModDataComponents.TWISTED_SPIRIT)) {
+                if (itemStack.getOrDefault(ModDataComponents.TWISTED_SPIRIT,ItemStack.EMPTY) != ItemStack.EMPTY) {
+                    list.add(1,
+                            Text.translatable(
+                                    "tooltip.twisted_and_carved.twisted_spirit",
+                                    Text.literal(itemStack.get(ModDataComponents.TWISTED_SPIRIT).getItemName().getString()).formatted(Formatting.GOLD)
+                            ));
+                } else {
+                    list.add(1,
+                            Text.translatable(
+                                    "tooltip.twisted_and_carved.twisted_spirit",
+                                    Text.literal(". . .").formatted(Formatting.GOLD)
+                            ));
+                }
+            }
+
+
             if (itemStack.isOf(ModItems.TWISTED_GREATAXE)) {
                 if (Screen.hasShiftDown()) {
                     list.add(Text.translatable(
                             "tooltip.twisted_and_carved.twisted_greataxe_info"
                     ).formatted(Formatting.DARK_GRAY));
-                    if (hasEnchantment(itemStack, ModEnchantmentEffects.STRIDE)) {
+                    if (TwistedWeaponUtil.getAbilityID(itemStack) == "stride") {
                         list.add(Text.translatable(
                                 "tooltip.twisted_and_carved.twisted_dash",
                                 Text.literal("Attack").formatted(Formatting.GOLD)
                         ).formatted(Formatting.DARK_GRAY));
-                    } else if (hasEnchantment(itemStack, ModEnchantmentEffects.TOMAHAWK)) {
+                    } else if (TwistedWeaponUtil.getAbilityID(itemStack) == "tomahawk") {
                         list.add(Text.translatable(
                                 "tooltip.twisted_and_carved.twisted_tomahawk",
                                 Text.literal("Tomahawk").formatted(Formatting.GOLD)
@@ -86,7 +104,7 @@ public class TwistedAndCarved implements ModInitializer, TerraBlenderApi {
                     list.add(Text.translatable(
                             "tooltip.twisted_and_carved.twisted_glaive_info"
                     ).formatted(Formatting.DARK_GRAY));
-                    if (hasEnchantment(itemStack, ModEnchantmentEffects.SWEEPING)) {
+                    if (TwistedWeaponUtil.getAbilityID(itemStack) == "sweeping") {
                         list.add(Text.translatable(
                                 "tooltip.twisted_and_carved.twisted_sweep",
                                 Text.literal("RightClick").formatted(Formatting.GOLD)
@@ -105,7 +123,7 @@ public class TwistedAndCarved implements ModInitializer, TerraBlenderApi {
                     list.add(Text.translatable(
                             "tooltip.twisted_and_carved.twisted_greataxe_info"
                     ).formatted(Formatting.DARK_GRAY));
-                    if (hasEnchantment(itemStack, ModEnchantmentEffects.HARVEST)) {
+                    if (TwistedWeaponUtil.getAbilityID(itemStack) == "harvest") {
                         list.add(Text.translatable(
                                 "tooltip.twisted_and_carved.twisted_harvest",
                                 Text.literal("RightClick").formatted(Formatting.GOLD)

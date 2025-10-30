@@ -2,8 +2,10 @@ package net.farzad.twisted_and_carved.common.item.custom;
 
 import net.farzad.twisted_and_carved.client.particle.ModParticles;
 import net.farzad.twisted_and_carved.common.TwistedAndCarved;
-import net.farzad.twisted_and_carved.common.enchantment.ModEnchantmentEffects;
+import net.farzad.twisted_and_carved.common.component.ModDataComponents;
+import net.farzad.twisted_and_carved.common.component.TwistedSpiritComponent;
 import net.farzad.twisted_and_carved.common.sound.ModSounds;
+import net.farzad.twisted_and_carved.common.util.TwistedWeaponUtil;
 import net.minecraft.component.type.AttributeModifierSlot;
 import net.minecraft.component.type.AttributeModifiersComponent;
 import net.minecraft.entity.Entity;
@@ -12,6 +14,7 @@ import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
@@ -39,7 +42,7 @@ public class TwistedGlaiveItem extends TwistedToolItem {
 
     @Override
     public ActionResult use(World world, PlayerEntity user, Hand hand) {
-        if (!user.getItemCooldownManager().isCoolingDown(user.getMainHandStack()) && hasEnchantment(user.getStackInHand(hand), ModEnchantmentEffects.SWEEPING)) {
+        if (!user.getItemCooldownManager().isCoolingDown(user.getMainHandStack()) && TwistedWeaponUtil.getAbilityID(user.getStackInHand(hand)) == "sweeping") {
             if (user.getWorld() instanceof ServerWorld serverWorld) {
 
                 Box baseBox = user.getBoundingBox().expand(4).contract(0, user.getBoundingBox().getLengthY() - 2, 0);
@@ -60,6 +63,10 @@ public class TwistedGlaiveItem extends TwistedToolItem {
             user.swingHand(hand);
         }
         return super.use(world, user, hand);
+    }
+    @Override
+    public boolean isValidType(ItemStack stack) {
+        return stack.getOrDefault(ModDataComponents.TWISTED_SPIRIT_DATA, TwistedSpiritComponent.EMPTY).type() == "glaive";
     }
 
 }
