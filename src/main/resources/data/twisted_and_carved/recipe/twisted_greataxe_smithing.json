@@ -1,6 +1,6 @@
 {
   "type": "minecraft:smithing_transform",
-  "addition": "#minecraft:netherite_tool_materials",
+  "addition": "twisted_and_carved:karmium_ingot",
   "base": "twisted_and_carved:twisted_greataxe_piece",
   "result": {
     "count": 1,
