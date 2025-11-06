@@ -1,7 +1,7 @@
 {
   "structures": [
     {
-      "structure": "twisted_and_carved:gravestone_medium",
+      "structure": "twisted_and_carved:twisted_mega_tree",
       "weight": 5
     }
   ],
@@ -14,7 +14,7 @@
     },
     "frequency": 1,
     "salt": 165745296,
-    "separation": 1,
-    "spacing": 5
+    "separation": 6,
+    "spacing": 8
   }
 }

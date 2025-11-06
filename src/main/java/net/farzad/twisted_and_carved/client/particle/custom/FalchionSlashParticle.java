@@ -9,7 +9,7 @@ import net.minecraft.client.world.ClientWorld;
 import org.joml.Quaternionf;
 
 public class FalchionSlashParticle extends SpriteBillboardParticle {
-    private float yaw;
+    private final float yaw;
     private final SpriteProvider spriteProvider;
     private final float offset;
 
@@ -75,9 +75,7 @@ public class FalchionSlashParticle extends SpriteBillboardParticle {
         }
 
         public Particle createParticle(FalchionSlashEffect slashEffect, ClientWorld clientWorld, double d, double e, double f, double g, double h, double i) {
-            FalchionSlashParticle slashParticle = new FalchionSlashParticle(clientWorld, d, e, f, slashEffect.yaw(),spriteProvider);
-
-            return slashParticle;
+            return new FalchionSlashParticle(clientWorld, d, e, f, slashEffect.yaw(),spriteProvider);
         }
     }
 }

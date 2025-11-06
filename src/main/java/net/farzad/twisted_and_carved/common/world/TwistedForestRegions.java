@@ -22,10 +22,12 @@ public class TwistedForestRegions extends Region {
     public void addBiomes(Registry<Biome> registry, Consumer<Pair<MultiNoiseUtil.NoiseHypercube, RegistryKey<Biome>>> mapper) {
         VanillaParameterOverlayBuilder builder = new VanillaParameterOverlayBuilder();
         new ParameterUtils.ParameterPointListBuilder()
-                .humidity(ParameterUtils.Humidity.span(ParameterUtils.Humidity.DRY, ParameterUtils.Humidity.HUMID))
-                .erosion(ParameterUtils.Erosion.EROSION_5, ParameterUtils.Erosion.EROSION_6)
+                .temperature(ParameterUtils.Temperature.COOL)
+                .humidity(ParameterUtils.Humidity.WET)
+                .erosion(MultiNoiseUtil.ParameterRange.of(-0.2f,0.2f))
                 .depth(ParameterUtils.Depth.SURFACE, ParameterUtils.Depth.SURFACE)
-                .weirdness(ParameterUtils.Weirdness.MID_SLICE_VARIANT_DESCENDING, ParameterUtils.Weirdness.MID_SLICE_VARIANT_DESCENDING)
+                .continentalness(MultiNoiseUtil.ParameterRange.of(0.25f,0.9f))
+                .weirdness(ParameterUtils.Weirdness.FULL_RANGE)
                 .build().forEach(point -> builder.add(point, ModBiomes.TWISTED_FOREST));
 
         builder.build().forEach(mapper);
