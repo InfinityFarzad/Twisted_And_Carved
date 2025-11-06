@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "ingredient",
+  "ingredients": [
+    "twisted_and_carved:raw_karmium",
+    "twisted_and_carved:raw_karmium",
+    "twisted_and_carved:raw_karmium",
+    "minecraft:netherite_scrap",
+    "minecraft:netherite_scrap",
+    "minecraft:netherite_scrap"
+  ],
+  "result": {
+    "id": "twisted_and_carved:karmium_ingot",
+    "count": 2
+  }
+}

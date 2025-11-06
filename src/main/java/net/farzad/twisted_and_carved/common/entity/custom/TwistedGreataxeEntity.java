@@ -127,8 +127,8 @@ public class TwistedGreataxeEntity extends PersistentProjectileEntity {
                 this.setNoClip(true);
                 Vec3d vec3d = entity.getEyePos().subtract(this.getPos());
                 this.setPos(this.getX(), this.getY() + vec3d.y * 0.015 * 2, this.getZ());
-                double d = 0.05 * (double)2;
-                this.setVelocity(this.getVelocity().multiply(0.95).add(vec3d.normalize().multiply(d)));
+                double d = 0.02 * entity.getPos().distanceTo(this.getPos());
+                this.setVelocity(this.getVelocity().multiply(0.65).add(vec3d.normalize().multiply(d)));
                 if (this.returnTimer == 0) {
                     this.playSound(SoundEvents.ITEM_TRIDENT_RETURN, 1.0F, 1.0F);
                 }
