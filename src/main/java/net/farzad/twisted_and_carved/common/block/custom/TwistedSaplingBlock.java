@@ -1,4 +1,4 @@
-package net.farzad.twisted_and_carved.common.block;
+package net.farzad.twisted_and_carved.common.block.custom;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;

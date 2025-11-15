@@ -8,10 +8,7 @@ import net.farzad.twisted_and_carved.common.item.ModItems;
 import net.farzad.twisted_and_carved.common.networking.GreataxeSoundLoopS2CPayload;
 import net.farzad.twisted_and_carved.common.util.ModDamageTypes;
 import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ProjectileDeflection;
+import net.minecraft.entity.*;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.player.PlayerEntity;
@@ -40,6 +37,8 @@ public class TwistedScytheEntity extends PersistentProjectileEntity {
     public LivingEntity prevOwner;
     public float damageMultiplier;
     public int returnTimer;
+    @Nullable
+    private Vec3d targetPos;
 
     public TwistedScytheEntity(World world, LivingEntity owner, ItemStack stack) {
         super(ModEntities.TWISTED_SCYTHE_ENTITY, owner, world, stack, null);
@@ -71,9 +70,7 @@ public class TwistedScytheEntity extends PersistentProjectileEntity {
     }
 
     private void pullOwner(Entity entity) {
-        Vec3d velocity = (new Vec3d(this.getX() - entity.getX(), this.getY() - entity.getY(), this.getZ() - entity.getZ()).multiply(2).normalize());
-        entity.addVelocity(velocity.multiply(2).normalize());
-
+        Vec3d velocity = (new Vec3d(this.getX() - entity.getX(), this.getY() - entity.getY(), this.getZ() - entity.getZ()).multiply(2).normalize());entity.addVelocity(velocity.multiply(2).normalize());
         entity.velocityModified = true;
     }
 
@@ -105,37 +102,36 @@ public class TwistedScytheEntity extends PersistentProjectileEntity {
         // also check for ``inGroundTime >= 1`` so the action does not activate
         Entity entity = this.getOwner();
         if (entity != null) {
-            if (distanceTo(this.getOwner()) > 35 || (distanceTo(this.getOwner()) <= 8 && inGroundTime >= 1 && isGripped)) {
-                this.playSound(SoundEvents.ITEM_TRIDENT_RETURN, 1.0F, 1.0F);
-                this.shouldReturn = true;
-                this.isGripped = false;
-            } else if (isGripped && !shouldReturn) {
+            if (isGripped && !shouldReturn) {
                 pullOwner(entity);
+                if (distanceTo(this.getOwner()) > 35 || (distanceTo(this.getOwner()) <= 8 && inGroundTime >= 1)) {
+                    this.playSound(SoundEvents.ITEM_TRIDENT_RETURN, 1.0F, 1.0F);
+                    this.shouldReturn = true;
+                    this.isGripped = false;
+                }
             }
-
         }
 
 
         // RETURN LOGIC
 
         // if the scythe should return and the entity exists,
-        if ((this.shouldReturn || this.isNoClip()) && !this.isGripped && entity != null) {
-
-            this.setNoClip(true);
-            Vec3d vec3d = entity.getEyePos().subtract(this.getPos());
-            //this.setPos(this.getX(), this.getY() + vec3d.y * 0.015 * 2, this.getZ());
-            Vec3d vel = this.getPos().subtract(this.getOwner().getPos());
-            this.setVelocity(new Vec3d(2.8,2.8,2.8).multiply(vel).multiply(-1).normalize());
-            if (this.returnTimer == 0) {
-                this.playSound(SoundEvents.ITEM_TRIDENT_RETURN, 1.0F, 1.0F);
-            }
+        if ((this.shouldReturn || this.isNoClip()) && entity != null) {
             if (entity instanceof PlayerEntity entity1 && this.getScytheStack(entity1) == null) {
                 this.discard();
             }
+            this.setNoClip(true);
+            Vec3d target = entity != null ? entity.getPos() : targetPos;
+            if (target != null) {
+                Vec3d direction = target.subtract(this.getPos()).normalize();
+                this.setVelocity(direction.multiply(1.35));
+            }
+            if (this.returnTimer == 0) {
+                this.playSound(SoundEvents.ITEM_TRIDENT_RETURN, 1.0F, 1.0F);
+            }
+            this.move(MovementType.SELF, this.getVelocity());
             ++this.returnTimer;
         }
-
-        //playSound();
         super.tick();
     }
 

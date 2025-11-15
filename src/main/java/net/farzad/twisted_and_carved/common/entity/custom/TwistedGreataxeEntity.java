@@ -7,10 +7,7 @@ import net.farzad.twisted_and_carved.common.item.ModItems;
 import net.farzad.twisted_and_carved.common.networking.GreataxeSoundLoopS2CPayload;
 import net.farzad.twisted_and_carved.common.util.ModDamageTypes;
 import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ProjectileDeflection;
+import net.minecraft.entity.*;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.player.PlayerEntity;
@@ -43,6 +40,9 @@ public class TwistedGreataxeEntity extends PersistentProjectileEntity {
     public LivingEntity prevOwner;
     private int slot;
     public float damageMultiplier;
+    @Nullable
+    private Vec3d targetPos;
+
 
     public TwistedGreataxeEntity(World world, LivingEntity owner, ItemStack stack) {
         super(ModEntities.TWISTED_GREATAXE_ENTITY, owner, world, stack, null);
@@ -106,6 +106,7 @@ public class TwistedGreataxeEntity extends PersistentProjectileEntity {
             if (distanceTo(this.getOwner()) > 25) {
                 this.dealtDamage = true;
             }
+            this.getOwner().fallDistance = 0;
         }
         Entity entity = this.getOwner();
         if ((this.dealtDamage || this.isNoClip()) && entity != null) {
@@ -125,13 +126,15 @@ public class TwistedGreataxeEntity extends PersistentProjectileEntity {
                 }
 
                 this.setNoClip(true);
-                Vec3d vec3d = entity.getEyePos().subtract(this.getPos());
-                this.setPos(this.getX(), this.getY() + vec3d.y * 0.015 * 2, this.getZ());
-                double d = 0.02 * entity.getPos().distanceTo(this.getPos());
-                this.setVelocity(this.getVelocity().multiply(0.65).add(vec3d.normalize().multiply(d)));
+                Vec3d target = entity != null ? entity.getPos() : targetPos;
+                if (target != null) {
+                    Vec3d direction = target.subtract(this.getPos()).normalize();
+                    this.setVelocity(direction.multiply(0.55));
+                }
                 if (this.returnTimer == 0) {
                     this.playSound(SoundEvents.ITEM_TRIDENT_RETURN, 1.0F, 1.0F);
                 }
+                this.move(MovementType.SELF, this.getVelocity());
                 ++this.returnTimer;
             }
         }

@@ -2,6 +2,9 @@ package net.farzad.twisted_and_carved.common.block;
 
 import net.farzad.twisted_and_carved.client.particle.ModParticles;
 import net.farzad.twisted_and_carved.common.TwistedAndCarved;
+import net.farzad.twisted_and_carved.common.block.custom.CoffinBlock;
+import net.farzad.twisted_and_carved.common.block.custom.TwistedLeavesBlock;
+import net.farzad.twisted_and_carved.common.block.custom.TwistedSaplingBlock;
 import net.farzad.twisted_and_carved.common.world.ModSaplingGenerators;
 import net.minecraft.block.*;
 import net.minecraft.block.enums.NoteBlockInstrument;
@@ -128,6 +131,9 @@ public class ModBlocks {
                     .instrument(NoteBlockInstrument.IRON_XYLOPHONE)
                     .requiresTool().strength(6.0F, 6.0F)
                     .sounds(BlockSoundGroup.NETHERITE)), true);
+
+    public static final Block TWISTED_COFFIN = registerBlock("twisted_coffin",
+            properties -> new CoffinBlock(properties.sounds(BlockSoundGroup.DEEPSLATE_BRICKS).requiresTool().nonOpaque().strength(2.0f)),true);
 
 
     private static Block registerBlock(String name, Function<AbstractBlock.Settings, Block> function, boolean registerItem) {

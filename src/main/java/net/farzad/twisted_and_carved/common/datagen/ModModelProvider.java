@@ -6,6 +6,7 @@ import net.farzad.twisted_and_carved.common.block.ModBlocks;
 import net.minecraft.client.data.BlockStateModelGenerator;
 import net.minecraft.client.data.ItemModelGenerator;
 import net.minecraft.client.data.Models;
+import net.minecraft.client.render.model.json.WeightedVariant;
 import net.minecraft.data.family.BlockFamily;
 
 public class ModModelProvider extends FabricModelProvider {

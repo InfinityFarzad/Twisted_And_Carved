@@ -1,0 +1,49 @@
+{
+  "variants": {
+    "facing=east,open=false,push=false": {
+      "model": "twisted_and_carved:block/twisted_coffin_closed",
+      "y": 90
+    },
+    "facing=north,open=false,push=false": {
+      "model": "twisted_and_carved:block/twisted_coffin_closed"
+    },
+    "facing=west,open=false,push=false": {
+      "model": "twisted_and_carved:block/twisted_coffin_closed",
+      "y": 270
+    },
+    "facing=south,open=false,push=false": {
+      "model": "twisted_and_carved:block/twisted_coffin_closed",
+      "y": 180
+    },
+    "facing=east,open=true,push=false": {
+      "model": "twisted_and_carved:block/twisted_coffin_open_1",
+      "y": 90
+    },
+    "facing=north,open=true,push=false": {
+      "model": "twisted_and_carved:block/twisted_coffin_open_1"
+    },
+    "facing=west,open=true,push=false": {
+      "model": "twisted_and_carved:block/twisted_coffin_open_1",
+      "y": 270
+    },
+    "facing=south,open=true,push=false": {
+      "model": "twisted_and_carved:block/twisted_coffin_open_1",
+      "y": 180
+    },
+    "facing=east,open=true,push=true": {
+      "model": "twisted_and_carved:block/twisted_coffin_open_2",
+      "y": 90
+    },
+    "facing=north,open=true,push=true": {
+      "model": "twisted_and_carved:block/twisted_coffin_open_2"
+    },
+    "facing=west,open=true,push=true": {
+      "model": "twisted_and_carved:block/twisted_coffin_open_2",
+      "y": 270
+    },
+    "facing=south,open=true,push=true": {
+      "model": "twisted_and_carved:block/twisted_coffin_open_2",
+      "y": 180
+    }
+  }
+}

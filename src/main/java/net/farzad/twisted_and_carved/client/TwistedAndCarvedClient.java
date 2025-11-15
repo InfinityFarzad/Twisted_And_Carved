@@ -15,6 +15,7 @@ import net.farzad.twisted_and_carved.client.render.TwistedGreataxeEntityRenderer
 import net.farzad.twisted_and_carved.client.render.TwistedScytheEntityRenderer;
 import net.farzad.twisted_and_carved.common.TwistedAndCarved;
 import net.farzad.twisted_and_carved.common.block.ModBlocks;
+import net.farzad.twisted_and_carved.common.block.entity.ModBlockEntities;
 import net.farzad.twisted_and_carved.common.component.ModDataComponents;
 import net.farzad.twisted_and_carved.common.entity.ModEntities;
 import net.farzad.twisted_and_carved.common.entity.custom.TwistedGreataxeEntity;
@@ -27,6 +28,7 @@ import net.minecraft.client.particle.LeavesParticle;
 import net.minecraft.client.particle.SweepAttackParticle;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.Tessellator;
+import net.minecraft.client.render.block.entity.BlockEntityRendererFactories;
 import net.minecraft.client.render.item.property.bool.BooleanProperties;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -47,7 +49,6 @@ public class TwistedAndCarvedClient implements ClientModInitializer {
         BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.TWISTED_LEAVES, RenderLayer.getCutout());
         BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.TWISTED_SAPLING, RenderLayer.getCutout());
         BooleanProperties.ID_MAPPER.put(Identifier.of(TwistedAndCarved.MOD_ID,"twisted_scythe_grappling"),TwistedScytheGrapplingProperty.CODEC);
-
 
         /*
           TODO :
