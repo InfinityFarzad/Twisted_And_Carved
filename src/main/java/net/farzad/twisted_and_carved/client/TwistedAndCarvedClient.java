@@ -47,6 +47,8 @@ public class TwistedAndCarvedClient implements ClientModInitializer {
         EntityRendererRegistry.register(ModEntities.TWISTED_GREATAXE_ENTITY, TwistedGreataxeEntityRenderer::new);
         EntityRendererRegistry.register(ModEntities.TWISTED_SCYTHE_ENTITY, TwistedScytheEntityRenderer::new);
         BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.TWISTED_LEAVES, RenderLayer.getCutout());
+        BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.KARMIUM_CHAIN,RenderLayer.getCutout());
+        BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.TWISTED_VINE,RenderLayer.getCutout());
         BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.TWISTED_SAPLING, RenderLayer.getCutout());
         BooleanProperties.ID_MAPPER.put(Identifier.of(TwistedAndCarved.MOD_ID,"twisted_scythe_grappling"),TwistedScytheGrapplingProperty.CODEC);
 

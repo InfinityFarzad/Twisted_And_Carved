@@ -1,0 +1,31 @@
+{
+	"format_version": "1.21.6",
+	"credit": "Made with Blockbench",
+	"parent": "block/block",
+	"textures": {
+		"0": "twisted_and_carved:block/karmium_chain",
+		"particle": "twisted_and_carved:block/karmium_chain"
+	},
+	"elements": [
+		{
+			"from": [4, 0, 8],
+			"to": [12, 16, 8],
+			"shade": false,
+			"rotation": {"angle": 45, "axis": "y", "origin": [8, 8, 8]},
+			"faces": {
+				"north": {"uv": [12, 0, 4, 16], "texture": "#0"},
+				"south": {"uv": [4, 0, 12, 16], "texture": "#0"}
+			}
+		},
+		{
+			"from": [8, 0, 4],
+			"to": [8, 16, 12],
+			"shade": false,
+			"rotation": {"angle": 45, "axis": "y", "origin": [8, 8, 8]},
+			"faces": {
+				"east": {"uv": [4, 0, 12, 16], "texture": "#0"},
+				"west": {"uv": [12, 0, 4, 16], "texture": "#0"}
+			}
+		}
+	]
+}

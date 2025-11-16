@@ -3,11 +3,15 @@ package net.farzad.twisted_and_carved.common.datagen;
 import net.fabricmc.fabric.api.client.datagen.v1.provider.FabricModelProvider;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.farzad.twisted_and_carved.common.block.ModBlocks;
+import net.minecraft.block.Blocks;
 import net.minecraft.client.data.BlockStateModelGenerator;
 import net.minecraft.client.data.ItemModelGenerator;
+import net.minecraft.client.data.ModelIds;
 import net.minecraft.client.data.Models;
+import net.minecraft.client.render.model.json.ModelVariant;
 import net.minecraft.client.render.model.json.WeightedVariant;
 import net.minecraft.data.family.BlockFamily;
+import net.minecraft.util.collection.Pool;
 
 public class ModModelProvider extends FabricModelProvider {
     public static final BlockFamily TWISTED_FAMILY = new BlockFamily.Builder(ModBlocks.TWISTED_PLANKS)
@@ -33,11 +37,13 @@ public class ModModelProvider extends FabricModelProvider {
         blockStateModelGenerator.registerSimpleCubeAll(ModBlocks.TWISTED_LEAVES);
         blockStateModelGenerator.registerTintableCrossBlockState(ModBlocks.TWISTED_SAPLING, BlockStateModelGenerator.CrossType.NOT_TINTED);
         blockStateModelGenerator.registerSimpleCubeAll(ModBlocks.KARMIUM_BLOCK);
+        blockStateModelGenerator.registerMultifaceBlockModel(ModBlocks.TWISTED_VINE);
     }
 
     @Override
     public void generateItemModels(ItemModelGenerator itemModelGenerator) {
         itemModelGenerator.register(ModBlocks.TWISTED_SAPLING.asItem(), Models.GENERATED);
-
+        itemModelGenerator.register(ModBlocks.KARMIUM_CHAIN.asItem(),Models.GENERATED);
+        itemModelGenerator.register(ModBlocks.TWISTED_VINE.asItem(),Models.GENERATED);
     }
 }

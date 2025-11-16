@@ -1,4 +1,5 @@
 // 1.21.5	-999999999-01-01T00:00:00	Twisted And Carved/Tags for minecraft:block
+2e9b5a0172aa6469f556ee9c077774995d5eb745 data/minecraft/tags/block/climbable.json
 54e9f0cb8a5f0b5a81abd17fcca4ebed4f1ae269 data/minecraft/tags/block/fence_gates.json
 55fbe275f2cb2c2b7b84bbf2ce4097a96becb8a3 data/minecraft/tags/block/incorrect_for_gold_tool.json
 55fbe275f2cb2c2b7b84bbf2ce4097a96becb8a3 data/minecraft/tags/block/incorrect_for_iron_tool.json
@@ -7,8 +8,8 @@
 48b6e3f33ca6baf30d6ddf6c0f5fd608804c6c6b data/minecraft/tags/block/leaves.json
 24522167c4f0d62b0ca29a37b475530b870ea6f9 data/minecraft/tags/block/logs.json
 312f0d2ad083bac6516fa8b4ceee96744fd46b21 data/minecraft/tags/block/logs_that_burn.json
-54e9f0cb8a5f0b5a81abd17fcca4ebed4f1ae269 data/minecraft/tags/block/mineable/axe.json
-55fbe275f2cb2c2b7b84bbf2ce4097a96becb8a3 data/minecraft/tags/block/mineable/pickaxe.json
+50e476ba0305a41a136d1f5e1ee4e25a7b522455 data/minecraft/tags/block/mineable/axe.json
+6c4a5e342125869a080bf22b0808a1276efd1eb9 data/minecraft/tags/block/mineable/pickaxe.json
 55fbe275f2cb2c2b7b84bbf2ce4097a96becb8a3 data/minecraft/tags/block/needs_diamond_tool.json
 0880d0e48372efa51c975d257090b38082a98acf data/minecraft/tags/block/planks.json
 be9abde1cb7057474e6f4c4e08c7d9b6f9ee5c32 data/minecraft/tags/block/saplings.json
