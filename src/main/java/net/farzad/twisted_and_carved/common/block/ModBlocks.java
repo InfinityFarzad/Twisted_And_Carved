@@ -2,10 +2,7 @@ package net.farzad.twisted_and_carved.common.block;
 
 import net.farzad.twisted_and_carved.client.particle.ModParticles;
 import net.farzad.twisted_and_carved.common.TwistedAndCarved;
-import net.farzad.twisted_and_carved.common.block.custom.CoffinBlock;
-import net.farzad.twisted_and_carved.common.block.custom.KarmiumChainBlock;
-import net.farzad.twisted_and_carved.common.block.custom.TwistedLeavesBlock;
-import net.farzad.twisted_and_carved.common.block.custom.TwistedSaplingBlock;
+import net.farzad.twisted_and_carved.common.block.custom.*;
 import net.farzad.twisted_and_carved.common.world.ModSaplingGenerators;
 import net.minecraft.block.*;
 import net.minecraft.block.enums.NoteBlockInstrument;
@@ -134,6 +131,8 @@ public class ModBlocks {
                     .sounds(BlockSoundGroup.NETHERITE)), true);
 
     public static final Block KARMIUM_CHAIN = registerBlock("karmium_chain",properties -> new KarmiumChainBlock(properties.solid().requiresTool().strength(5.0F, 6.0F).sounds(BlockSoundGroup.CHAIN).nonOpaque()),true);
+
+    public static final Block KARMIUM_FENCE = registerBlock("karmium_fence", properties -> new KarmiumFence(properties.strength(2.0f).nonOpaque().requiresTool().sounds(BlockSoundGroup.NETHERITE)),true);
 
     public static final Block TWISTED_VINE = registerBlock("twisted_vine",properties -> new VineBlock(properties.nonOpaque().replaceable().noCollision().ticksRandomly().strength(0.2F).sounds(BlockSoundGroup.VINE).burnable().pistonBehavior(PistonBehavior.DESTROY)),true);
 
