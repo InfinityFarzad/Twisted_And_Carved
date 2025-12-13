@@ -19,6 +19,7 @@ public class TwistedAndCarvedDataGenerator implements DataGeneratorEntrypoint {
         pack.addProvider(ModRegistryDataGenerator::new);
         pack.addProvider(ModBiomeTagProvider::new);
         pack.addProvider(ModDamageTypeTagProvider::new);
+        pack.addProvider(ModRecipeProvider::new);
     }
 
     @Override

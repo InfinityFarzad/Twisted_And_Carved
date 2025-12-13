@@ -3,9 +3,13 @@
 	"id": "twisted_and_carved",
 	"version": "${version}",
 	"name": "Twisted And Carved",
-	"description": "This is an example description! Tell everyone what your mod is about!",
+	"description": "Twisted and carved is a weapon mod with lore, building blocks, structures and etc",
 	"authors": [
-		"Me!"
+		"Farzad : Main developer and previous Main Artist",
+        "Mongocat : Main Artist",
+        "Juko_lul : Artist",
+        "Powercythe : Karmium fence code!",
+        "Spacecore : Help with worldgen"
 	],
 	"contact": {
 		"homepage": "https://modrinth.com/mod/twisted-and-carved",
@@ -39,6 +43,7 @@
 		"fabric-api": "*"
 	},
 	"suggests": {
-		"another-mod": "*"
+		"another-mod": "*",
+        "terrablender": "5.0.0.1"
 	}
 }

@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "c": "twisted_and_carved:karmium_ingot",
+    "g": "twisted_and_carved:karmium_nugget"
+  },
+  "pattern": [
+    "gcg",
+    "gcg",
+    "gcg"
+  ],
+  "result": {
+    "count": 32,
+    "id": "twisted_and_carved:karmium_fence"
+  }
+}

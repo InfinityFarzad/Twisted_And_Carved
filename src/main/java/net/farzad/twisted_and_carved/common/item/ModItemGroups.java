@@ -4,6 +4,8 @@ import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.farzad.twisted_and_carved.common.TwistedAndCarved;
 import net.farzad.twisted_and_carved.common.block.ModBlocks;
+import net.farzad.twisted_and_carved.common.util.ModTags;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.registry.Registries;
@@ -50,9 +52,20 @@ public class ModItemGroups {
             itemGroup.add(ModBlocks.TWISTED_BUTTON);
             itemGroup.add(ModBlocks.TWISTED_LEAVES);
             itemGroup.add(ModBlocks.TWISTED_SAPLING);
+            itemGroup.add(ModBlocks.TWISTED_COFFIN);
+            itemGroup.add(ModBlocks.KARMIUM_FENCE);
+            itemGroup.add(ModBlocks.KARMIUM_CHAIN);
             itemGroup.add(ModBlocks.KARMIUM_BLOCK);
             itemGroup.add(ModItems.KARMIUM_INGOT);
             itemGroup.add(ModItems.RAW_KARMIUM);
+            itemGroup.add(ModItems.KARMIUM_NUGGET);
+            itemGroup.add(ModItems.BLEEDING_SPIRIT);
+            itemGroup.add(ModItems.GRAPPLING_SPIRIT);
+            itemGroup.add(ModItems.HARVEST_SPIRIT);
+            itemGroup.add(ModItems.SWEEPING_SPIRIT);
+            itemGroup.add(ModItems.STRIDE_SPIRIT);
+            itemGroup.add(ModItems.TOMAHAWK_SPIRIT);
+
         });
     }
 }

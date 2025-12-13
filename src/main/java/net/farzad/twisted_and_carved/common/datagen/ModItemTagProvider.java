@@ -20,7 +20,8 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
         getOrCreateTagBuilder(ItemTags.AXES).add(ModItems.TWISTED_GREATAXE);
         getOrCreateTagBuilder(ItemTags.HOES).add(ModItems.TWISTED_SCYTHE);
         getOrCreateTagBuilder(ModTags.Items.TWISTED_TOOL_REPAIR_INGREDIENT).add(ModItems.KARMIUM_INGOT);
-
+        getOrCreateTagBuilder(ItemTags.SWORD_ENCHANTABLE).add(ModItems.TWISTED_FALCHION).add(ModItems.TWISTED_GLAIVE);
+        getOrCreateTagBuilder(ItemTags.HOES).add(ModItems.TWISTED_SCYTHE);
         getOrCreateTagBuilder(ItemTags.PLANKS).add(ModBlocks.TWISTED_PLANKS.asItem());
 
         getOrCreateTagBuilder(ItemTags.LOGS_THAT_BURN)
@@ -48,8 +49,5 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
         getOrCreateTagBuilder(ModTags.Items.TWISTED_SPIRIT).add(ModItems.STRIDE_SPIRIT);
         getOrCreateTagBuilder(ModTags.Items.TWISTED_SPIRIT).add(ModItems.SWEEPING_SPIRIT);
         getOrCreateTagBuilder(ModTags.Items.TWISTED_SPIRIT).add(ModItems.TOMAHAWK_SPIRIT);
-
-
-
     }
 }

@@ -3,6 +3,7 @@ package net.farzad.twisted_and_carved.common.datagen;
 import net.fabricmc.fabric.api.client.datagen.v1.provider.FabricModelProvider;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.farzad.twisted_and_carved.common.block.ModBlocks;
+import net.farzad.twisted_and_carved.common.item.ModItems;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.data.BlockStateModelGenerator;
 import net.minecraft.client.data.ItemModelGenerator;
@@ -45,5 +46,6 @@ public class ModModelProvider extends FabricModelProvider {
         itemModelGenerator.register(ModBlocks.TWISTED_SAPLING.asItem(), Models.GENERATED);
         itemModelGenerator.register(ModBlocks.KARMIUM_CHAIN.asItem(),Models.GENERATED);
         itemModelGenerator.register(ModBlocks.TWISTED_VINE.asItem(),Models.GENERATED);
+        itemModelGenerator.register(ModItems.KARMIUM_NUGGET,Models.GENERATED);
     }
 }

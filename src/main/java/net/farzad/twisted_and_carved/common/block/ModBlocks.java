@@ -16,6 +16,7 @@ import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.Rarity;
 
 import java.util.function.Function;
 
@@ -128,7 +129,7 @@ public class ModBlocks {
             properties -> new Block(properties
                     .instrument(NoteBlockInstrument.IRON_XYLOPHONE)
                     .requiresTool().strength(6.0F, 6.0F)
-                    .sounds(BlockSoundGroup.NETHERITE)), true);
+                    .sounds(BlockSoundGroup.NETHERITE)), false);
 
     public static final Block KARMIUM_CHAIN = registerBlock("karmium_chain",properties -> new KarmiumChainBlock(properties.solid().requiresTool().strength(5.0F, 6.0F).sounds(BlockSoundGroup.CHAIN).nonOpaque()),true);
 
@@ -153,6 +154,7 @@ public class ModBlocks {
         Registry.register(Registries.ITEM, Identifier.of(TwistedAndCarved.MOD_ID, name),
                 new BlockItem(block, new Item.Settings().component(DataComponentTypes.TOOLTIP_STYLE, Identifier.ofVanilla("twisted")).useBlockPrefixedTranslationKey()
                         .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(TwistedAndCarved.MOD_ID, name)))));
+
     }
 
     public static void init() {

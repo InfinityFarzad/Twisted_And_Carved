@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "twisted_and_carved:karmium_ingot"
+  ],
+  "result": {
+    "count": 9,
+    "id": "twisted_and_carved:karmium_nugget"
+  }
+}

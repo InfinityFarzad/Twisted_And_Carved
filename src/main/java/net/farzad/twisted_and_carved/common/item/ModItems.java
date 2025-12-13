@@ -1,10 +1,12 @@
 package net.farzad.twisted_and_carved.common.item;
 
 import net.farzad.twisted_and_carved.common.TwistedAndCarved;
+import net.farzad.twisted_and_carved.common.block.ModBlocks;
 import net.farzad.twisted_and_carved.common.component.ModDataComponents;
 import net.farzad.twisted_and_carved.common.component.TwistedSpiritComponent;
 import net.farzad.twisted_and_carved.common.item.custom.*;
 import net.minecraft.component.DataComponentTypes;
+import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ToolMaterial;
@@ -22,6 +24,10 @@ public class ModItems {
 
     public static final Item TWISTED_UPGRADE_TEMPLATE = register("twisted_upgrade_smithing_template", TwistedSmithingTemplateItem::createTwistedUpgrade, new Item.Settings().rarity(Rarity.UNCOMMON).component(DataComponentTypes.TOOLTIP_STYLE, Identifier.ofVanilla("twisted")));
 
+    public static final Item KARMIUM_BLOCK = register("karmium_block", (properties) -> new BlockItem(ModBlocks.KARMIUM_BLOCK,properties) , new Item.Settings()
+            .component(DataComponentTypes.TOOLTIP_STYLE, Identifier.ofVanilla("twisted"))
+            .rarity(Rarity.UNCOMMON));
+
     public static final Item KARMIUM_INGOT = register("karmium_ingot", Item::new, new Item.Settings()
             .component(DataComponentTypes.TOOLTIP_STYLE, Identifier.ofVanilla("twisted"))
             .rarity(Rarity.UNCOMMON));
@@ -30,8 +36,9 @@ public class ModItems {
             .component(DataComponentTypes.TOOLTIP_STYLE, Identifier.ofVanilla("twisted"))
             .rarity(Rarity.UNCOMMON));
 
-
-
+    public static final Item KARMIUM_NUGGET = register("karmium_nugget", Item::new, new Item.Settings()
+            .component(DataComponentTypes.TOOLTIP_STYLE, Identifier.ofVanilla("twisted"))
+            .rarity(Rarity.UNCOMMON));
 
 
     // - Weapon Pieces -

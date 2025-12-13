@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "twisted_and_carved:block/karmium_fence_top"
+  }
+}
