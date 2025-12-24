@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "g": "twisted_and_carved:karmium_ingot"
+  },
+  "pattern": [
+    "ggg",
+    "ggg",
+    "ggg"
+  ],
+  "result": {
+    "count": 1,
+    "id": "twisted_and_carved:karmium_block"
+  }
+}
