@@ -1,5 +1,6 @@
 // 1.21.5	-999999999-01-01T00:00:00	Twisted And Carved/Tags for minecraft:item
 4c391b2757703dcf242cd43aa91b7ba2acac990e data/minecraft/tags/item/axes.json
+290101fb7baf01ca6ac8024a0cd9e36c404092c1 data/minecraft/tags/item/enchantable/sharp_weapon.json
 7e753dd17a2e70c9850a305cf4eb1ce1628ae993 data/minecraft/tags/item/enchantable/sword.json
 54e9f0cb8a5f0b5a81abd17fcca4ebed4f1ae269 data/minecraft/tags/item/fence_gates.json
 71a35574f2dbfb98869f9c63888601bba3d61731 data/minecraft/tags/item/hoes.json

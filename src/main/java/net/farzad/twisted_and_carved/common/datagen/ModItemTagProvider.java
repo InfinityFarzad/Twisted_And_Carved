@@ -23,7 +23,7 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
         getOrCreateTagBuilder(ItemTags.SWORD_ENCHANTABLE).add(ModItems.TWISTED_FALCHION).add(ModItems.TWISTED_GLAIVE);
         getOrCreateTagBuilder(ItemTags.HOES).add(ModItems.TWISTED_SCYTHE);
         getOrCreateTagBuilder(ItemTags.PLANKS).add(ModBlocks.TWISTED_PLANKS.asItem());
-
+        getOrCreateTagBuilder(ItemTags.SHARP_WEAPON_ENCHANTABLE).addOptionalTag(ModTags.Items.TWISTED_TOOL);
         getOrCreateTagBuilder(ItemTags.LOGS_THAT_BURN)
                 .add(ModBlocks.TWISTED_LOG.asItem())
                 .add(ModBlocks.STRIPPED_TWISTED_LOG.asItem())

@@ -24,7 +24,7 @@ public class ModBlockTagProvider extends FabricTagProvider.BlockTagProvider {
                 .add(ModBlocks.STRIPPED_TWISTED_WOOD)
                 .add(ModBlocks.TWISTED_WOOD);
 
-        getOrCreateTagBuilder(BlockTags.CLIMBABLE).add(ModBlocks.TWISTED_VINE);
+        //getOrCreateTagBuilder(BlockTags.CLIMBABLE).add(ModBlocks.TWISTED_VINE);
 
         getOrCreateTagBuilder(BlockTags.SAPLINGS)
                 .add(ModBlocks.TWISTED_SAPLING);

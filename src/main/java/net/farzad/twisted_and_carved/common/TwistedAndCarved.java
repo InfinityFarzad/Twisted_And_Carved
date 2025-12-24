@@ -27,6 +27,9 @@ import org.slf4j.LoggerFactory;
 import terrablender.api.Regions;
 import terrablender.api.TerraBlenderApi;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class TwistedAndCarved implements ModInitializer, TerraBlenderApi {
     public static final String MOD_ID = "twisted_and_carved";
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);

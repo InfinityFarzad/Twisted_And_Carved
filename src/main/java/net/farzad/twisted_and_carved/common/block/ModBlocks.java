@@ -135,7 +135,7 @@ public class ModBlocks {
 
     public static final Block KARMIUM_FENCE = registerBlock("karmium_fence", properties -> new KarmiumFence(properties.strength(2.0f).nonOpaque().requiresTool().sounds(BlockSoundGroup.NETHERITE)),true);
 
-    public static final Block TWISTED_VINE = registerBlock("twisted_vine",properties -> new VineBlock(properties.nonOpaque().replaceable().noCollision().ticksRandomly().strength(0.2F).sounds(BlockSoundGroup.VINE).burnable().pistonBehavior(PistonBehavior.DESTROY)),true);
+    //public static final Block TWISTED_VINE = registerBlock("twisted_vine",properties -> new VineBlock(properties.nonOpaque().replaceable().noCollision().ticksRandomly().strength(0.2F).sounds(BlockSoundGroup.VINE).burnable().pistonBehavior(PistonBehavior.DESTROY)),true);
 
     public static final Block TWISTED_COFFIN = registerBlock("twisted_coffin",
             properties -> new CoffinBlock(properties.sounds(BlockSoundGroup.DEEPSLATE_BRICKS).requiresTool().nonOpaque().strength(2.0f)),true);

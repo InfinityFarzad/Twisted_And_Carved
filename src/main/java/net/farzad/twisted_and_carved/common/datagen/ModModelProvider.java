@@ -38,14 +38,14 @@ public class ModModelProvider extends FabricModelProvider {
         blockStateModelGenerator.registerSimpleCubeAll(ModBlocks.TWISTED_LEAVES);
         blockStateModelGenerator.registerTintableCrossBlockState(ModBlocks.TWISTED_SAPLING, BlockStateModelGenerator.CrossType.NOT_TINTED);
         blockStateModelGenerator.registerSimpleCubeAll(ModBlocks.KARMIUM_BLOCK);
-        blockStateModelGenerator.registerMultifaceBlockModel(ModBlocks.TWISTED_VINE);
+        //blockStateModelGenerator.registerMultifaceBlockModel(ModBlocks.TWISTED_VINE);
     }
 
     @Override
     public void generateItemModels(ItemModelGenerator itemModelGenerator) {
         itemModelGenerator.register(ModBlocks.TWISTED_SAPLING.asItem(), Models.GENERATED);
         itemModelGenerator.register(ModBlocks.KARMIUM_CHAIN.asItem(),Models.GENERATED);
-        itemModelGenerator.register(ModBlocks.TWISTED_VINE.asItem(),Models.GENERATED);
+        //itemModelGenerator.register(ModBlocks.TWISTED_VINE.asItem(),Models.GENERATED);
         itemModelGenerator.register(ModItems.KARMIUM_NUGGET,Models.GENERATED);
     }
 }

@@ -27,7 +27,7 @@ public class ModLootTableProvider extends FabricBlockLootTableProvider {
         addDrop(ModBlocks.TWISTED_FENCE);
         addDrop(ModBlocks.TWISTED_DOOR,doorDrops(ModBlocks.TWISTED_DOOR));
         addDrop(ModBlocks.TWISTED_TRAPDOOR);
-        addDropWithSilkTouch(ModBlocks.TWISTED_VINE);
+        //addDropWithSilkTouch(ModBlocks.TWISTED_VINE);
         addDrop(ModBlocks.KARMIUM_CHAIN);
         addDrop(ModBlocks.TWISTED_COFFIN);
         addDrop(ModBlocks.TWISTED_LEAVES, leavesDrops(ModBlocks.TWISTED_LEAVES, ModBlocks.TWISTED_SAPLING, 0.25f));

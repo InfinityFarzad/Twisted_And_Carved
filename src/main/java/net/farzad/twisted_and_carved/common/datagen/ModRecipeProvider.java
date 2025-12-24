@@ -69,6 +69,14 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                         .input(ModItems.KARMIUM_INGOT)
                         .criterion(hasItem(ModItems.KARMIUM_INGOT), conditionsFromItem(ModItems.KARMIUM_INGOT))
                         .offerTo(exporter);
+
+                createShaped(RecipeCategory.MISC, ModBlocks.KARMIUM_BLOCK,1)
+                        .input('g',ModItems.KARMIUM_INGOT)
+                        .pattern("ggg")
+                        .pattern("ggg")
+                        .pattern("ggg")
+                        .criterion(hasItem(ModItems.KARMIUM_INGOT), conditionsFromItem(ModItems.KARMIUM_INGOT))
+                        .offerTo(exporter);
             }
         };
     }

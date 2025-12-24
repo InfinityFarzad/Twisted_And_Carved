@@ -20,7 +20,7 @@ public class TwistedToolItem extends Item {
 
     public boolean onClicked(ItemStack stack, ItemStack otherStack, Slot slot, ClickType clickType, PlayerEntity player, StackReference cursorStackReference) {
         ItemStack stored = stack.getOrDefault(ModDataComponents.TWISTED_SPIRIT, ItemStack.EMPTY);
-        if (slot.getStack().get(ModDataComponents.TWISTED_SPIRIT) == null) {
+        if (slot.getStack().get(ModDataComponents.TWISTED_SPIRIT) == null || !slot.canTakePartial(player)) {
             return false;
         }
         else {
@@ -58,8 +58,6 @@ public class TwistedToolItem extends Item {
                     return false;
                 }
             }
-
-
     }
 
     private static void playSpiritCastingSound(Entity entity) {
