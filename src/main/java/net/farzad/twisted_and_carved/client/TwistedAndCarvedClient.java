@@ -24,9 +24,11 @@ import net.farzad.twisted_and_carved.common.networking.GreataxeSoundLoopS2CPaylo
 import net.farzad.twisted_and_carved.common.sound.GreataxeSoundInstance;
 import net.farzad.twisted_and_carved.common.util.TwistedWeaponUtil;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.particle.LeavesParticle;
 import net.minecraft.client.particle.SweepAttackParticle;
 import net.minecraft.client.render.RenderLayer;
+import net.minecraft.client.render.RenderTickCounter;
 import net.minecraft.client.render.Tessellator;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactories;
 import net.minecraft.client.render.item.property.bool.BooleanProperties;
@@ -70,6 +72,7 @@ public class TwistedAndCarvedClient implements ClientModInitializer {
             if (stack.isOf(ModItems.TWISTED_FALCHION) && TwistedWeaponUtil.getAbilityID(stack) == "bleeding") {
 
                 drawContext.drawTexture(RenderLayer::getGuiTextured, texture, client.getWindow().getScaledWidth() / 2 + 120, client.getWindow().getScaledHeight() - 28, 0, 0, 64, 32, 64, 32);
+                drawContext.drawText(client.textRenderer,"%" + stack.getOrDefault(ModDataComponents.BLOOD_CHARGE,0).toString(),client.getWindow().getScaledWidth() / 2 + 130, client.getWindow().getScaledHeight() - 16,16777215,true);
             }
         });
 

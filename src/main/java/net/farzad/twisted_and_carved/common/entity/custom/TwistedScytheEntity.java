@@ -70,9 +70,20 @@ public class TwistedScytheEntity extends PersistentProjectileEntity {
     }
 
     private void pullOwner(Entity entity) {
-        Vec3d velocity = (new Vec3d(this.getX() - entity.getX(), this.getY() - entity.getY(), this.getZ() - entity.getZ()).multiply(2).normalize());entity.addVelocity(velocity.multiply(2).normalize());
+        double finalVal = this.getY() > entity.getY() ? 0.005 : 1;
+        Vec3d velocity = (new Vec3d(this.getX() - entity.getX(), this.getY() - entity.getY(), this.getZ() - entity.getZ()).normalize().multiply(0.05));
+        entity.addVelocity(velocity.multiply(finalVal).normalize());
         entity.velocityModified = true;
     }
+
+    private void pullTarget(Entity entity) {
+        double finalVal = this.getY() > entity.getY() ? 0.005 : 1;
+        Vec3d ownerPos = getOwner().getPos();
+        Vec3d velocity = (new Vec3d(ownerPos.getX() - entity.getX(), ownerPos.getY() - entity.getY(), ownerPos.getZ() - entity.getZ()).normalize().multiply(0.05));
+        entity.addVelocity(velocity.multiply(finalVal).normalize());
+        entity.velocityModified = true;
+    }
+
 
     /*
      * TODO :
@@ -92,6 +103,10 @@ public class TwistedScytheEntity extends PersistentProjectileEntity {
             this.isGripped = false;
         }
 
+        if (!isGripped && !this.getPos().isInRange(getOwner().getPos(),56)) {
+            this.shouldReturn = true;
+        }
+
         // if the scythe is in ground, set the ground mode to true
         if (this.isInGround()) {
             this.isGripped = true;
@@ -104,7 +119,8 @@ public class TwistedScytheEntity extends PersistentProjectileEntity {
         if (entity != null) {
             if (isGripped && !shouldReturn) {
                 pullOwner(entity);
-                if (distanceTo(this.getOwner()) > 35 || (distanceTo(this.getOwner()) <= 8 && inGroundTime >= 1)) {
+                entity.fallDistance = 0;
+                if (distanceTo(this.getOwner()) > 57 || (distanceTo(this.getOwner()) <= 8 && inGroundTime >= 1)) {
                     this.playSound(SoundEvents.ITEM_TRIDENT_RETURN, 1.0F, 1.0F);
                     this.shouldReturn = true;
                     this.isGripped = false;
@@ -179,7 +195,7 @@ public class TwistedScytheEntity extends PersistentProjectileEntity {
                 }
 
                 if (entity instanceof LivingEntity livingEntity) {
-                    pullOwner(livingEntity);
+                    pullTarget(livingEntity);
                     getScytheStack((PlayerEntity) this.getOwner()).set(ModDataComponents.TWISTED_SCYTHE_GRAPPLING, false);
                     this.shouldReturn = true;
                     this.isGripped = true;

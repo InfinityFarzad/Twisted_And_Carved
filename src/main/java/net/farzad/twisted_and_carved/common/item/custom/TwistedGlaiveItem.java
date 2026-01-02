@@ -5,6 +5,7 @@ import net.farzad.twisted_and_carved.common.TwistedAndCarved;
 import net.farzad.twisted_and_carved.common.component.ModDataComponents;
 import net.farzad.twisted_and_carved.common.component.TwistedSpiritComponent;
 import net.farzad.twisted_and_carved.common.sound.ModSounds;
+import net.farzad.twisted_and_carved.common.util.ModDamageTypes;
 import net.farzad.twisted_and_carved.common.util.TwistedWeaponUtil;
 import net.minecraft.component.type.AttributeModifierSlot;
 import net.minecraft.component.type.AttributeModifiersComponent;
@@ -50,7 +51,9 @@ public class TwistedGlaiveItem extends TwistedToolItem {
 
                 for (Entity entity : entities) {
                     if (entity instanceof LivingEntity livingEntity) {
-                        livingEntity.damage(serverWorld, user.getDamageSources().playerAttack(user), (float) (4 / entity.getPos().distanceTo(user.getPos())) * 2.5f);
+                        double distance = entity.getPos().distanceTo(user.getPos());
+                        livingEntity.damage(serverWorld, user.getDamageSources().create(ModDamageTypes.SWEEPING_SLASH,user), (float) (4 / distance * 2.5f));
+                        livingEntity.takeKnockback(0.05 * distance,user.getX(), user.getY());
                     }
                 }
                 serverWorld.spawnParticles(ModParticles.TWISTED_GLAIVE_SWEEP, user.getX(), user.getY() + 1.0, user.getZ(), 1, 0, 0, 0, 1);
@@ -64,7 +67,7 @@ public class TwistedGlaiveItem extends TwistedToolItem {
     }
     @Override
     public boolean isValidType(ItemStack stack) {
-        return stack.getOrDefault(ModDataComponents.TWISTED_SPIRIT_DATA, TwistedSpiritComponent.EMPTY).type() == "glaive";
+        return stack.getOrDefault(ModDataComponents.TWISTED_SPIRIT_DATA, TwistedSpiritComponent.EMPTY).type().equals("glaive");
     }
 
 }

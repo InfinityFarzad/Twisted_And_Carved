@@ -17,7 +17,7 @@ public class ProjectileEntityMixin {
         ProjectileEntity proj = (ProjectileEntity) (Object) this;
 
         if (proj instanceof TwistedGreataxeEntity twistedGreataxe) {
-            twistedGreataxe.setOwner(twistedGreataxe.prevOwner);
+            twistedGreataxe.setOwner(owner);
         }
     }
 

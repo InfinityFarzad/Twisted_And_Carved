@@ -29,7 +29,6 @@ import net.minecraft.registry.RegistryEntryLookup;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.registry.entry.RegistryEntryList;
 import net.minecraft.registry.tag.BlockTags;
-import net.minecraft.registry.tag.TagKey;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
@@ -42,6 +41,7 @@ import net.minecraft.world.event.GameEvent;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
@@ -50,16 +50,14 @@ public class TwistedScytheItem extends TwistedToolItem {
     protected static final Map<Block, Pair<Predicate<ItemUsageContext>, Consumer<ItemUsageContext>>> TILLING_ACTIONS;
 
     static {
-        TILLING_ACTIONS = Maps.newHashMap(ImmutableMap.of(Blocks.GRASS_BLOCK, Pair.of(HoeItem::canTillFarmland, createTillAction(Blocks.FARMLAND.getDefaultState())), Blocks.DIRT_PATH, Pair.of(HoeItem::canTillFarmland, createTillAction(Blocks.FARMLAND.getDefaultState())), Blocks.DIRT, Pair.of(HoeItem::canTillFarmland, createTillAction(Blocks.FARMLAND.getDefaultState())), Blocks.COARSE_DIRT, Pair.of(HoeItem::canTillFarmland, createTillAction(Blocks.DIRT.getDefaultState())), Blocks.ROOTED_DIRT, Pair.of((itemUsageContext) -> {
-            return true;
-        }, createTillAndDropAction(Blocks.DIRT.getDefaultState(), Items.HANGING_ROOTS))));
+        TILLING_ACTIONS = Maps.newHashMap(ImmutableMap.of(Blocks.GRASS_BLOCK, Pair.of(HoeItem::canTillFarmland, createTillAction(Blocks.FARMLAND.getDefaultState())), Blocks.DIRT_PATH, Pair.of(HoeItem::canTillFarmland, createTillAction(Blocks.FARMLAND.getDefaultState())), Blocks.DIRT, Pair.of(HoeItem::canTillFarmland, createTillAction(Blocks.FARMLAND.getDefaultState())), Blocks.COARSE_DIRT, Pair.of(HoeItem::canTillFarmland, createTillAction(Blocks.DIRT.getDefaultState())), Blocks.ROOTED_DIRT, Pair.of((itemUsageContext) -> true, createTillAndDropAction(Blocks.DIRT.getDefaultState(), Items.HANGING_ROOTS))));
     }
 
     public TwistedScytheItem(float attackDamage, float attackSpeed, double attackRange, Settings settings) {
-        super(applyToolSettings(settings, BlockTags.HOE_MINEABLE, attackDamage, attackSpeed, attackRange));
+        super(applyToolSettings(settings, attackDamage, attackSpeed, attackRange));
     }
 
-    public static Settings applyToolSettings(Settings settings, TagKey<Block> effectiveBlocks, float attackDamage, float attackSpeed, double attackRange) {
+    public static Settings applyToolSettings(Settings settings, float attackDamage, float attackSpeed, double attackRange) {
         RegistryEntryLookup<Block> registryEntryLookup = Registries.createEntryLookup(Registries.BLOCK);
         return settings.component(DataComponentTypes.TOOL, new ToolComponent(List.of(ToolComponent.Rule.ofAlwaysDropping(RegistryEntryList.of(new RegistryEntry[]{Blocks.COBWEB.getRegistryEntry()}), 15.0F), ToolComponent.Rule.of(registryEntryLookup.getOrThrow(BlockTags.SWORD_INSTANTLY_MINES), Float.MAX_VALUE), ToolComponent.Rule.of(registryEntryLookup.getOrThrow(BlockTags.SWORD_EFFICIENT), 1.5F)), 1.0F, 2, false)).attributeModifiers(createAttributeModifiers(attackDamage,attackSpeed,attackRange )).component(DataComponentTypes.WEAPON, new WeaponComponent(1)).repairable(ModTags.Items.TWISTED_TOOL_REPAIR_INGREDIENT).enchantable(15);
     }
@@ -89,7 +87,7 @@ public class TwistedScytheItem extends TwistedToolItem {
 
     @Override
     public boolean isValidType(ItemStack stack) {
-        return stack.getOrDefault(ModDataComponents.TWISTED_SPIRIT_DATA, TwistedSpiritComponent.EMPTY).type() == "scythe";
+        return stack.getOrDefault(ModDataComponents.TWISTED_SPIRIT_DATA, TwistedSpiritComponent.EMPTY).type().equals("scythe");
     }
 
     private static void clearField(int range, World world, PlayerEntity user, Hand hand) {
@@ -117,13 +115,17 @@ public class TwistedScytheItem extends TwistedToolItem {
 
     @Override
     public UseAction getUseAction(ItemStack stack) {
-        return UseAction.SPEAR;
+        if (TwistedWeaponUtil.getAbilityID(stack).equals("grappling")) {
+            return UseAction.SPEAR;
+        } else {
+            return UseAction.NONE;
+        }
     }
 
     public boolean onStoppedUsing(ItemStack stack, World world, LivingEntity user, int remainingUseTicks) {
         int useTime = this.getMaxUseTime(stack, user) - remainingUseTicks;
-        if (user instanceof PlayerEntity player) {
-            if (TwistedWeaponUtil.getAbilityID(stack) == "grappling") {
+        if (user instanceof PlayerEntity) {
+            if (Objects.equals(TwistedWeaponUtil.getAbilityID(stack), "grappling")) {
                 if (useTime < 10) {
                     return false;
                 } else {
@@ -143,13 +145,15 @@ public class TwistedScytheItem extends TwistedToolItem {
 
     public ActionResult use(World world, PlayerEntity user, Hand hand) {
         ItemStack itemStack = user.getStackInHand(hand);
-        if (TwistedWeaponUtil.getAbilityID(itemStack) == "harvest" || TwistedWeaponUtil.getAbilityID(itemStack) == "grappling") {
-            if (TwistedWeaponUtil.getAbilityID(itemStack) == "harvest" && user.isSneaking()) {
+        if (Objects.equals(TwistedWeaponUtil.getAbilityID(itemStack), "harvest") || Objects.equals(TwistedWeaponUtil.getAbilityID(itemStack), "grappling")) {
+            user.setCurrentHand(hand);
+            if (Objects.equals(TwistedWeaponUtil.getAbilityID(itemStack), "harvest") && user.isSneaking()) {
                 clearField(5,world,user,hand);
                 return ActionResult.PASS;
+            } else {
+                return Objects.equals(TwistedWeaponUtil.getAbilityID(itemStack), "grappling") ? ActionResult.CONSUME : ActionResult.FAIL;
             }
-            user.setCurrentHand(hand);
-            return ActionResult.CONSUME;
+
         } else {
             return ActionResult.FAIL;
         }
@@ -157,7 +161,7 @@ public class TwistedScytheItem extends TwistedToolItem {
     }
 
     public ActionResult useOnBlock(ItemUsageContext context) {
-        if (TwistedWeaponUtil.getAbilityID(context.getStack()) == "harvest") {
+        if (Objects.equals(TwistedWeaponUtil.getAbilityID(context.getStack()), "harvest")) {
             World world = context.getWorld();
             BlockPos blockPos = context.getBlockPos();
             Pair<Predicate<ItemUsageContext>, Consumer<ItemUsageContext>> pair = TILLING_ACTIONS.get(world.getBlockState(blockPos).getBlock());
@@ -166,7 +170,7 @@ public class TwistedScytheItem extends TwistedToolItem {
             } else {
                 Predicate<ItemUsageContext> predicate = pair.getFirst();
                 Consumer<ItemUsageContext> consumer = pair.getSecond();
-                if (predicate.test(context) && !context.getPlayer().isSneaking() && TwistedWeaponUtil.getAbilityID(context.getStack()) == "harvest") {
+                if (predicate.test(context) && context.getPlayer() != null && !context.getPlayer().isSneaking() && Objects.equals(TwistedWeaponUtil.getAbilityID(context.getStack()), "harvest")) {
                     PlayerEntity playerEntity = context.getPlayer();
                     world.playSound(playerEntity, blockPos, SoundEvents.ITEM_HOE_TILL, SoundCategory.BLOCKS, 1.0F, 1.0F);
                     if (!world.isClient) {

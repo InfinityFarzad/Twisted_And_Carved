@@ -18,7 +18,7 @@ public abstract class LivingEntityMixin{
     private void twisted_and_carved$updateStrideStack(CallbackInfo ci) {
         LivingEntity entity = (LivingEntity) (Object) this;
         if (entity instanceof PlayerEntity playerEntity) {
-            ((TwistedRiptideMixinInterface)playerEntity).twistedAndCarved$setRiptideStack(((RiptideStackAccesor)playerEntity).stack());
+            ((TwistedRiptideMixinInterface)playerEntity).twistedAndCarved$setRiptideStack(((RiptideStackAccesor)playerEntity).riptideStack());
         }
     }
 

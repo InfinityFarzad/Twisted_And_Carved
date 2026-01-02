@@ -53,6 +53,7 @@ public class TwistedAndCarved implements ModInitializer, TerraBlenderApi {
         ModBiomes.init();
         applyItemTooltips();
 
+
         StrippableBlockRegistry.register(ModBlocks.TWISTED_LOG, ModBlocks.STRIPPED_TWISTED_LOG);
         StrippableBlockRegistry.register(ModBlocks.TWISTED_WOOD, ModBlocks.STRIPPED_TWISTED_WOOD);
     }

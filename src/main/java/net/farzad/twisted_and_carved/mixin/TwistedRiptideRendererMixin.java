@@ -37,7 +37,7 @@ public class TwistedRiptideRendererMixin {
     private void twisted_and_carved$causeTwistedRiptide(MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i, PlayerEntityRenderState playerEntityRenderState, float f, float g, CallbackInfo ci) throws NoSuchFieldException {
         PlayerEntity player = ((((TwistedRiptideRenderState)playerEntityRenderState).twistedAndCarved$getPlayer()));
         ItemStack stack = ((TwistedRiptideMixinInterface)player).twistedAndCarved$getRiptideStack();
-        boolean shouldIUseThisCustomRiptide = (stack != null) && stack.isOf(ModItems.TWISTED_GREATAXE) && TwistedWeaponUtil.getAbilityID(stack) == "stride";
+        boolean shouldIUseThisCustomRiptide = (stack != null) && stack.isOf(ModItems.TWISTED_GREATAXE) && TwistedWeaponUtil.getAbilityID(stack).equals("stride");
         if (playerEntityRenderState.usingRiptide && shouldIUseThisCustomRiptide) {
             VertexConsumer vertexConsumer = vertexConsumerProvider.getBuffer(this.model.getLayer(TEXTURE2));
             this.model.setAngles(playerEntityRenderState);

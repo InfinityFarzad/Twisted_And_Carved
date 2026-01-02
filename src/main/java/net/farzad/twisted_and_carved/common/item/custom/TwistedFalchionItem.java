@@ -115,13 +115,8 @@ public class TwistedFalchionItem extends TwistedToolItem {
     public void postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
         if (attacker instanceof PlayerEntity player && TwistedWeaponUtil.getAbilityID(stack) == "bleeding") {
             int amount = player.getWorld().random.nextBetween(1, 3) * 5;
-
             if (!(getBlood(stack) + amount >= 100)) {
-                player.sendMessage(Text.of(amount + "%"), true);
                 setBlood(stack, getBlood(stack) + amount);
-            } else {
-                setBlood(stack, 100);
-                player.sendMessage(Text.translatable("massage.twisted_and_carved.falchion_full_blood").formatted(Formatting.DARK_RED), true);
             }
 
         }

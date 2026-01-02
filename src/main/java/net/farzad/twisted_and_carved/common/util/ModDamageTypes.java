@@ -8,7 +8,8 @@ import net.minecraft.util.Identifier;
 
 public class ModDamageTypes {
 
-    public static final RegistryKey<DamageType> TOMAHAWK_DAMAGE = RegistryKey.of(RegistryKeys.DAMAGE_TYPE, Identifier.of(TwistedAndCarved.MOD_ID, "tomahawk"));
-    public static final RegistryKey<DamageType> FALCHION_SLASH = RegistryKey.of(RegistryKeys.DAMAGE_TYPE, Identifier.of(TwistedAndCarved.MOD_ID, "falchion_slash"));
+    public static final RegistryKey<DamageType> TOMAHAWK_DAMAGE = RegistryKey.of(RegistryKeys.DAMAGE_TYPE, TwistedAndCarved.id("tomahawk"));
+    public static final RegistryKey<DamageType> FALCHION_SLASH = RegistryKey.of(RegistryKeys.DAMAGE_TYPE, TwistedAndCarved.id("falchion_slash"));
+    public static final RegistryKey<DamageType> SWEEPING_SLASH = RegistryKey.of(RegistryKeys.DAMAGE_TYPE, TwistedAndCarved.id("sweeping_slash"));
 
 }
