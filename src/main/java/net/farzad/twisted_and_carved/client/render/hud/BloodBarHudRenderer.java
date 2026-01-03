@@ -15,7 +15,9 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.ColorHelper;
+import net.minecraft.util.math.MathHelper;
 import org.joml.Matrix4f;
+import org.joml.Vector2d;
 
 import java.util.Objects;
 
@@ -23,7 +25,9 @@ public class BloodBarHudRenderer implements HudRenderCallback {
 
     private int currentVal;
     private int oldVal;
-    private int opacity;
+    private int opacity = 0;
+    private int x_offset = 0;
+    private int y_offset = 0;
 
     public void tick() {
         currentVal = MinecraftClient.getInstance().player != null ? MinecraftClient.getInstance().player.getMainHandStack().getOrDefault(ModDataComponents.BLOOD_CHARGE,0) : 0;
@@ -32,14 +36,27 @@ public class BloodBarHudRenderer implements HudRenderCallback {
             this.oldVal = 0;
             this.currentVal = 0;
         }
-        if (currentVal != oldVal) {
+        if (currentVal != oldVal || currentVal == 100) {
             oldVal = currentVal;
-            opacity = 255;
+            opacity = currentVal >= 100 ? 255 * 20 : 15;
         }
-        if (opacity > 0) {
+        if (opacity >= 3 && currentVal != 100) {
             opacity -= 1;
+            TwistedAndCarved.LOGGER.info(Integer.toString(opacity));
         }
-        //TwistedAndCarved.LOGGER.info(Integer.toString(opacity));
+
+        if (currentVal >= 100) {
+            y_offset = MathHelper.nextBetween(MinecraftClient.getInstance().player.getRandom(), -2,2);
+            x_offset = MathHelper.nextBetween(MinecraftClient.getInstance().player.getRandom(), -2,2);
+        } else {
+            x_offset = 0;
+            y_offset = 0;
+        }
+
+        if (opacity != 0) {
+            //TwistedAndCarved.LOGGER.info("SHIT" + Integer.toString(opacity));
+        }
+
     }
 
     @Override
@@ -56,7 +73,7 @@ public class BloodBarHudRenderer implements HudRenderCallback {
         if (stack.isOf(ModItems.TWISTED_FALCHION) && Objects.equals(TwistedWeaponUtil.getAbilityID(stack), "bleeding")) {
 
             drawContext.drawTexture(RenderLayer::getGuiTextured, texture, client.getWindow().getScaledWidth() / 2 + 120, client.getWindow().getScaledHeight() - 28, 0, 0, 64, 32, 64, 32);
-            drawContext.drawText(client.textRenderer,"%" + stack.getOrDefault(ModDataComponents.BLOOD_CHARGE,0).toString(),client.getWindow().getScaledWidth() / 2 + 130, client.getWindow().getScaledHeight() - 16, ColorHelper.withAlpha(this.opacity,16777215),true);
+            drawContext.drawText(client.textRenderer,"%" + stack.getOrDefault(ModDataComponents.BLOOD_CHARGE,0).toString(),client.getWindow().getScaledWidth() / 2 + 130 + x_offset, client.getWindow().getScaledHeight() - 16 + y_offset, ColorHelper.withAlpha(this.opacity * 255 / 20,16777215),true);
         }
     }
 
