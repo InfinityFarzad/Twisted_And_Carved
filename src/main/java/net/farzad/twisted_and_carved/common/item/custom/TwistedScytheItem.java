@@ -20,6 +20,7 @@ import net.minecraft.component.type.WeaponComponent;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
+import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.item.*;
@@ -36,6 +37,8 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
 
@@ -188,6 +191,22 @@ public class TwistedScytheItem extends TwistedToolItem {
         } else {
             return ActionResult.FAIL;
         }
+    }
+
+    @Override
+    public void postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
+
+        if (TwistedWeaponUtil.getAbilityID(stack).equals("grappling")) {
+            target.setVelocity(0,0,0);
+
+            double f = target.getPos().distanceTo(attacker.getPos()) /  7.5;
+            Vec3d velocity = (new Vec3d(target.getX() - attacker.getX(), target.getY() - attacker.getY(), target.getZ() - attacker.getZ()).normalize().multiply(f * -1));
+            target.addVelocity(velocity);
+
+            target.velocityModified=true;
+        }
+
+        super.postHit(stack, target, attacker);
     }
 
     @Override

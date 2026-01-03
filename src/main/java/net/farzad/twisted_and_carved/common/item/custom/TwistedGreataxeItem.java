@@ -38,6 +38,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 import java.util.List;
+import java.util.Objects;
 
 public class TwistedGreataxeItem extends TwistedToolItem {
 
@@ -68,7 +69,7 @@ public class TwistedGreataxeItem extends TwistedToolItem {
 
     private static void applyDashMovement(PlayerEntity user, ItemStack stack) {
         Vec3d dashDir = user.getRotationVec(1.0f).normalize();
-        user.addVelocity(dashDir.x * 2.5, dashDir.y * 2.5, dashDir.z * 2.5);
+        user.addVelocity(dashDir.x * 3.5, dashDir.y * 3.5, dashDir.z * 3.5);
         user.velocityModified = true;
         user.useRiptide(20 , 5, stack);
     }
@@ -114,7 +115,7 @@ public class TwistedGreataxeItem extends TwistedToolItem {
 
     @Override
     public void postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
-        if (getCharge(stack) < maxCharge && TwistedWeaponUtil.getAbilityID(stack) == "stride") {
+        if (getCharge(stack) < maxCharge && Objects.equals(TwistedWeaponUtil.getAbilityID(stack), "stride")) {
             setCharge(stack, getCharge(stack) + 1);
         }
 
@@ -132,12 +133,12 @@ public class TwistedGreataxeItem extends TwistedToolItem {
     public boolean onStoppedUsing(ItemStack stack, World world, LivingEntity user, int remainingUseTicks) {
         int useTime = this.getMaxUseTime(stack, user) - remainingUseTicks;
         if (user instanceof PlayerEntity player) {
-            if (TwistedWeaponUtil.getAbilityID(stack) == "stride") {
-                applyDashMovement((PlayerEntity) user, stack);
+            if (Objects.equals(TwistedWeaponUtil.getAbilityID(stack), "stride")) {
+                applyDashMovement(player, stack);
                 setCharge(stack, getCharge(stack) - (maxCharge / 2));
                 return true;
 
-            } else if (TwistedWeaponUtil.getAbilityID(stack) == "tomahawk") {
+            } else if (Objects.equals(TwistedWeaponUtil.getAbilityID(stack), "tomahawk")) {
                 if (useTime < 10) {
                     return false;
                 } else {
@@ -157,7 +158,7 @@ public class TwistedGreataxeItem extends TwistedToolItem {
 
     public ActionResult use(World world, PlayerEntity user, Hand hand) {
         ItemStack itemStack = user.getStackInHand(hand);
-        if ((TwistedWeaponUtil.getAbilityID(itemStack) == "tomahawk") || (TwistedWeaponUtil.getAbilityID(itemStack) == "stride" && !(getCharge(itemStack) < (maxCharge / 2)))) {
+        if ((Objects.equals(TwistedWeaponUtil.getAbilityID(itemStack), "tomahawk")) || (Objects.equals(TwistedWeaponUtil.getAbilityID(itemStack), "stride") && !(getCharge(itemStack) < (maxCharge / 2)))) {
             user.setCurrentHand(hand);
             return ActionResult.CONSUME;
         } else {
