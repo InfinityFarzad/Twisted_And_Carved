@@ -117,6 +117,8 @@ public class TwistedFalchionItem extends TwistedToolItem {
             int amount = player.getWorld().random.nextBetween(1, 3) * 5;
             if (!(getBlood(stack) + amount >= 100)) {
                 setBlood(stack, getBlood(stack) + amount);
+            } else {
+                setBlood(stack, 100);
             }
 
         }

@@ -2,6 +2,7 @@ package net.farzad.twisted_and_carved.client;
 
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
@@ -13,6 +14,7 @@ import net.farzad.twisted_and_carved.client.particle.custom.TwistedGlaiveSweepPa
 import net.farzad.twisted_and_carved.client.properties.TwistedScytheGrapplingProperty;
 import net.farzad.twisted_and_carved.client.render.TwistedGreataxeEntityRenderer;
 import net.farzad.twisted_and_carved.client.render.TwistedScytheEntityRenderer;
+import net.farzad.twisted_and_carved.client.render.hud.BloodBarHudRenderer;
 import net.farzad.twisted_and_carved.common.TwistedAndCarved;
 import net.farzad.twisted_and_carved.common.block.ModBlocks;
 import net.farzad.twisted_and_carved.common.block.entity.ModBlockEntities;
@@ -36,9 +38,14 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.ColorHelper;
 import org.joml.Matrix4f;
 
+import java.util.Objects;
+
 public class TwistedAndCarvedClient implements ClientModInitializer {
+    private final BloodBarHudRenderer bloodBarHudRenderer = new BloodBarHudRenderer();
+
     @Override
     public void onInitializeClient() {
         ParticleFactoryRegistry.getInstance().register(ModParticles.TWISTED_SWEEP_ATTACK, SweepAttackParticle.Factory::new);
@@ -55,25 +62,9 @@ public class TwistedAndCarvedClient implements ClientModInitializer {
         BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.TWISTED_SAPLING, RenderLayer.getCutout());
         BooleanProperties.ID_MAPPER.put(Identifier.of(TwistedAndCarved.MOD_ID,"twisted_scythe_grappling"),TwistedScytheGrapplingProperty.CODEC);
 
-        /*
-          TODO :
-           make this use hudlayerregistraition dipshit
-         */
-        HudRenderCallback.EVENT.register((drawContext, tickDeltaManager) -> {
-            Matrix4f transformationMatrix = drawContext.getMatrices().peek().getPositionMatrix();
-            Tessellator tessellator = Tessellator.getInstance();
-            MinecraftClient client = MinecraftClient.getInstance();
-
-            assert client.player != null;
-            ItemStack stack = getStack(client.player);
-
-
-            Identifier texture = Identifier.of(TwistedAndCarved.MOD_ID, "textures/gui/blood_bar_" + getBloodChargeOverlay(stack) + ".png");
-            if (stack.isOf(ModItems.TWISTED_FALCHION) && TwistedWeaponUtil.getAbilityID(stack) == "bleeding") {
-
-                drawContext.drawTexture(RenderLayer::getGuiTextured, texture, client.getWindow().getScaledWidth() / 2 + 120, client.getWindow().getScaledHeight() - 28, 0, 0, 64, 32, 64, 32);
-                drawContext.drawText(client.textRenderer,"%" + stack.getOrDefault(ModDataComponents.BLOOD_CHARGE,0).toString(),client.getWindow().getScaledWidth() / 2 + 130, client.getWindow().getScaledHeight() - 16,16777215,true);
-            }
+        HudRenderCallback.EVENT.register(bloodBarHudRenderer);
+        ClientTickEvents.END_CLIENT_TICK.register((client) -> {
+            this.bloodBarHudRenderer.tick();
         });
 
         ClientPlayNetworking.registerGlobalReceiver(GreataxeSoundLoopS2CPayload.ID, (payload, context) -> {
@@ -87,29 +78,4 @@ public class TwistedAndCarvedClient implements ClientModInitializer {
 
     }
 
-    private ItemStack getStack(PlayerEntity player) {
-        if (player.getOffHandStack().isOf(ModItems.TWISTED_FALCHION)) {
-            return player.getOffHandStack();
-        } else if (player.getMainHandStack().isOf(ModItems.TWISTED_FALCHION)) {
-            return player.getMainHandStack();
-        } else {
-            return player.getMainHandStack();
-        }
-
-    }
-
-    private int getBloodChargeOverlay(ItemStack stack) {
-        int comp = stack.getOrDefault(ModDataComponents.BLOOD_CHARGE, 0);
-        if (comp <= 25 && comp > 0) {
-            return 0;
-        } else if (comp <= 50 && comp > 25) {
-            return 1;
-        } else if (comp <= 75 && comp > 50) {
-            return 2;
-        } else if (comp <= 100 && comp > 75) {
-            return 3;
-        } else {
-            return 0;
-        }
-    }
 }

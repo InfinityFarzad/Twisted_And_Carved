@@ -27,6 +27,10 @@
         ]
       }
     ],
-    "property": "minecraft:display_context"
+    "property": "minecraft:display_context",
+    "fallback": {
+      "type": "minecraft:model",
+      "model": "twisted_and_carved:item/twisted_glaive_handheld"
+    }
   }
 }
