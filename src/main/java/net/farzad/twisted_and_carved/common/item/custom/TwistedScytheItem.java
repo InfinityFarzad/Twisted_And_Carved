@@ -7,6 +7,7 @@ import net.farzad.twisted_and_carved.common.TwistedAndCarved;
 import net.farzad.twisted_and_carved.common.component.ModDataComponents;
 import net.farzad.twisted_and_carved.common.component.TwistedSpiritComponent;
 import net.farzad.twisted_and_carved.common.entity.custom.TwistedScytheEntity;
+import net.farzad.twisted_and_carved.common.interfaces.CritInterface;
 import net.farzad.twisted_and_carved.common.util.ModTags;
 import net.farzad.twisted_and_carved.common.util.TwistedWeaponUtil;
 import net.minecraft.block.Block;
@@ -48,7 +49,7 @@ import java.util.Objects;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
-public class TwistedScytheItem extends TwistedToolItem {
+public class TwistedScytheItem extends TwistedToolItem implements CritInterface {
 
     protected static final Map<Block, Pair<Predicate<ItemUsageContext>, Consumer<ItemUsageContext>>> TILLING_ACTIONS;
 
@@ -194,23 +195,20 @@ public class TwistedScytheItem extends TwistedToolItem {
     }
 
     @Override
-    public void postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
+    public boolean canMine(ItemStack stack, BlockState state, World world, BlockPos pos, LivingEntity user) {
+        return super.canMine(stack,state,world,pos,user);
+    }
 
+    @Override
+    public void onCrit(LivingEntity attacker, LivingEntity target, ItemStack stack) {
         if (TwistedWeaponUtil.getAbilityID(stack).equals("grappling")) {
             target.setVelocity(0,0,0);
 
-            double f = target.getPos().distanceTo(attacker.getPos()) /  7.5;
+            double f = target.getPos().distanceTo(attacker.getPos()) /  4.5;
             Vec3d velocity = (new Vec3d(target.getX() - attacker.getX(), target.getY() - attacker.getY(), target.getZ() - attacker.getZ()).normalize().multiply(f * -1));
             target.addVelocity(velocity);
 
             target.velocityModified=true;
         }
-
-        super.postHit(stack, target, attacker);
-    }
-
-    @Override
-    public boolean canMine(ItemStack stack, BlockState state, World world, BlockPos pos, LivingEntity user) {
-        return super.canMine(stack,state,world,pos,user);
     }
 }

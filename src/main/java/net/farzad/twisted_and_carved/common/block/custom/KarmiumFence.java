@@ -25,7 +25,7 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-// IMPORTENT NOTE : CODE HERE WAS PROVIDED AND BASED ON THE CODE FOR THE RAILING BLOCK BY POWERCYPHE FOR MEDECOOLES MEDES DECOR MOD
+// IMPORTENT NOTE : CODE HERE WAS PROVIDED AND BASED ON THE CODE FOR THE RAILING BLOCK BY POWERCYPHE FOR MEDECOOLES MEDES DECOR MOD, THANK YOU SO MUCH TO HIM! GO CHECK HIM AND MEDECOOLE OUT! and download festive frenzy or i will be sad :(
 
 public class KarmiumFence extends Block {
     public static final BooleanProperty WATERLOGGED = Properties.WATERLOGGED;

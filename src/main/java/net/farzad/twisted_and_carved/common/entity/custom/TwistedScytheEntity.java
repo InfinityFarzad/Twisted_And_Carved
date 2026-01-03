@@ -6,6 +6,7 @@ import net.farzad.twisted_and_carved.common.component.ModDataComponents;
 import net.farzad.twisted_and_carved.common.entity.ModEntities;
 import net.farzad.twisted_and_carved.common.item.ModItems;
 import net.farzad.twisted_and_carved.common.networking.GreataxeSoundLoopS2CPayload;
+import net.farzad.twisted_and_carved.common.networking.ScytheSoundLoopS2CPayload;
 import net.farzad.twisted_and_carved.common.util.ModDamageTypes;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.*;
@@ -59,7 +60,7 @@ public class TwistedScytheEntity extends PersistentProjectileEntity {
         if (!this.isInGround() && !isPlayingSound) {
             if (!this.getWorld().isClient) {
 
-                GreataxeSoundLoopS2CPayload payload = new GreataxeSoundLoopS2CPayload(this.getId());
+                ScytheSoundLoopS2CPayload payload = new ScytheSoundLoopS2CPayload(this.getId());
                 for (ServerPlayerEntity player : PlayerLookup.around((ServerWorld) this.getWorld(), this.getBlockPos(), 20)) {
                     ServerPlayNetworking.send(player, payload);
                 }
@@ -71,7 +72,7 @@ public class TwistedScytheEntity extends PersistentProjectileEntity {
 
     private void pullOwner(Entity entity) {
         double finalVal = this.getY() > entity.getY() ? 0.005 : 1;
-        Vec3d velocity = (new Vec3d(this.getX() - entity.getX(), this.getY() - entity.getY(), this.getZ() - entity.getZ()).normalize().multiply(0.05));
+        Vec3d velocity = (new Vec3d((this.getX() - entity.getX()) / 12, (this.getY() - entity.getY()) / 24, (this.getZ() - entity.getZ()) / 12).normalize().multiply(0.05));
         entity.addVelocity(velocity.multiply(finalVal).normalize());
         entity.velocityModified = true;
     }
@@ -83,18 +84,6 @@ public class TwistedScytheEntity extends PersistentProjectileEntity {
         entity.addVelocity(velocity.multiply(finalVal).normalize());
         entity.velocityModified = true;
     }
-
-
-    /*
-     * TODO :
-     *  make the scythe return to the inventory when "shouldReturn" is true
-     * */
-
-
-    /*
-     * TODO
-     *  FARZAD FOR THE LOVE OF GOD FINISH THIS ALREADY YOU GODDAMN
-     */
 
     public void tick() {
 
@@ -148,6 +137,7 @@ public class TwistedScytheEntity extends PersistentProjectileEntity {
             this.move(MovementType.SELF, this.getVelocity());
             ++this.returnTimer;
         }
+        playSound();
         super.tick();
     }
 

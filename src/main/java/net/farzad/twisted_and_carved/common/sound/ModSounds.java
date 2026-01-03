@@ -14,6 +14,7 @@ public class ModSounds {
     public static final SoundEvent TWISTED_GLAIVE_SWEEP = registerSound("twisted_glaive_sweep");
     public static final SoundEvent PARRY = registerSound("parry");
     public static final SoundEvent GREATAXE_FLYING_SOUND = registerSound("greataxe_flying_sound");
+    public static final SoundEvent SCYTHE_FLYING_SOUND = registerSound("scythe_flying_sound");
 
     private static SoundEvent registerSound(String id) {
         Identifier identifier = Identifier.of(TwistedAndCarved.MOD_ID, id);

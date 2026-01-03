@@ -17,31 +17,22 @@ import net.farzad.twisted_and_carved.client.render.TwistedScytheEntityRenderer;
 import net.farzad.twisted_and_carved.client.render.hud.BloodBarHudRenderer;
 import net.farzad.twisted_and_carved.common.TwistedAndCarved;
 import net.farzad.twisted_and_carved.common.block.ModBlocks;
-import net.farzad.twisted_and_carved.common.block.entity.ModBlockEntities;
-import net.farzad.twisted_and_carved.common.component.ModDataComponents;
 import net.farzad.twisted_and_carved.common.entity.ModEntities;
 import net.farzad.twisted_and_carved.common.entity.custom.TwistedGreataxeEntity;
-import net.farzad.twisted_and_carved.common.item.ModItems;
+import net.farzad.twisted_and_carved.common.entity.custom.TwistedScytheEntity;
 import net.farzad.twisted_and_carved.common.networking.GreataxeSoundLoopS2CPayload;
-import net.farzad.twisted_and_carved.common.sound.GreataxeSoundInstance;
-import net.farzad.twisted_and_carved.common.util.TwistedWeaponUtil;
+import net.farzad.twisted_and_carved.common.networking.ScytheSoundLoopS2CPayload;
+import net.farzad.twisted_and_carved.common.sound.WeaponEntitySoundInstance;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.particle.LeavesParticle;
 import net.minecraft.client.particle.SweepAttackParticle;
 import net.minecraft.client.render.RenderLayer;
-import net.minecraft.client.render.RenderTickCounter;
-import net.minecraft.client.render.Tessellator;
-import net.minecraft.client.render.block.entity.BlockEntityRendererFactories;
 import net.minecraft.client.render.item.property.bool.BooleanProperties;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
 import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvent;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.math.ColorHelper;
-import org.joml.Matrix4f;
-
-import java.util.Objects;
+import net.minecraft.util.math.MathHelper;
 
 public class TwistedAndCarvedClient implements ClientModInitializer {
     private final BloodBarHudRenderer bloodBarHudRenderer = new BloodBarHudRenderer();
@@ -70,10 +61,17 @@ public class TwistedAndCarvedClient implements ClientModInitializer {
         ClientPlayNetworking.registerGlobalReceiver(GreataxeSoundLoopS2CPayload.ID, (payload, context) -> {
             TwistedGreataxeEntity twistedGreataxe = (TwistedGreataxeEntity) context.player().getWorld().getEntityById(payload.entityID());
             if (twistedGreataxe != null && !twistedGreataxe.isRemoved()) {
-                GreataxeSoundInstance instance = new GreataxeSoundInstance(twistedGreataxe, SoundCategory.AMBIENT);
+                WeaponEntitySoundInstance instance = new WeaponEntitySoundInstance(SoundEvents.ITEM_ELYTRA_FLYING,twistedGreataxe, SoundCategory.AMBIENT);
                 context.client().getSoundManager().play(instance);
             }
+        });
 
+        ClientPlayNetworking.registerGlobalReceiver(ScytheSoundLoopS2CPayload.ID, (payload, context) -> {
+            TwistedScytheEntity twistedScytheEntity = (TwistedScytheEntity) context.player().getWorld().getEntityById(payload.entityID());
+            if (twistedScytheEntity != null && !twistedScytheEntity.isRemoved()) {
+                WeaponEntitySoundInstance instance = new WeaponEntitySoundInstance(SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP,twistedScytheEntity, SoundCategory.AMBIENT);
+                context.client().getSoundManager().play(instance);
+            }
         });
 
     }

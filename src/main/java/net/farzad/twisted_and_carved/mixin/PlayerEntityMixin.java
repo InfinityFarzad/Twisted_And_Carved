@@ -2,8 +2,10 @@ package net.farzad.twisted_and_carved.mixin;
 
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
+import com.llamalad7.mixinextras.sugar.Local;
 import net.farzad.twisted_and_carved.client.particle.ModParticles;
 import net.farzad.twisted_and_carved.common.entity.custom.TwistedGreataxeEntity;
+import net.farzad.twisted_and_carved.common.interfaces.CritInterface;
 import net.farzad.twisted_and_carved.common.item.ModItems;
 import net.farzad.twisted_and_carved.common.sound.ModSounds;
 import net.farzad.twisted_and_carved.common.util.ModTags;
@@ -77,6 +79,15 @@ public abstract class PlayerEntityMixin extends LivingEntity {
             info.cancel();
         }
     }
+
+    @Inject(method = "attack", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/PlayerEntity;addCritParticles(Lnet/minecraft/entity/Entity;)V"))
+    private void twisted_and_carved$applyCritEffect(Entity target, CallbackInfo ci) {
+        PlayerEntity player = (PlayerEntity) (Object)this;
+        if (player.getMainHandStack().getItem() instanceof CritInterface crit) {
+            crit.onCrit(player,(LivingEntity) target,player.getMainHandStack());
+        }
+    }
+
 
     @Inject(method = "attack", at = @At("HEAD"))
     private void twisted_and_carved$drawParryScreen(Entity target, CallbackInfo ci) {
