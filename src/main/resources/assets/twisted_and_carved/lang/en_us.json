@@ -66,5 +66,6 @@
   "block.twisted_and_carved.twisted_leaves": "Twisted Leaves",
   "block.twisted_and_carved.karmium_block": "Karmium Block",
   "sound.twisted_and_carved.twisted_glaive_sweep": "Twisted Glaive Sweep",
-  "sound.twisted_and_carved.parry": "Parry"
+  "sound.twisted_and_carved.parry": "Parry",
+  "massage.twisted_and_carved.harvest_nono": "there are no crops near by"
 }

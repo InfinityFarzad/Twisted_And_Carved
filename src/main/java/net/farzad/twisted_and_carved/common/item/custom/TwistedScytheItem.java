@@ -8,11 +8,13 @@ import net.farzad.twisted_and_carved.common.component.ModDataComponents;
 import net.farzad.twisted_and_carved.common.component.TwistedSpiritComponent;
 import net.farzad.twisted_and_carved.common.entity.custom.TwistedScytheEntity;
 import net.farzad.twisted_and_carved.common.interfaces.CritInterface;
+import net.farzad.twisted_and_carved.common.sound.ModSounds;
 import net.farzad.twisted_and_carved.common.util.ModTags;
 import net.farzad.twisted_and_carved.common.util.TwistedWeaponUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.AttributeModifierSlot;
 import net.minecraft.component.type.AttributeModifiersComponent;
@@ -34,7 +36,9 @@ import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
@@ -43,6 +47,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -95,21 +100,30 @@ public class TwistedScytheItem extends TwistedToolItem implements CritInterface 
     }
 
     private static void clearField(int range, World world, PlayerEntity user, Hand hand) {
+        List<BlockPos> blocks = new ArrayList<>();
         for (int x = -range; x <= range; x++) {
             for (int z = -range; z <= range; z++) {
                 for (int y = -range; y <= range; y++) {
                     BlockPos pos = new BlockPos((int) user.getX() + x, (int) user.getY() + y, (int) user.getZ() + z);
                     if (world.getBlockState(pos).getBlock().getDefaultState().isIn(BlockTags.CROPS)) {
                         world.playSound(null, user.getX(), user.getY(), user.getZ(), SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP, user.getSoundCategory(), 1.0F, 1.0F);
-
                         world.breakBlock(pos, true);
                         user.swingHand(hand);
                         user.getItemCooldownManager().set(user.getStackInHand(hand), 20 * 5);
+                        blocks.add(pos);
                     }
 
                 }
             }
         }
+
+        if (blocks.isEmpty()) {
+            user.sendMessage(Text.translatable("massage.twisted_and_carved.harvest_nono").formatted(Formatting.DARK_RED),true);
+            user.playSound(SoundEvents.ENTITY_ITEM_BREAK.value(),1,MathHelper.nextBetween(user.getRandom(),-1,1));
+        } else {
+            user.spawnSweepAttackParticles();
+        }
+
     }
 
     @Override
@@ -122,7 +136,7 @@ public class TwistedScytheItem extends TwistedToolItem implements CritInterface 
         if (TwistedWeaponUtil.getAbilityID(stack).equals("grappling")) {
             return UseAction.SPEAR;
         } else {
-            return UseAction.NONE;
+            return super.getUseAction(stack);
         }
     }
 
@@ -145,15 +159,21 @@ public class TwistedScytheItem extends TwistedToolItem implements CritInterface 
         } else {
             return false;
         }
+
     }
 
     public ActionResult use(World world, PlayerEntity user, Hand hand) {
         ItemStack itemStack = user.getStackInHand(hand);
+/*
         if (Objects.equals(TwistedWeaponUtil.getAbilityID(itemStack), "harvest") || Objects.equals(TwistedWeaponUtil.getAbilityID(itemStack), "grappling")) {
             user.setCurrentHand(hand);
-            if (Objects.equals(TwistedWeaponUtil.getAbilityID(itemStack), "harvest") && user.isSneaking()) {
-                clearField(5,world,user,hand);
-                return ActionResult.PASS;
+            if (Objects.equals(TwistedWeaponUtil.getAbilityID(itemStack), "harvest")) {
+                if (user.isSneaking()) {
+                    clearField(5,world,user,hand);
+                    return ActionResult.CONSUME;
+                } else {
+                    return ActionResult.FAIL;
+                }
             } else {
                 return Objects.equals(TwistedWeaponUtil.getAbilityID(itemStack), "grappling") ? ActionResult.CONSUME : ActionResult.FAIL;
             }
@@ -161,7 +181,19 @@ public class TwistedScytheItem extends TwistedToolItem implements CritInterface 
         } else {
             return ActionResult.FAIL;
         }
-
+*/
+        String ability = TwistedWeaponUtil.getAbilityID(itemStack);
+        if (!ability.equals("grappling") && !ability.equals("harvest")) {
+            return ActionResult.FAIL;
+        } else if (ability.equals("harvest") && !user.isSneaking()) {
+            return ActionResult.FAIL;
+        } else {
+            if (ability.equals("harvest")) {
+                clearField(5,world,user,hand);
+                user.getItemCooldownManager().set(itemStack,20);
+            }
+            return ActionResult.CONSUME;
+        }
     }
 
     public ActionResult useOnBlock(ItemUsageContext context) {
