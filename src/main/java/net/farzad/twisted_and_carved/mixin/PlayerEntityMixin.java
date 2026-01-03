@@ -92,9 +92,6 @@ public abstract class PlayerEntityMixin extends LivingEntity {
     @Inject(method = "attack", at = @At("HEAD"))
     private void twisted_and_carved$drawParryScreen(Entity target, CallbackInfo ci) {
         if (target instanceof TwistedGreataxeEntity twistedGreataxe) {
-            if (twistedGreataxe.getOwner() == null) {
-                twistedGreataxe.setOwner(this);
-            }
             twistedGreataxe.applyParryKnockback(500000, this.getX() - twistedGreataxe.getX(), this.getZ() - twistedGreataxe.getZ());
             if (twistedGreataxe.getOwner().getWorld() instanceof ServerWorld serverWorld) {
                 PlayerEntity owner = (PlayerEntity) twistedGreataxe.getOwner();

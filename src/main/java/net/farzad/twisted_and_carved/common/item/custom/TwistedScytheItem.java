@@ -119,7 +119,7 @@ public class TwistedScytheItem extends TwistedToolItem implements CritInterface 
 
         if (blocks.isEmpty()) {
             user.sendMessage(Text.translatable("massage.twisted_and_carved.harvest_nono").formatted(Formatting.DARK_RED),true);
-            user.playSound(SoundEvents.ENTITY_ITEM_BREAK.value(),1,MathHelper.nextBetween(user.getRandom(),-1,1));
+            user.playSoundToPlayer(SoundEvents.ENTITY_ITEM_BREAK.value(),user.getSoundCategory(),1,MathHelper.nextBetween(user.getRandom(),0.5f,0.7f));
         } else {
             user.spawnSweepAttackParticles();
         }
@@ -133,13 +133,10 @@ public class TwistedScytheItem extends TwistedToolItem implements CritInterface 
 
     @Override
     public UseAction getUseAction(ItemStack stack) {
-        if (TwistedWeaponUtil.getAbilityID(stack).equals("grappling")) {
-            return UseAction.SPEAR;
-        } else {
-            return super.getUseAction(stack);
-        }
+return UseAction.SPEAR;
     }
 
+    @Override
     public boolean onStoppedUsing(ItemStack stack, World world, LivingEntity user, int remainingUseTicks) {
         int useTime = this.getMaxUseTime(stack, user) - remainingUseTicks;
         if (user instanceof PlayerEntity) {
@@ -159,40 +156,25 @@ public class TwistedScytheItem extends TwistedToolItem implements CritInterface 
         } else {
             return false;
         }
-
     }
 
     public ActionResult use(World world, PlayerEntity user, Hand hand) {
         ItemStack itemStack = user.getStackInHand(hand);
-/*
-        if (Objects.equals(TwistedWeaponUtil.getAbilityID(itemStack), "harvest") || Objects.equals(TwistedWeaponUtil.getAbilityID(itemStack), "grappling")) {
-            user.setCurrentHand(hand);
-            if (Objects.equals(TwistedWeaponUtil.getAbilityID(itemStack), "harvest")) {
-                if (user.isSneaking()) {
-                    clearField(5,world,user,hand);
-                    return ActionResult.CONSUME;
-                } else {
-                    return ActionResult.FAIL;
-                }
-            } else {
-                return Objects.equals(TwistedWeaponUtil.getAbilityID(itemStack), "grappling") ? ActionResult.CONSUME : ActionResult.FAIL;
-            }
+        String ability = TwistedWeaponUtil.getAbilityID(itemStack);
 
-        } else {
+        if (ability.equals(TwistedSpiritComponent.EMPTY.type())) {
             return ActionResult.FAIL;
         }
-*/
-        String ability = TwistedWeaponUtil.getAbilityID(itemStack);
-        if (!ability.equals("grappling") && !ability.equals("harvest")) {
-            return ActionResult.FAIL;
-        } else if (ability.equals("harvest") && !user.isSneaking()) {
+        else if (ability.equals("harvest") && !user.isSneaking()) {
             return ActionResult.FAIL;
         } else {
             if (ability.equals("harvest")) {
                 clearField(5,world,user,hand);
                 user.getItemCooldownManager().set(itemStack,20);
             }
+            user.setCurrentHand(hand);
             return ActionResult.CONSUME;
+
         }
     }
 
@@ -236,7 +218,7 @@ public class TwistedScytheItem extends TwistedToolItem implements CritInterface 
         if (TwistedWeaponUtil.getAbilityID(stack).equals("grappling")) {
             target.setVelocity(0,0,0);
 
-            double f = target.getPos().distanceTo(attacker.getPos()) /  4.5;
+            double f = (target.getPos().distanceTo(attacker.getPos()) / (target.getBoundingBox().getLengthX() * target.getBoundingBox().getLengthY())) / 5.5;
             Vec3d velocity = (new Vec3d(target.getX() - attacker.getX(), target.getY() - attacker.getY(), target.getZ() - attacker.getZ()).normalize().multiply(f * -1));
             target.addVelocity(velocity);
 

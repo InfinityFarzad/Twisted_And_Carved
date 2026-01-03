@@ -86,12 +86,11 @@ public class TwistedGreataxeEntity extends PersistentProjectileEntity {
     }
 
     public void tick() {
-
         if (this.inGroundTime > 4) {
             this.dealtDamage = true;
         }
 
-        if (this.getPos().distanceTo(getOwner().getPos()) >= 25 && !dealtDamage){
+        if (getOwner() != null && this.getPos().distanceTo(getOwner().getPos()) >= 25 && !dealtDamage){
             this.dealtDamage = true;
             this.playSound(SoundEvents.ITEM_TRIDENT_RETURN, 1.0F, 1.0F);
             this.setVelocity(Vec3d.ZERO);
@@ -175,6 +174,10 @@ public class TwistedGreataxeEntity extends PersistentProjectileEntity {
     @Override
     protected void onHit(LivingEntity target) {
         super.onHit(target);
+    }
+
+    public boolean deflect(ProjectileDeflection deflection, @Nullable Entity deflector, @Nullable Entity owner, boolean fromAttack) {
+        return false;
     }
 
     protected void onEntityHit(EntityHitResult entityHitResult) {

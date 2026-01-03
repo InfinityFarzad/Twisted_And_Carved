@@ -7,6 +7,7 @@ import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.util.math.MathHelper;
 
 public class WeaponEntitySoundInstance extends MovingSoundInstance {
     private final ProjectileEntity entity;
@@ -14,7 +15,7 @@ public class WeaponEntitySoundInstance extends MovingSoundInstance {
     public WeaponEntitySoundInstance(SoundEvent soundEvent, ProjectileEntity entity, SoundCategory soundCategory) {
         super(soundEvent, soundCategory, SoundInstance.createRandom());
         this.volume = (float) (2f / entity.getPos().distanceTo(entity.getOwner().getPos()));
-        this.pitch = 1.0f + random.nextBetween(-2, 2);
+        this.pitch = MathHelper.nextBetween(random,0.5f,0.7f);
         this.repeat = true;
         this.setPositionToEntity();
         this.entity = entity;

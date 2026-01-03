@@ -25,16 +25,18 @@ public class BloodBarHudRenderer implements HudRenderCallback {
 
     private int currentVal;
     private int oldVal;
-    private int opacity = 0;
+    private int opacity = 3;
     private int x_offset = 0;
     private int y_offset = 0;
 
     public void tick() {
         currentVal = MinecraftClient.getInstance().player != null ? MinecraftClient.getInstance().player.getMainHandStack().getOrDefault(ModDataComponents.BLOOD_CHARGE,0) : 0;
         if (MinecraftClient.getInstance().player != null && !getStack(MinecraftClient.getInstance().player).contains(ModDataComponents.BLOOD_CHARGE)) {
-            this.opacity = 0;
+            this.opacity = 3;
             this.oldVal = 0;
             this.currentVal = 0;
+            x_offset = 0;
+            y_offset = 0;
         }
         if (currentVal != oldVal || currentVal == 100) {
             oldVal = currentVal;
@@ -42,19 +44,14 @@ public class BloodBarHudRenderer implements HudRenderCallback {
         }
         if (opacity >= 3 && currentVal != 100) {
             opacity -= 1;
-            TwistedAndCarved.LOGGER.info(Integer.toString(opacity));
         }
 
         if (currentVal >= 100) {
-            y_offset = MathHelper.nextBetween(MinecraftClient.getInstance().player.getRandom(), -2,2);
-            x_offset = MathHelper.nextBetween(MinecraftClient.getInstance().player.getRandom(), -2,2);
+            y_offset = MathHelper.nextBetween(MinecraftClient.getInstance().player.getRandom(), -1,1);
+            x_offset = MathHelper.nextBetween(MinecraftClient.getInstance().player.getRandom(), -1,1);
         } else {
             x_offset = 0;
             y_offset = 0;
-        }
-
-        if (opacity != 0) {
-            //TwistedAndCarved.LOGGER.info("SHIT" + Integer.toString(opacity));
         }
 
     }

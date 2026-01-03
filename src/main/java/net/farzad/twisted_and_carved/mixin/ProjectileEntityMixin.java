@@ -12,24 +12,21 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(ProjectileEntity.class)
 public class ProjectileEntityMixin {
 
-    @Inject(method = "deflect", at = @At("TAIL"))
+    @Inject(method = "deflect", at = @At("HEAD"), cancellable = true)
     private void twistedAndCarved$cancelProjectileOwnership(ProjectileDeflection deflection, Entity deflector, Entity owner, boolean fromAttack, CallbackInfoReturnable<Boolean> cir) {
         ProjectileEntity proj = (ProjectileEntity) (Object) this;
 
         if (proj instanceof TwistedGreataxeEntity twistedGreataxe) {
-            twistedGreataxe.setOwner(owner);
+            twistedGreataxe.setOwner(twistedGreataxe.getOwner());
+            cir.setReturnValue(false);
         }
     }
 
-    @Inject(method = "canHit()Z", at = @At("HEAD"), cancellable = true)
-    private void twistedAndCarved$canParry(CallbackInfoReturnable<Boolean> cir) {
-        ProjectileEntity proj = (ProjectileEntity) (Object) this;
-        if (proj instanceof TwistedGreataxeEntity && proj.getOwner() != null) {
-            if (proj.getPos().distanceTo(proj.getOwner().getPos()) <= 6) {
-                cir.setReturnValue(true);
-            } else {
-                cir.setReturnValue(false);
-            }
+    @Inject(method = "shouldLeaveOwner",at = @At("HEAD"), cancellable = true)
+    private void twisted_and_carved$ihatemojang(CallbackInfoReturnable<Boolean> cir) {
+        ProjectileEntity projectile = (ProjectileEntity) (Object)this;
+        if (projectile instanceof TwistedGreataxeEntity) {
+            cir.setReturnValue(false);
         }
     }
 
