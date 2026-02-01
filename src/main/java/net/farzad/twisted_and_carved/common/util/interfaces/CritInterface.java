@@ -1,7 +1,6 @@
-package net.farzad.twisted_and_carved.common.interfaces;
+package net.farzad.twisted_and_carved.common.util.interfaces;
 
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 
 public interface CritInterface {

@@ -102,10 +102,12 @@ public class TwistedGreataxeEntity extends PersistentProjectileEntity {
         }
 
         if (this.getOwner() != null) {
-            if (distanceTo(this.getOwner()) > 25) {
+            if (distanceTo(this.getOwner()) > 25 || (this.getVelocity().x < 0 && this.getVelocity().y < 0 && this.getVelocity().z < 0)) {
                 this.dealtDamage = true;
             }
             this.getOwner().fallDistance = 0;
+            double distance = this.getPos().distanceTo(this.getOwner().getPos()) / 5;
+            //this.setVelocity(this.getVelocity().x / distance,this.getVelocity().y / distance, this.getVelocity().z / distance );
         }
         Entity entity = this.getOwner();
         if ((this.dealtDamage || this.isNoClip()) && entity != null) {
@@ -125,10 +127,13 @@ public class TwistedGreataxeEntity extends PersistentProjectileEntity {
                 }
 
                 this.setNoClip(true);
-                Vec3d target = entity != null ? entity.getPos() : targetPos;
+                Vec3d target = entity != null ? new Vec3d(entity.getX(),entity.getY() + 0.8,entity.getZ()) : targetPos;
                 if (target != null) {
                     Vec3d direction = target.subtract(this.getPos()).normalize();
+                    double distance = this.getPos().distanceTo(this.getOwner().getPos()) / 5;
+
                     this.setVelocity(direction.multiply(0.55));
+                    //this.setVelocity(this.getVelocity().x / distance,this.getVelocity().y / distance, this.getVelocity().z / distance);
                 }
                 if (this.returnTimer == 0) {
                     this.playSound(SoundEvents.ITEM_TRIDENT_RETURN, 1.0F, 1.0F);
@@ -153,16 +158,9 @@ public class TwistedGreataxeEntity extends PersistentProjectileEntity {
 
     public void applyParryKnockback(double strength, double x, double z) {
         strength *= 1.0;
-        if (!(strength <= 0.0)) {
+        if (!(strength <= 0.0) && this.getOwner() != null) {
             this.velocityDirty = true;
-
-            Vec3d vec3d;
-            for (vec3d = this.getVelocity(); x * x + z * z < 9.999999747378752E-6; z = (Math.random() - Math.random()) * 0.01) {
-                x = (Math.random() - Math.random()) * 0.01;
-            }
-
-            Vec3d vec3d2 = (new Vec3d(x, 0.0, z)).normalize().multiply(strength);
-            this.setVelocity(vec3d.x / 2.0 - vec3d2.x, this.isOnGround() ? Math.min(0.4, vec3d.y / 2.0 + strength) : vec3d.y, vec3d.z / 2.0 - vec3d2.z);
+            this.setVelocity(this.getOwner().getRotationVector().multiply(2));
         }
     }
 

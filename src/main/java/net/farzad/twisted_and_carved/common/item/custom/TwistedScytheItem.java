@@ -7,14 +7,12 @@ import net.farzad.twisted_and_carved.common.TwistedAndCarved;
 import net.farzad.twisted_and_carved.common.component.ModDataComponents;
 import net.farzad.twisted_and_carved.common.component.TwistedSpiritComponent;
 import net.farzad.twisted_and_carved.common.entity.custom.TwistedScytheEntity;
-import net.farzad.twisted_and_carved.common.interfaces.CritInterface;
-import net.farzad.twisted_and_carved.common.sound.ModSounds;
+import net.farzad.twisted_and_carved.common.util.interfaces.CritInterface;
 import net.farzad.twisted_and_carved.common.util.ModTags;
 import net.farzad.twisted_and_carved.common.util.TwistedWeaponUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.AttributeModifierSlot;
 import net.minecraft.component.type.AttributeModifiersComponent;
@@ -23,7 +21,6 @@ import net.minecraft.component.type.WeaponComponent;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
-import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.item.*;
@@ -171,10 +168,11 @@ return UseAction.SPEAR;
             if (ability.equals("harvest")) {
                 clearField(5,world,user,hand);
                 user.getItemCooldownManager().set(itemStack,20);
+                return ActionResult.CONSUME;
+            } else {
+                user.setCurrentHand(hand);
+                return ActionResult.CONSUME;
             }
-            user.setCurrentHand(hand);
-            return ActionResult.CONSUME;
-
         }
     }
 

@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(ProjectileEntity.class)
 public class ProjectileEntityMixin {
 
-    @Inject(method = "deflect", at = @At("HEAD"), cancellable = true)
+/*    @Inject(method = "deflect", at = @At("HEAD"), cancellable = true)
     private void twistedAndCarved$cancelProjectileOwnership(ProjectileDeflection deflection, Entity deflector, Entity owner, boolean fromAttack, CallbackInfoReturnable<Boolean> cir) {
         ProjectileEntity proj = (ProjectileEntity) (Object) this;
 
@@ -20,7 +20,7 @@ public class ProjectileEntityMixin {
             twistedGreataxe.setOwner(twistedGreataxe.getOwner());
             cir.setReturnValue(false);
         }
-    }
+    }*/
 
     @Inject(method = "shouldLeaveOwner",at = @At("HEAD"), cancellable = true)
     private void twisted_and_carved$ihatemojang(CallbackInfoReturnable<Boolean> cir) {

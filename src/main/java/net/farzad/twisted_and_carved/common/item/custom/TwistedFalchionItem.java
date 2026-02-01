@@ -101,7 +101,7 @@ public class TwistedFalchionItem extends TwistedToolItem {
                 serverWorld.spawnParticles(new FalchionSlashEffect(user.getYaw()), user.getX(), user.getY() + 0.5, user.getZ(), 1, 0, 0, 0, 1);
                 serverWorld.playSound(null, user.getX(), user.getY(), user.getZ(), SoundEvents.BLOCK_MUD_HIT, user.getSoundCategory(), 2.0F, MathHelper.nextBetween(user.getRandom(),3.8f,3.5f));
                 serverWorld.playSound(null, user.getX(), user.getY(), user.getZ(), SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP, user.getSoundCategory(), 2.0F, MathHelper.nextBetween(user.getRandom(),0.5f,0.7f));
-                serverWorld.playSound(null, user.getX(), user.getY(), user.getZ(), ModSounds.SCYTHE_SWEEP_0, user.getSoundCategory(), 1.0F, MathHelper.nextBetween(user.getRandom(),0.5f,0.7f));
+                serverWorld.playSound(null, user.getX(), user.getY(), user.getZ(), ModSounds.SCYTHE_SWEEP_0, user.getSoundCategory(), 1.0F, MathHelper.nextBetween(user.getRandom(),0.7f,1f));
             }
             user.getItemCooldownManager().set(stack,20 * 2);
             createSlashDamage(world,user);

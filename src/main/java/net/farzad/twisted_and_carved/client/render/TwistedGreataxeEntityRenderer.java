@@ -34,11 +34,8 @@ public class TwistedGreataxeEntityRenderer extends EntityRenderer<TwistedGreatax
         matrixStack.push();
         matrixStack.scale(this.scale, this.scale, this.scale);
         matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(itemEntityRenderState.entity.getLerpedYaw(itemEntityRenderState.tickDelta)));
-        if (!itemEntityRenderState.entity.dealtDamage) {
-            matrixStack.multiply(new Quaternionf().rotateX((float) Math.toRadians((itemEntityRenderState.entity.getWorld().getTime() + itemEntityRenderState.tickDelta) * 120)));
-        } else {
-            matrixStack.multiply(new Quaternionf().rotateX((float) Math.toRadians((itemEntityRenderState.entity.getWorld().getTime() + itemEntityRenderState.tickDelta) * 5)));
-        }
+        matrixStack.multiply(new Quaternionf().rotateX((float) Math.toRadians(((itemEntityRenderState.entity.getWorld().getTime() + itemEntityRenderState.tickDelta)) * 120 * itemEntityRenderState.entity.getVelocity().length())));
+
         itemEntityRenderState.itemRenderState.render(matrixStack, vertexConsumerProvider, i, OverlayTexture.DEFAULT_UV);
         matrixStack.pop();
         super.render(itemEntityRenderState, matrixStack, vertexConsumerProvider, i);
