@@ -28,6 +28,8 @@ import net.minecraft.registry.entry.RegistryEntryList;
 import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.registry.tag.TagKey;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.sound.SoundEvent;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
@@ -135,6 +137,9 @@ public class TwistedGreataxeItem extends TwistedToolItem {
         if (user instanceof PlayerEntity player) {
             if (Objects.equals(TwistedWeaponUtil.getAbilityID(stack), "stride")) {
                 applyDashMovement(player, stack);
+                //player.playSound(SoundEvents.ITEM_TRIDENT_RIPTIDE_2.value(),1f,MathHelper.nextBetween(player.getRandom(),0.6f,0.7f));
+                player.playSoundToPlayer(SoundEvents.BLOCK_AZALEA_LEAVES_BREAK,player.getSoundCategory(),1f,MathHelper.nextBetween(player.getRandom(),1f,2f));
+
                 setCharge(stack, getCharge(stack) - (maxCharge / 2));
                 return true;
 

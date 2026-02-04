@@ -162,17 +162,24 @@ return UseAction.SPEAR;
         if (ability.equals(TwistedSpiritComponent.EMPTY.type())) {
             return ActionResult.FAIL;
         }
-        else if (ability.equals("harvest") && !user.isSneaking()) {
-            return ActionResult.FAIL;
-        } else {
-            if (ability.equals("harvest")) {
+        else if (ability.equals("harvest")) {
+            if (!user.isSneaking()) {
+                return ActionResult.FAIL;
+            } else {
                 clearField(5,world,user,hand);
                 user.getItemCooldownManager().set(itemStack,20);
                 return ActionResult.CONSUME;
-            } else {
+            }
+
+        } else {
+            if (ability.equals("grappling")) {
                 user.setCurrentHand(hand);
                 return ActionResult.CONSUME;
             }
+            else {
+                return ActionResult.FAIL;
+            }
+
         }
     }
 

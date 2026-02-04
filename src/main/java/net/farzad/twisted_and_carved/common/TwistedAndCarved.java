@@ -126,13 +126,13 @@ public class TwistedAndCarved implements ModInitializer, TerraBlenderApi {
             } else if (itemStack.isOf(ModItems.TWISTED_SCYTHE)) {
                 if (Screen.hasShiftDown()) {
 
-                    list.add(Text.translatable(
+                    list.add(1,Text.translatable(
                             "tooltip.twisted_and_carved.twisted_greataxe_info"
                     ).formatted(Formatting.DARK_GRAY));
                     if (TwistedWeaponUtil.getAbilityID(itemStack) == "harvest") {
                         list.add(Text.translatable(
                                 "tooltip.twisted_and_carved.twisted_harvest",
-                                Text.literal("RightClick").formatted(Formatting.GOLD)
+                                Text.literal("Right Click + Shift").formatted(Formatting.GOLD)
                         ).formatted(Formatting.DARK_GRAY));
                     }
 

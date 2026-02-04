@@ -4,6 +4,6 @@ import net.minecraft.item.Item;
 
 public class TwistedSpiritItem extends Item {
     public TwistedSpiritItem(Settings settings) {
-        super(settings);
+        super(settings.maxCount(1));
     }
 }
