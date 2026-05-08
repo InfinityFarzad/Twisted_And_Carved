@@ -75,7 +75,7 @@ public class ModItems {
 
     public static final Item TWISTED_GREATAXE = register("twisted_greataxe", (settings) -> new TwistedGreataxeItem(9f, -3.0f, 0.1, settings
             .maxCount(1)
-            .rarity(Rarity.UNCOMMON).useCooldown(8)
+            .rarity(Rarity.UNCOMMON)
             .component(ModDataComponents.STRIDE_CHARGE, 0)
             .component(ModDataComponents.TWISTED_SPIRIT, ItemStack.EMPTY)
             .component(DataComponentTypes.TOOLTIP_STYLE, Identifier.ofVanilla("twisted"))
@@ -84,7 +84,7 @@ public class ModItems {
     public static final Item TWISTED_GLAIVE =
             register("twisted_glaive", TwistedGlaiveItem::new, new Item.Settings()
                     .attributeModifiers(TwistedGlaiveItem.createAttributeModifiers(7, -2.8f, 0.3))
-                    .rarity(Rarity.UNCOMMON).useCooldown(4)
+                    .rarity(Rarity.UNCOMMON)
                     .maxCount(1)
                     .component(DataComponentTypes.TOOLTIP_STYLE, Identifier.ofVanilla("twisted"))
                     .component(ModDataComponents.TWISTED_SPIRIT, ItemStack.EMPTY)
@@ -108,8 +108,7 @@ public class ModItems {
             .component(ModDataComponents.TWISTED_SCYTHE_GRAPPLING, false)
             .component(ModDataComponents.TWISTED_SPIRIT, ItemStack.EMPTY)
             .rarity(Rarity.UNCOMMON)
-            .maxCount(1)
-            .useCooldown(5));
+            .maxCount(1));
 
 
 
