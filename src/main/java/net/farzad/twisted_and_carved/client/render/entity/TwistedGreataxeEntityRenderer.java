@@ -1,4 +1,4 @@
-package net.farzad.twisted_and_carved.client.render;
+package net.farzad.twisted_and_carved.client.render.entity;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;

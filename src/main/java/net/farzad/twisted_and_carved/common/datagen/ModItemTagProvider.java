@@ -34,6 +34,10 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
                 .add(ModBlocks.TWISTED_SAPLING.asItem());
 
         getOrCreateTagBuilder(ItemTags.LEAVES).add(ModBlocks.TWISTED_LEAVES.asItem());
+        getOrCreateTagBuilder(ModTags.Items.KARMIUM)
+                .add(ModItems.KARMIUM_INGOT)
+                .add(ModItems.RAW_KARMIUM)
+                .add(ModItems.KARMIUM_BLOCK);
 
         getOrCreateTagBuilder(ItemTags.WOODEN_STAIRS).add(ModBlocks.TWISTED_STAIRS.asItem());
         getOrCreateTagBuilder(ItemTags.WOODEN_SLABS).add(ModBlocks.TWISTED_SLAB.asItem());

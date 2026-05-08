@@ -1,19 +1,19 @@
-package net.farzad.twisted_and_carved.client.render;
+package net.farzad.twisted_and_carved.client.render.entity;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.farzad.twisted_and_carved.common.entity.custom.TwistedGreataxeEntity;
+import net.farzad.twisted_and_carved.common.entity.custom.TwistedScytheEntity;
 import net.minecraft.client.render.entity.state.EntityRenderState;
 import net.minecraft.client.render.item.ItemRenderState;
 import net.minecraft.item.ItemStack;
 
 @Environment(EnvType.CLIENT)
-public class TwistedGreataxeEntityRenderstate extends EntityRenderState {
+public class TwistedScytheEntityRenderstate extends EntityRenderState {
     public ItemStack stack;
     public float tickDelta;
-    public TwistedGreataxeEntity entity;
+    public TwistedScytheEntity entity;
     public ItemRenderState itemRenderState = new ItemRenderState();
 
-    public TwistedGreataxeEntityRenderstate() {
+    public TwistedScytheEntityRenderstate() {
     }
 }

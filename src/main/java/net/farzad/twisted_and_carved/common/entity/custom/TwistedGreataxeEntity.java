@@ -160,7 +160,7 @@ public class TwistedGreataxeEntity extends PersistentProjectileEntity {
         strength *= 1.0;
         if (!(strength <= 0.0) && this.getOwner() != null) {
             this.velocityDirty = true;
-            this.setVelocity(this.getOwner().getRotationVector().multiply(2));
+            this.setVelocity(this.getOwner().getRotationVector().normalize().multiply(2));
         }
     }
 

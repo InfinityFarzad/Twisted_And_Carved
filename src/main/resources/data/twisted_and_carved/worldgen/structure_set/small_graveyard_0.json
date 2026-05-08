@@ -1,0 +1,20 @@
+{
+  "structures": [
+    {
+      "structure": "twisted_and_carved:small_graveyard_0",
+      "weight": 5
+    }
+  ],
+  "placement": {
+    "type": "minecraft:random_spread",
+    "count": 1,
+    "exclusion_zone": {
+      "chunk_count": 10,
+      "other_set": "minecraft:villages"
+    },
+    "frequency": 1,
+    "salt": 165745296,
+    "separation": 4,
+    "spacing": 5
+  }
+}

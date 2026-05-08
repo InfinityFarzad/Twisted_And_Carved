@@ -1,7 +1,8 @@
 package net.farzad.twisted_and_carved.client.render.hud;
 
-import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
-import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
+import net.fabricmc.fabric.api.client.rendering.v1.HudLayerRegistrationCallback;
+import net.fabricmc.fabric.api.client.rendering.v1.IdentifiedLayer;
+import net.fabricmc.fabric.api.client.rendering.v1.LayeredDrawerWrapper;
 import net.farzad.twisted_and_carved.common.TwistedAndCarved;
 import net.farzad.twisted_and_carved.common.component.ModDataComponents;
 import net.farzad.twisted_and_carved.common.item.ModItems;
@@ -10,18 +11,15 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.RenderTickCounter;
-import net.minecraft.client.render.Tessellator;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.ColorHelper;
 import net.minecraft.util.math.MathHelper;
-import org.joml.Matrix4f;
-import org.joml.Vector2d;
 
 import java.util.Objects;
 
-public class BloodBarHudRenderer implements HudRenderCallback {
+public class BloodBarHudRenderer implements HudLayerRegistrationCallback {
 
     private int currentVal;
     private int oldVal;
@@ -56,24 +54,6 @@ public class BloodBarHudRenderer implements HudRenderCallback {
 
     }
 
-    @Override
-    public void onHudRender(DrawContext drawContext, RenderTickCounter tickCounter) {
-        Matrix4f transformationMatrix = drawContext.getMatrices().peek().getPositionMatrix();
-        Tessellator tessellator = Tessellator.getInstance();
-        MinecraftClient client = MinecraftClient.getInstance();
-
-        assert client.player != null;
-        ItemStack stack = getStack(client.player);
-
-
-        Identifier texture = Identifier.of(TwistedAndCarved.MOD_ID, "textures/gui/blood_bar_" + getBloodChargeOverlay(stack) + ".png");
-        if (stack.isOf(ModItems.TWISTED_FALCHION) && Objects.equals(TwistedWeaponUtil.getAbilityID(stack), "bleeding")) {
-
-            drawContext.drawTexture(RenderLayer::getGuiTextured, texture, client.getWindow().getScaledWidth() / 2 + 120, client.getWindow().getScaledHeight() - 28, 0, 0, 64, 32, 64, 32);
-            drawContext.drawText(client.textRenderer,"%" + stack.getOrDefault(ModDataComponents.BLOOD_CHARGE,0).toString(),client.getWindow().getScaledWidth() / 2 + 130 + x_offset, client.getWindow().getScaledHeight() - 16 + y_offset, ColorHelper.withAlpha(this.opacity * 255 / 20,16777215),true);
-        }
-    }
-
     private ItemStack getStack(PlayerEntity player) {
         if (player.getOffHandStack().isOf(ModItems.TWISTED_FALCHION)) {
             return player.getOffHandStack();
@@ -98,5 +78,31 @@ public class BloodBarHudRenderer implements HudRenderCallback {
         } else {
             return 0;
         }
+    }
+
+    @Override
+    public void register(LayeredDrawerWrapper layeredDrawer) {
+        layeredDrawer.addLayer(new IdentifiedLayer() {
+            @Override
+            public Identifier id() {
+                return TwistedAndCarved.id("blood_ui");
+            }
+
+            @Override
+            public void render(DrawContext context, RenderTickCounter tickCounter) {
+                MinecraftClient client = MinecraftClient.getInstance();
+
+                assert client.player != null;
+                ItemStack stack = getStack(client.player);
+
+
+                Identifier texture = Identifier.of(TwistedAndCarved.MOD_ID, "textures/gui/blood_bar_" + getBloodChargeOverlay(stack) + ".png");
+                if (stack.isOf(ModItems.TWISTED_FALCHION) && Objects.equals(TwistedWeaponUtil.getAbilityID(stack), "bleeding")) {
+
+                    context.drawTexture(RenderLayer::getGuiTextured, texture, client.getWindow().getScaledWidth() / 2 + 120, client.getWindow().getScaledHeight() - 28, 0, 0, 64, 32, 64, 32);
+                    context.drawText(client.textRenderer,"%" + stack.getOrDefault(ModDataComponents.BLOOD_CHARGE,0).toString(),client.getWindow().getScaledWidth() / 2 + 130 + x_offset, client.getWindow().getScaledHeight() - 16 + y_offset, ColorHelper.withAlpha(opacity* 255 / 20,16777215),true);
+                }
+            }
+        });
     }
 }

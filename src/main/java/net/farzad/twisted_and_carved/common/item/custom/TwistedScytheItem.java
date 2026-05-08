@@ -115,7 +115,7 @@ public class TwistedScytheItem extends TwistedToolItem implements CritInterface 
         }
 
         if (blocks.isEmpty()) {
-            user.sendMessage(Text.translatable("massage.twisted_and_carved.harvest_nono").formatted(Formatting.DARK_RED),true);
+            user.sendMessage(Text.translatable("massage.twisted_and_carved.unable_to_harvest").formatted(Formatting.DARK_RED),true);
             user.playSoundToPlayer(SoundEvents.ENTITY_ITEM_BREAK.value(),user.getSoundCategory(),1,MathHelper.nextBetween(user.getRandom(),0.5f,0.7f));
         } else {
             user.spawnSweepAttackParticles();

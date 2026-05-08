@@ -126,7 +126,7 @@ public class TwistedScytheEntity extends PersistentProjectileEntity {
                 this.discard();
             }
             this.setNoClip(true);
-            Vec3d target = entity != null ? entity.getPos() : targetPos;
+            Vec3d target = entity.getPos();
             if (target != null) {
                 Vec3d direction = target.subtract(this.getPos()).normalize();
                 this.setVelocity(direction.multiply(1.35));

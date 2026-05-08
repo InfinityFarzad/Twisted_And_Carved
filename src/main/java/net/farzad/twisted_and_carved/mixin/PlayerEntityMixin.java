@@ -88,7 +88,6 @@ public abstract class PlayerEntityMixin extends LivingEntity {
             twistedGreataxe.noClip = false;
             twistedGreataxe.resetInGroundTime = true;
             twistedGreataxe.damageMultiplier += 0.5f;
-            twistedGreataxe.addVelocity(twistedGreataxe.getVelocity().multiply(5));
 
         }
     }

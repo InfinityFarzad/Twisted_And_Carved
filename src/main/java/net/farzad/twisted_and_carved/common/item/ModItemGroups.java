@@ -4,6 +4,7 @@ import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.farzad.twisted_and_carved.common.TwistedAndCarved;
 import net.farzad.twisted_and_carved.common.block.ModBlocks;
+import net.farzad.twisted_and_carved.common.component.TwistedSpiritComponent;
 import net.farzad.twisted_and_carved.common.util.ModTags;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
@@ -17,7 +18,7 @@ import net.minecraft.util.Identifier;
 public class ModItemGroups {
     public static final RegistryKey<ItemGroup> TWISTED_AND_CARVED_ITEM_GROUP_KEY = RegistryKey.of(Registries.ITEM_GROUP.getKey(), Identifier.of(TwistedAndCarved.MOD_ID, "twisted_and_carved"));
     public static final ItemGroup TWISTED_AND_CARVED_ITEM_GROUP = FabricItemGroup.builder()
-            .texture(Identifier.of(TwistedAndCarved.MOD_ID, "textures/gui/container/tab_items.png"))
+            .texture(TwistedAndCarved.id("textures/gui/container/tab_items.png"))
             .noRenderedName()
             .noScrollbar()
             .icon(() -> new ItemStack(ModItems.TWISTED_GREATAXE))

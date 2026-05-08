@@ -4,8 +4,8 @@
   "spawn_overrides": {},
   "step": "surface_structures",
   "terrain_adaptation": "beard_thin",
-  "start_pool": "twisted_and_carved:small_graveyard_0",
-  "size": 1,
+  "start_pool": "twisted_and_carved:gravestone_medium",
+  "size": 4,
   "start_height": {
     "absolute": 0
   },

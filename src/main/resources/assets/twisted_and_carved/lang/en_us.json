@@ -15,21 +15,10 @@
   "item.twisted_and_carved.karmium_block": "Karmium Block",
   "item.twisted_and_carved.sweeping_spirit": "Sweeping Spirit",
   "item.twisted_and_carved.karmium_nugget": "Karmium Nugget",
-  "enchantment.twisted_and_carved.stride": "Stride",
-  "enchantment.twisted_and_carved.harvest": "Harvest",
-  "enchantment.twisted_and_carved.twisting": "Twisting",
-  "enchantment.twisted_and_carved.sweeping": "Sweeping",
-  "enchantment.twisted_and_carved.tomahawk": "Tomahawk",
-  "enchantment.twisted_and_carved.bleeding": "Bleeding",
   "itemGroup.twisted_and_carved": "Twisted And Carved",
   "entity.twisted_and_carved.twisted_greataxe_entity": "Twisted Greataxe",
-  "tooltip.twisted_and_carved.twisted_dash": "[ %s ] a entity to build up charge",
-  "tooltip.twisted_and_carved.twisted_info": "Hold [ %s ] for Info",
-  "tooltip.twisted_and_carved.twisted_sweep": "[ %s ] to release a great swing damaging surrounding enemies",
-  "tooltip.twisted_and_carved.twisted_harvest": "[ %s + ] to clear a area of crops",
-  "tooltip.twisted_and_carved.twisted_greataxe_info": "Future Lore",
-  "tooltip.twisted_and_carved.twisted_glaive_info": "Future Lore",
-  "tooltip.twisted_and_carved.twisted_spirit": "Current Spirit : [ %s ]",
+
+
   "item.twisted_and_carved.twisted_upgrade_smithing_template": "Twisted Upgrade",
   "item.twisted_and_carved.smithing_template.twisted_upgrade.additions_slot_description": "Add Netherite Ingot",
   "item.twisted_and_carved.smithing_template.twisted_upgrade.applies_to": "Twisted Tool Piece",
@@ -37,8 +26,7 @@
   "item.twisted_and_carved.smithing_template.twisted_upgrade.ingredients": "Netherite Ingot",
   "item.twisted_and_carved.karmium_ingot": "Karmium Ingot",
   "item.twisted_and_carved.raw_karmium": "Raw Karmium",
-  "tooltip.twisted_and_carved.twisted_piece": "A strange aura is emitted from the broken piece",
-  "tooltip.twisted_and_carved.twisted_tomahawk": "Throw the greataxe similar to a %s ",
+
   "death.attack.tomahawk": "%1$s was split in two",
   "death.attack.tomahawk.player": "%1$s was split in two by %2$s",
   "death.attack.falchion_slash": "the vains of %1$s were slashed red",
@@ -67,5 +55,24 @@
   "block.twisted_and_carved.karmium_block": "Karmium Block",
   "sound.twisted_and_carved.twisted_glaive_sweep": "Twisted Glaive Sweep",
   "sound.twisted_and_carved.parry": "Parry",
-  "massage.twisted_and_carved.harvest_nono": "there are no crops near by"
+  "massage.twisted_and_carved.unable_to_harvest": "there are no crops near by",
+
+  "tooltip.twisted_and_carved.twisted_piece": "A strange aura is emitted from the broken piece",
+
+  "tooltip.twisted_and_carved.twisted_tomahawk": "Throw the greataxe similar to a %s ",
+  "tooltip.twisted_and_carved.twisted_dash": "[ %s ] an entity to build up charge",
+  "tooltip.twisted_and_carved.twisted_bleeding": "[ %s ] an entity to absorb their blood",
+  "tooltip.twisted_and_carved.twisted_falchion_slash": "[ %s ] to form a blood slash",
+  "tooltip.twisted_and_carved.twisted_dash1": "hold and release [ %s ] to dash",
+  "tooltip.twisted_and_carved.twisted_sweep": "[ %s ] to release a great swing damaging surrounding enemies",
+  "tooltip.twisted_and_carved.twisted_harvest": "[ %s + ] to clear a area of crops",
+  "tooltip.twisted_and_carved.twisted_grapple": "hold and release [ %s ] to extend the scythe and get pulled towards it",
+
+  "tooltip.twisted_and_carved.twisted_greataxe_info": "Future Lore",
+  "tooltip.twisted_and_carved.twisted_glaive_info": "Future Lore",
+  "tooltip.twisted_and_carved.twisted_falchion_info": "Future Lore",
+  "tooltip.twisted_and_carved.twisted_scythe_info": "Future Lore",
+
+  "tooltip.twisted_and_carved.twisted_info": "Hold [ %s ] for Info",
+  "tooltip.twisted_and_carved.twisted_spirit": "Current Spirit : [ %s ]"
 }

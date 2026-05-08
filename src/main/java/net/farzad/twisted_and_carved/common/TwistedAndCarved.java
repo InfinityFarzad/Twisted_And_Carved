@@ -17,6 +17,7 @@ import net.farzad.twisted_and_carved.common.util.TwistedToolPiecePlacer;
 import net.farzad.twisted_and_carved.common.util.TwistedWeaponUtil;
 import net.farzad.twisted_and_carved.common.world.ModBiomes;
 import net.farzad.twisted_and_carved.common.world.TwistedForestRegions;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
@@ -51,8 +52,6 @@ public class TwistedAndCarved implements ModInitializer, TerraBlenderApi {
         ModBlockEntities.init();
         TwistedToolPiecePlacer.init();
         ModBiomes.init();
-        applyItemTooltips();
-
 
         StrippableBlockRegistry.register(ModBlocks.TWISTED_LOG, ModBlocks.STRIPPED_TWISTED_LOG);
         StrippableBlockRegistry.register(ModBlocks.TWISTED_WOOD, ModBlocks.STRIPPED_TWISTED_WOOD);
@@ -63,97 +62,5 @@ public class TwistedAndCarved implements ModInitializer, TerraBlenderApi {
         Regions.register(new TwistedForestRegions(Identifier.of(MOD_ID, "overworld"), 2));
     }
 
-    private static void applyItemTooltips() {
-        ItemTooltipCallback.EVENT.register((itemStack, tooltipContext, tooltipType, list) -> {
-            if (itemStack.contains(ModDataComponents.TWISTED_SPIRIT)) {
-                if (itemStack.getOrDefault(ModDataComponents.TWISTED_SPIRIT,ItemStack.EMPTY) != ItemStack.EMPTY) {
-                    list.add(1,
-                            Text.translatable(
-                                    "tooltip.twisted_and_carved.twisted_spirit",
-                                    Text.literal(itemStack.get(ModDataComponents.TWISTED_SPIRIT).getItemName().getString()).formatted(Formatting.GOLD)
-                            ));
-                } else {
-                    list.add(1,
-                            Text.translatable(
-                                    "tooltip.twisted_and_carved.twisted_spirit",
-                                    Text.literal(". . .").formatted(Formatting.GOLD)
-                            ));
-                }
-            }
 
-
-            if (itemStack.isOf(ModItems.TWISTED_GREATAXE)) {
-                if (Screen.hasShiftDown()) {
-                    list.add(Text.translatable(
-                            "tooltip.twisted_and_carved.twisted_greataxe_info"
-                    ).formatted(Formatting.DARK_GRAY));
-                    if (TwistedWeaponUtil.getAbilityID(itemStack) == "stride") {
-                        list.add(Text.translatable(
-                                "tooltip.twisted_and_carved.twisted_dash",
-                                Text.literal("Attack").formatted(Formatting.GOLD)
-                        ).formatted(Formatting.DARK_GRAY));
-                    } else if (TwistedWeaponUtil.getAbilityID(itemStack) == "tomahawk") {
-                        list.add(Text.translatable(
-                                "tooltip.twisted_and_carved.twisted_tomahawk",
-                                Text.literal("Tomahawk").formatted(Formatting.GOLD)
-                        ).formatted(Formatting.DARK_GRAY));
-                    }
-                } else {
-                    list.add(Text.translatable(
-                            "tooltip.twisted_and_carved.twisted_info",
-                            Text.literal("Shift").formatted(Formatting.GOLD)
-                    ).formatted(Formatting.DARK_GRAY));
-                }
-            } else if (itemStack.isOf(ModItems.TWISTED_GLAIVE)) {
-                if (Screen.hasShiftDown()) {
-
-                    list.add(Text.translatable(
-                            "tooltip.twisted_and_carved.twisted_glaive_info"
-                    ).formatted(Formatting.DARK_GRAY));
-                    if (TwistedWeaponUtil.getAbilityID(itemStack) == "sweeping") {
-                        list.add(Text.translatable(
-                                "tooltip.twisted_and_carved.twisted_sweep",
-                                Text.literal("RightClick").formatted(Formatting.GOLD)
-                        ).formatted(Formatting.DARK_GRAY));
-                    }
-
-                } else {
-                    list.add(Text.translatable(
-                            "tooltip.twisted_and_carved.twisted_info",
-                            Text.literal("Shift").formatted(Formatting.GOLD)
-                    ).formatted(Formatting.DARK_GRAY));
-                }
-            } else if (itemStack.isOf(ModItems.TWISTED_SCYTHE)) {
-                if (Screen.hasShiftDown()) {
-
-                    list.add(1,Text.translatable(
-                            "tooltip.twisted_and_carved.twisted_greataxe_info"
-                    ).formatted(Formatting.DARK_GRAY));
-                    if (TwistedWeaponUtil.getAbilityID(itemStack) == "harvest") {
-                        list.add(Text.translatable(
-                                "tooltip.twisted_and_carved.twisted_harvest",
-                                Text.literal("Right Click + Shift").formatted(Formatting.GOLD)
-                        ).formatted(Formatting.DARK_GRAY));
-                    }
-
-                } else {
-                    list.add(Text.translatable(
-                            "tooltip.twisted_and_carved.twisted_info",
-                            Text.literal("Shift").formatted(Formatting.GOLD)
-                    ).formatted(Formatting.DARK_GRAY));
-                }
-            } else if (itemStack.isOf(ModItems.TWISTED_FALCHION)) {
-
-            } else if (itemStack.getItem() instanceof TwistedItemPieceItem) {
-                if (Screen.hasShiftDown()) {
-                    list.add(Text.translatable("tooltip.twisted_and_carved.twisted_piece").formatted(Formatting.DARK_GRAY));
-                } else {
-                    list.add(Text.translatable(
-                            "tooltip.twisted_and_carved.twisted_info",
-                            Text.literal("Shift").formatted(Formatting.GOLD)
-                    ).formatted(Formatting.DARK_GRAY));
-                }
-            }
-        });
-    }
 }
