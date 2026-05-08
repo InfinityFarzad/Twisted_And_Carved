@@ -5,7 +5,6 @@ import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.farzad.twisted_and_carved.common.component.ModDataComponents;
 import net.farzad.twisted_and_carved.common.entity.ModEntities;
 import net.farzad.twisted_and_carved.common.item.ModItems;
-import net.farzad.twisted_and_carved.common.networking.GreataxeSoundLoopS2CPayload;
 import net.farzad.twisted_and_carved.common.networking.ScytheSoundLoopS2CPayload;
 import net.farzad.twisted_and_carved.common.util.ModDamageTypes;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -38,8 +37,6 @@ public class TwistedScytheEntity extends PersistentProjectileEntity {
     public LivingEntity prevOwner;
     public float damageMultiplier;
     public int returnTimer;
-    @Nullable
-    private Vec3d targetPos;
 
     public TwistedScytheEntity(World world, LivingEntity owner, ItemStack stack) {
         super(ModEntities.TWISTED_SCYTHE_ENTITY, owner, world, stack, null);
@@ -86,26 +83,27 @@ public class TwistedScytheEntity extends PersistentProjectileEntity {
     }
 
     public void tick() {
-
-        if (this.inGroundTime > 75) { //logic incase the player gets stuck
-            this.shouldReturn = true;
-            this.isGripped = false;
-        }
-
-        if (!isGripped && !this.getPos().isInRange(getOwner().getPos(),56)) {
-            this.shouldReturn = true;
-        }
-
-        // if the scythe is in ground, set the ground mode to true
-        if (this.isInGround()) {
-            this.isGripped = true;
-        }
-
-        // if the owner exists and the distance of the scythe to them is not greater then 35 or lesser then 8 and the gripped mode is true,
-        // play the return sound and set the gripped mode to false else if its griped and it shouldnt return, procceed and pullt the entity towards you
-        // also check for ``inGroundTime >= 1`` so the action does not activate
         Entity entity = this.getOwner();
         if (entity != null) {
+
+            if (this.inGroundTime > 75) { //logic in case the player gets stuck
+                this.shouldReturn = true;
+                this.isGripped = false;
+            }
+
+            if (!isGripped && !this.getPos().isInRange(getOwner().getPos(), 56)) {
+                this.shouldReturn = true;
+            }
+
+            // if the scythe is in ground, set the ground mode to true
+            if (this.isInGround()) {
+                this.isGripped = true;
+            }
+
+            // if the owner exists and the distance of the scythe to them is not greater than 35 or lesser than 8 and the gripped mode is true,
+            // play the return sound and set the gripped mode to false else if its griped, and it shouldn't return, procceed and pull the entity towards you
+            // also check for ``inGroundTime >= 1`` so the action does not activate
+
             if (isGripped && !shouldReturn) {
                 pullOwner(entity);
                 entity.fallDistance = 0;
@@ -115,30 +113,30 @@ public class TwistedScytheEntity extends PersistentProjectileEntity {
                     this.isGripped = false;
                 }
             }
+
+
+            // RETURN LOGIC
+
+            // if the scythe should return and the entity exists,
+            if (this.shouldReturn || this.isNoClip()) {
+                if (entity instanceof PlayerEntity entity1 && this.getScytheStack(entity1) == null) {
+                    this.discard();
+                }
+                this.setNoClip(true);
+                Vec3d target = entity.getPos();
+                if (target != null) {
+                    Vec3d direction = target.subtract(this.getPos()).normalize();
+                    this.setVelocity(direction.multiply(1.35));
+                }
+                if (this.returnTimer == 0) {
+                    this.playSound(SoundEvents.ITEM_TRIDENT_RETURN, 1.0F, 1.0F);
+                }
+                this.move(MovementType.SELF, this.getVelocity());
+                ++this.returnTimer;
+            }
+            playSound();
+            super.tick();
         }
-
-
-        // RETURN LOGIC
-
-        // if the scythe should return and the entity exists,
-        if ((this.shouldReturn || this.isNoClip()) && entity != null) {
-            if (entity instanceof PlayerEntity entity1 && this.getScytheStack(entity1) == null) {
-                this.discard();
-            }
-            this.setNoClip(true);
-            Vec3d target = entity.getPos();
-            if (target != null) {
-                Vec3d direction = target.subtract(this.getPos()).normalize();
-                this.setVelocity(direction.multiply(1.35));
-            }
-            if (this.returnTimer == 0) {
-                this.playSound(SoundEvents.ITEM_TRIDENT_RETURN, 1.0F, 1.0F);
-            }
-            this.move(MovementType.SELF, this.getVelocity());
-            ++this.returnTimer;
-        }
-        playSound();
-        super.tick();
     }
 
     private boolean isOwnerAlive() {
@@ -232,7 +230,6 @@ public class TwistedScytheEntity extends PersistentProjectileEntity {
             return player.getOffHandStack();
         }
     }
-
 
     @Override
     public void onPlayerCollision(PlayerEntity player) {

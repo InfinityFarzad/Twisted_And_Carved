@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "ingredients": [
+    "twisted_and_carved:twisted_log"
+  ],
+  "result": {
+    "count": 4,
+    "id": "twisted_and_carved:twisted_planks"
+  }
+}

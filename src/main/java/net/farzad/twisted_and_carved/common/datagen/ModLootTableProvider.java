@@ -3,6 +3,7 @@ package net.farzad.twisted_and_carved.common.datagen;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider;
 import net.farzad.twisted_and_carved.common.block.ModBlocks;
+import net.minecraft.loot.LootTable;
 import net.minecraft.registry.RegistryWrapper;
 
 import java.util.concurrent.CompletableFuture;
@@ -33,5 +34,6 @@ public class ModLootTableProvider extends FabricBlockLootTableProvider {
         addDrop(ModBlocks.TWISTED_LEAVES, leavesDrops(ModBlocks.TWISTED_LEAVES, ModBlocks.TWISTED_SAPLING, 0.25f));
         addDrop(ModBlocks.TWISTED_SAPLING);
         addDrop(ModBlocks.KARMIUM_BLOCK);
+
     }
 }

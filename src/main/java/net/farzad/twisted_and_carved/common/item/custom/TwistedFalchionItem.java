@@ -30,9 +30,7 @@ import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.registry.tag.TagKey;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvents;
-import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
-import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
@@ -70,11 +68,12 @@ public class TwistedFalchionItem extends TwistedToolItem {
         return stack.getOrDefault(ModDataComponents.BLOOD_CHARGE, 0);
     }
 
-    public boolean canMine(BlockState state, World world, BlockPos pos, PlayerEntity miner) {
-        return !miner.isCreative();
+    @Override
+    public boolean canMine(ItemStack stack, BlockState state, World world, BlockPos pos, LivingEntity user) {
+        return !user.isInCreativeMode();
     }
 
-    private void createSlashDamage(World world, PlayerEntity user) {
+    private void applySlashDamage(World world, PlayerEntity user) {
         if (world instanceof ServerWorld serverWorld) {
             Vec3d dir = user.raycast(2.5,1,false).getPos();
             Box box = new Box(dir.x,user.getY(),dir.z,dir.x + 1, dir.y + 1, dir.z + 1).expand(0.5).offset(new Vec3d(-0.5,-0.5,-0.5));
@@ -96,17 +95,19 @@ public class TwistedFalchionItem extends TwistedToolItem {
     @Override
     public ActionResult use(World world, PlayerEntity user, Hand hand) {
         ItemStack stack = user.getStackInHand(hand);
-        if (getBlood(stack) >= (100 / 3 )) {
+        if (getBlood(stack) >= (100 / 3 ) || user.isCreative()) {
             if (world instanceof ServerWorld serverWorld) {
                 serverWorld.spawnParticles(new FalchionSlashEffect(user.getYaw()), user.getX(), user.getY() + 0.5, user.getZ(), 1, 0, 0, 0, 1);
                 serverWorld.playSound(null, user.getX(), user.getY(), user.getZ(), SoundEvents.BLOCK_MUD_HIT, user.getSoundCategory(), 2.0F, MathHelper.nextBetween(user.getRandom(),3.8f,3.5f));
                 serverWorld.playSound(null, user.getX(), user.getY(), user.getZ(), SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP, user.getSoundCategory(), 2.0F, MathHelper.nextBetween(user.getRandom(),0.5f,0.7f));
                 serverWorld.playSound(null, user.getX(), user.getY(), user.getZ(), ModSounds.SCYTHE_SWEEP_0, user.getSoundCategory(), 1.0F, MathHelper.nextBetween(user.getRandom(),0.7f,1f));
             }
-            user.getItemCooldownManager().set(stack,20 * 2);
-            createSlashDamage(world,user);
+            applySlashDamage(world,user);
             user.swingHand(hand);
-            setBlood(stack,getBlood(stack) - 100 / 3);
+            if (!user.isCreative()) {
+                setBlood(stack, getBlood(stack) - 100 / 3);
+                user.getItemCooldownManager().set(stack,20 * 2);
+            }
         }
 
 

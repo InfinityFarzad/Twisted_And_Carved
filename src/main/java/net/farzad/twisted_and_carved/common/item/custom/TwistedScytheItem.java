@@ -106,7 +106,6 @@ public class TwistedScytheItem extends TwistedToolItem implements CritInterface 
                         world.playSound(null, user.getX(), user.getY(), user.getZ(), SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP, user.getSoundCategory(), 1.0F, 1.0F);
                         world.breakBlock(pos, true);
                         user.swingHand(hand);
-                        user.getItemCooldownManager().set(user.getStackInHand(hand), 20 * 5);
                         blocks.add(pos);
                     }
 
@@ -130,13 +129,13 @@ public class TwistedScytheItem extends TwistedToolItem implements CritInterface 
 
     @Override
     public UseAction getUseAction(ItemStack stack) {
-return UseAction.SPEAR;
+        return UseAction.SPEAR;
     }
 
     @Override
     public boolean onStoppedUsing(ItemStack stack, World world, LivingEntity user, int remainingUseTicks) {
         int useTime = this.getMaxUseTime(stack, user) - remainingUseTicks;
-        if (user instanceof PlayerEntity) {
+        if (user instanceof PlayerEntity player) {
             if (Objects.equals(TwistedWeaponUtil.getAbilityID(stack), "grappling")) {
                 if (useTime < 10) {
                     return false;
@@ -144,6 +143,9 @@ return UseAction.SPEAR;
                     stack.set(ModDataComponents.TWISTED_SCYTHE_GRAPPLING,true);
                     if (world instanceof ServerWorld serverWorld) {
                         ProjectileEntity.spawnWithVelocity(TwistedScytheEntity::new, serverWorld, stack.copy(), user, 0.0F, (float) remainingUseTicks * 0.00005f, 1.0F);
+                    }
+                    if (!player.isInCreativeMode()) {
+                        player.getItemCooldownManager().set(stack,20 * 5);
                     }
                     return true;
                 }
@@ -167,12 +169,14 @@ return UseAction.SPEAR;
                 return ActionResult.FAIL;
             } else {
                 clearField(5,world,user,hand);
-                user.getItemCooldownManager().set(itemStack,20);
+                if (!user.isInCreativeMode()) {
+                    user.getItemCooldownManager().set(itemStack, 20);
+                }
                 return ActionResult.CONSUME;
             }
 
         } else {
-            if (ability.equals("grappling")) {
+            if (ability.equals("grappling") && !user.getStackInHand(hand).getOrDefault(ModDataComponents.TWISTED_SCYTHE_GRAPPLING,true)) {
                 user.setCurrentHand(hand);
                 return ActionResult.CONSUME;
             }
@@ -192,17 +196,9 @@ return UseAction.SPEAR;
                 return ActionResult.PASS;
             } else {
                 Predicate<ItemUsageContext> predicate = pair.getFirst();
-                Consumer<ItemUsageContext> consumer = pair.getSecond();
                 if (predicate.test(context) && context.getPlayer() != null && !context.getPlayer().isSneaking() && Objects.equals(TwistedWeaponUtil.getAbilityID(context.getStack()), "harvest")) {
                     PlayerEntity playerEntity = context.getPlayer();
                     world.playSound(playerEntity, blockPos, SoundEvents.ITEM_HOE_TILL, SoundCategory.BLOCKS, 1.0F, 1.0F);
-                    if (!world.isClient) {
-                        consumer.accept(context);
-                        if (playerEntity != null) {
-                            context.getStack().damage(1, playerEntity, LivingEntity.getSlotForHand(context.getHand()));
-                        }
-                    }
-
                     return ActionResult.SUCCESS;
                 } else {
                     return ActionResult.PASS;

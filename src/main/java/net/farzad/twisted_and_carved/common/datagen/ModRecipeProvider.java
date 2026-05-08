@@ -7,6 +7,7 @@ import net.farzad.twisted_and_carved.common.item.ModItems;
 import net.minecraft.data.recipe.RecipeExporter;
 import net.minecraft.data.recipe.RecipeGenerator;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemConvertible;
 import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.book.CraftingRecipeCategory;
@@ -28,10 +29,6 @@ public class ModRecipeProvider extends FabricRecipeProvider {
             public void generate() {
                 RegistryWrapper.Impl<Item> itemLookup = registries.getOrThrow(RegistryKeys.ITEM);
 
-                createShapeless(RecipeCategory.BUILDING_BLOCKS, new ItemStack(ModBlocks.TWISTED_PLANKS))
-                        .input(ModBlocks.TWISTED_LOG)
-                        .criterion(hasItem(ModBlocks.TWISTED_PLANKS), conditionsFromItem(ModBlocks.TWISTED_PLANKS))
-                        .offerTo(exporter);
                 createDoorRecipe(ModBlocks.TWISTED_DOOR, Ingredient.ofItem(ModBlocks.TWISTED_PLANKS))
                         .criterion(hasItem(ModBlocks.TWISTED_PLANKS), conditionsFromItem(ModBlocks.TWISTED_PLANKS))
                         .offerTo(exporter);;
@@ -56,7 +53,7 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                 createPressurePlateRecipe(RecipeCategory.BUILDING_BLOCKS,ModBlocks.TWISTED_PRESSURE_PLATE,Ingredient.ofItem(ModBlocks.TWISTED_PLANKS))
                         .criterion(hasItem(ModBlocks.TWISTED_PLANKS), conditionsFromItem(ModBlocks.TWISTED_PLANKS))
                         .offerTo(exporter);
-                createShaped(RecipeCategory.BUILDING_BLOCKS,ModBlocks.KARMIUM_FENCE,32)
+                createShaped(RecipeCategory.BUILDING_BLOCKS,ModBlocks.KARMIUM_FENCE,16)
                         .input('c', Ingredient.ofItem(ModItems.KARMIUM_INGOT))
                         .input('g', Ingredient.ofItem(ModItems.KARMIUM_NUGGET))
                         .pattern("gcg")

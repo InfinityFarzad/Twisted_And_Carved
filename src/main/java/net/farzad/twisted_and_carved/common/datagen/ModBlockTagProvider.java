@@ -47,7 +47,7 @@ public class ModBlockTagProvider extends FabricTagProvider.BlockTagProvider {
         getOrCreateTagBuilder(BlockTags.INCORRECT_FOR_IRON_TOOL).add(ModBlocks.KARMIUM_BLOCK);
         getOrCreateTagBuilder(BlockTags.INCORRECT_FOR_WOODEN_TOOL).add(ModBlocks.KARMIUM_BLOCK);
         getOrCreateTagBuilder(BlockTags.INCORRECT_FOR_STONE_TOOL).add(ModBlocks.KARMIUM_BLOCK);
-        getOrCreateTagBuilder(BlockTags.PICKAXE_MINEABLE).add(ModBlocks.KARMIUM_BLOCK).add(ModBlocks.KARMIUM_CHAIN);
+        getOrCreateTagBuilder(BlockTags.PICKAXE_MINEABLE).add(ModBlocks.KARMIUM_BLOCK).add(ModBlocks.KARMIUM_CHAIN).add(ModBlocks.KARMIUM_FENCE);
         getOrCreateTagBuilder(BlockTags.AXE_MINEABLE).add(ModBlocks.TWISTED_COFFIN);
 
     }

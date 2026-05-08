@@ -41,10 +41,8 @@ public class TwistedScytheEntityRenderer extends EntityRenderer<TwistedScytheEnt
         matrixStack.push();
         matrixStack.scale(this.scale, this.scale, this.scale);
         matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(scytheEntityRenderstate.entity.getLerpedYaw(scytheEntityRenderstate.tickDelta)));
-        if (!scytheEntityRenderstate.entity.isGripped) {
+        if (!scytheEntityRenderstate.entity.isOnGround()) {
             matrixStack.multiply(new Quaternionf().rotateX((float) Math.toRadians((scytheEntityRenderstate.entity.getWorld().getTime() + scytheEntityRenderstate.tickDelta) * 150)));
-        } else {
-            matrixStack.multiply(new Quaternionf().rotateX((float) Math.toRadians((scytheEntityRenderstate.entity.getWorld().getTime() + scytheEntityRenderstate.tickDelta) * 0)));
         }
         scytheEntityRenderstate.itemRenderState.render(matrixStack, vertexConsumerProvider, i, OverlayTexture.DEFAULT_UV);
         matrixStack.pop();

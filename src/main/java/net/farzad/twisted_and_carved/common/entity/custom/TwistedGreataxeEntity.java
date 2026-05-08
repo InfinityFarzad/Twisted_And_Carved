@@ -282,7 +282,6 @@ public class TwistedGreataxeEntity extends PersistentProjectileEntity {
         if (this.pickupType != PickupPermission.ALLOWED) {
             super.age();
         }
-
     }
 
     protected float getDragInWater() {

@@ -18,11 +18,11 @@ public class EntityUtil {
         PlayerInventory playerInventory = player.getInventory();
         if (slot == -1) {
             if (player.getOffHandStack().isEmpty()) {
-                if (player.getWorld() instanceof ServerWorld serverWorld) {
+                if (player.getWorld() instanceof ServerWorld) {
                     playerInventory.setStack(PlayerInventory.OFF_HAND_SLOT, stack);
                 }
             }
-        } else if ((slot != -1) && playerInventory.getStack(slot).isEmpty()) {
+        } else if (playerInventory.getStack(slot).isEmpty()) {
             playerInventory.setStack(slot, stack);
         } else if (!playerInventory.getStack(slot).isEmpty()) {
             playerInventory.insertStack(stack);

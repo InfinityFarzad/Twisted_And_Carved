@@ -60,8 +60,10 @@ public class TwistedGlaiveItem extends TwistedToolItem {
                 serverWorld.playSound(null, user.getX(), user.getY(), user.getZ(), ModSounds.TWISTED_GLAIVE_SWEEP, user.getSoundCategory(), 8.0F, 1.0F);
 
             }
-            user.getItemCooldownManager().set(user.getStackInHand(hand), 20 * 4);
             user.swingHand(hand);
+            if (user.isCreative()) {
+                user.getItemCooldownManager().set(user.getStackInHand(hand), 20 * 4);
+            }
         }
         return super.use(world, user, hand);
     }

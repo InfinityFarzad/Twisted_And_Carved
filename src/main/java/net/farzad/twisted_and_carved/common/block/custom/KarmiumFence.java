@@ -7,6 +7,7 @@ import net.minecraft.fluid.Fluids;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
+import net.minecraft.state.property.IntProperty;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.BlockMirror;
 import net.minecraft.util.BlockRotation;
@@ -27,13 +28,14 @@ import java.util.stream.Collectors;
 
 // IMPORTENT NOTE : CODE HERE WAS PROVIDED AND BASED ON THE CODE FOR THE RAILING BLOCK BY POWERCYPHE FOR MEDECOOLES MEDES DECOR MOD, THANK YOU SO MUCH TO HIM! GO CHECK HIM AND MEDECOOLE OUT! and download festive frenzy or i will be sad :(
 
-public class KarmiumFence extends Block {
+public class KarmiumFence extends Block implements Segmented {
     public static final BooleanProperty WATERLOGGED = Properties.WATERLOGGED;
     public static final BooleanProperty NORTH = ConnectingBlock.NORTH;
     public static final BooleanProperty EAST = ConnectingBlock.EAST;
     public static final BooleanProperty SOUTH = ConnectingBlock.SOUTH;
     public static final BooleanProperty WEST = ConnectingBlock.WEST;
     public static final BooleanProperty UP_FENCE = BooleanProperty.of("up_fence");
+    public static final IntProperty FENCE_SEGMENTS = IntProperty.of("fence_segments",1,4);
     public static final Map<Direction, BooleanProperty> FACING_PROPERTIES = ConnectingBlock.FACING_PROPERTIES.entrySet().stream().collect(Util.toMap());
     private static final VoxelShape EAST_SHAPE = Block.createCuboidShape(0.0, 0.0, 0.0, 1.0, 16.0, 16.0);
     private static final VoxelShape WEST_SHAPE = Block.createCuboidShape(15.0, 0.0, 0.0, 16.0, 16.0, 16.0);
@@ -78,7 +80,7 @@ public class KarmiumFence extends Block {
     @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
         super.appendProperties(builder);
-        builder.add(WATERLOGGED, NORTH, EAST, SOUTH, WEST, UP_FENCE);
+        builder.add(WATERLOGGED, NORTH, EAST, SOUTH, WEST, UP_FENCE, FENCE_SEGMENTS);
     }
 
     @Override
@@ -87,6 +89,16 @@ public class KarmiumFence extends Block {
 
         boolean bl = context.getPlayer() == null || !context.getPlayer().isSneaking();
         return canAdd(state) && bl;
+    }
+
+    @Override
+    public IntProperty getAmountProperty() {
+        return FENCE_SEGMENTS;
+    }
+
+    @Override
+    public double getHeight() {
+        return 1.0;
     }
 
     @Override
@@ -113,26 +125,35 @@ public class KarmiumFence extends Block {
         Direction side = ctx.getHorizontalPlayerFacing().getOpposite();
         BlockState state = this.getDefaultState();
         BlockState currentState = world.getBlockState(blockPos);
+        int segmentCount = getSegment(currentState);
 
         if (side.getAxis() != Direction.Axis.Y ) {
+
             if (currentState.isOf(this) && !currentState.get(getFacingProperty(side.getOpposite()))) {
                 if (world.getBlockState(ctx.getBlockPos().up()).getBlock() == ModBlocks.KARMIUM_FENCE) {
-                    return currentState.with(getFacingProperty(side.getOpposite()), true).with(UP_FENCE,true);
+                    return currentState.with(getFacingProperty(side.getOpposite()), true).with(UP_FENCE,true).with(FENCE_SEGMENTS,segmentCount < 4 ? segmentCount + 1 : segmentCount);
                 } else {
-                    return currentState.with(getFacingProperty(side.getOpposite()), true);
+                    return currentState.with(getFacingProperty(side.getOpposite()), true).with(FENCE_SEGMENTS,segmentCount < 4 ? segmentCount + 1 : segmentCount);
                 }
             }
         }
         if (currentState.isOf(this)) {
             for (Direction direction : DIRECTIONS) {
                 if (direction.getAxis() != Direction.Axis.Y && !currentState.get(getFacingProperty(direction))) {
-                    return currentState.with(getFacingProperty(direction), true);
+                    return currentState.with(getFacingProperty(direction), true).with(FENCE_SEGMENTS,segmentCount < 4 ? segmentCount + 1 : segmentCount);
                 }
             }
         }
         FluidState fluidState = world.getFluidState(blockPos);
         boolean bl = fluidState.getFluid() == Fluids.WATER;
-        return state.with(getFacingProperty(side.getOpposite()), true).with(WATERLOGGED, bl);
+        return state.with(getFacingProperty(side.getOpposite()), true).with(WATERLOGGED, bl).with(FENCE_SEGMENTS,segmentCount < 4 ? segmentCount + 1 : segmentCount);
+    }
+
+    private int getSegment(BlockState state) {
+        if (state.isOf(ModBlocks.KARMIUM_FENCE)) {
+            return state.get(FENCE_SEGMENTS);
+        }
+        return 0;
     }
 
     public boolean canAdd(BlockState state) {

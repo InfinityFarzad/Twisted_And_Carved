@@ -140,7 +140,10 @@ public class TwistedGreataxeItem extends TwistedToolItem {
                 //player.playSound(SoundEvents.ITEM_TRIDENT_RIPTIDE_2.value(),1f,MathHelper.nextBetween(player.getRandom(),0.6f,0.7f));
                 player.playSoundToPlayer(SoundEvents.BLOCK_AZALEA_LEAVES_BREAK,player.getSoundCategory(),1f,MathHelper.nextBetween(player.getRandom(),1f,2f));
 
-                setCharge(stack, getCharge(stack) - (maxCharge / 2));
+                if (!user.isInCreativeMode()) {
+                    setCharge(stack, getCharge(stack) - (maxCharge / 2));
+                    player.getItemCooldownManager().set(stack,20);
+                }
                 return true;
 
             } else if (Objects.equals(TwistedWeaponUtil.getAbilityID(stack), "tomahawk")) {
@@ -150,7 +153,10 @@ public class TwistedGreataxeItem extends TwistedToolItem {
                     if (world instanceof ServerWorld serverWorld) {
                         TwistedGreataxeEntity.spawnWithVelocity(TwistedGreataxeEntity::new, player.getInventory().getSlotWithStack(stack), serverWorld, stack, user, 0.0F, (float) remainingUseTicks * 0.00005f, 1.0F);
                     }
-                    player.getInventory().removeOne(stack);
+                    if (!user.isInCreativeMode()) {
+                        player.getInventory().removeOne(stack);
+                        player.getItemCooldownManager().set(stack,20 * 5);
+                    }
                     return true;
                 }
             } else {

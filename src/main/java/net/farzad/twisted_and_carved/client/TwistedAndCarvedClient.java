@@ -113,8 +113,6 @@ public class TwistedAndCarvedClient implements ClientModInitializer {
                                         Text.literal(". . .").formatted(Formatting.GOLD)));
                     }
                 }
-
-
                 if (itemStack.isOf(ModItems.TWISTED_GREATAXE)) {
                     if (Screen.hasShiftDown()) {
                         list.add(2,Text.translatable(
@@ -221,5 +219,4 @@ public class TwistedAndCarvedClient implements ClientModInitializer {
             });
         }
     }
-
 }
