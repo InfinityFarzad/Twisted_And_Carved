@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_raw_karmium": {
+      "conditions": {
+        "items": [
+          {
+            "items": "twisted_and_carved:raw_karmium"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "twisted_and_carved:karmium_ingot_from_blasting_raw_karmium"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_raw_karmium"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "twisted_and_carved:karmium_ingot_from_blasting_raw_karmium"
+    ]
+  }
+}

@@ -3,6 +3,8 @@ package net.farzad.twisted_and_carved.mixin;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
 import net.farzad.twisted_and_carved.client.particle.ModParticles;
+import net.farzad.twisted_and_carved.client.particle.custom.DashEffect;
+import net.farzad.twisted_and_carved.client.particle.custom.FalchionSlashEffect;
 import net.farzad.twisted_and_carved.common.item.ModItems;
 import net.farzad.twisted_and_carved.common.networking.ModNetworking;
 import net.farzad.twisted_and_carved.common.networking.RiptideModificationPayload;
@@ -13,6 +15,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -28,6 +31,9 @@ public abstract class LivingEntityMixin{
     @Nullable
     protected ItemStack riptideStack;
 
+
+    //private int timerForDash = 500;
+
     @Inject(method = "tick", at = @At("HEAD"))
     private void twisted_and_carved$updateStrideStack(CallbackInfo ci) {
         LivingEntity entity = (LivingEntity) (Object) this;
@@ -35,6 +41,12 @@ public abstract class LivingEntityMixin{
             ModNetworking.sendPacketToAllClients(playerEntity.getWorld(),new RiptideModificationPayload(playerEntity.getId(),riptideStack));
             if (riptideStack.isOf(ModItems.TWISTED_GREATAXE) && playerEntity.isUsingRiptide() && playerEntity.getWorld() instanceof  ServerWorld world) {
                 world.spawnParticles(ModParticles.TWISTED_LEAF_PARTICLE,playerEntity.getX(),playerEntity.getY(),playerEntity.getZ(),5, MathHelper.nextBetween(world.getRandom(),-2,2),MathHelper.nextBetween(world.getRandom(),-2,2),MathHelper.nextBetween(world.getRandom(),-2,2),MathHelper.nextBetween(world.getRandom(),1,2));
+/*                if (timerForDash <= 0) {
+
+                    world.spawnParticles(new DashEffect(playerEntity.getYaw(),playerEntity.getPitch()), playerEntity.getX(), playerEntity.getY() + 0.5, playerEntity.getZ(),1,0,0,0,0);
+                    timerForDash = 500;
+                }*/
+
             }
         }
     }

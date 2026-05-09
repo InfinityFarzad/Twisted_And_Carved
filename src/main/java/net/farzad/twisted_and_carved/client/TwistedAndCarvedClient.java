@@ -10,9 +10,7 @@ import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.HudLayerRegistrationCallback;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.farzad.twisted_and_carved.client.particle.ModParticles;
-import net.farzad.twisted_and_carved.client.particle.custom.FalchionSlashParticle;
-import net.farzad.twisted_and_carved.client.particle.custom.ParryParticle;
-import net.farzad.twisted_and_carved.client.particle.custom.TwistedGlaiveSweepParticle;
+import net.farzad.twisted_and_carved.client.particle.custom.*;
 import net.farzad.twisted_and_carved.client.properties.TwistedScytheGrapplingProperty;
 import net.farzad.twisted_and_carved.client.render.entity.TwistedGreataxeEntityRenderer;
 import net.farzad.twisted_and_carved.client.render.entity.TwistedScytheEntityRenderer;
@@ -54,7 +52,11 @@ public class TwistedAndCarvedClient implements ClientModInitializer {
         ParticleFactoryRegistry.getInstance().register(ModParticles.TWISTED_GLAIVE_SWEEP, TwistedGlaiveSweepParticle.Factory::new);
         ParticleFactoryRegistry.getInstance().register(ModParticles.TWISTED_LEAF_PARTICLE, LeavesParticle.CherryLeavesFactory::new);
         ParticleFactoryRegistry.getInstance().register(ModParticles.PARRY_PARTICLE, ParryParticle.Factory::new);
-        ParticleFactoryRegistry.getInstance().register(ModParticles.FALCHION_SLASH, provider -> new FalchionSlashParticle.Factory(provider));
+        ParticleFactoryRegistry.getInstance().register(ModParticles.FALCHION_SLASH, FalchionSlashParticle.Factory::new);
+        ParticleFactoryRegistry.getInstance().register(ModParticles.DASH_PARTICLE, DashParticle.Factory::new);
+        ParticleFactoryRegistry.getInstance().register(ModParticles.COFFIN_SMOKE, CoffinSmokeParticle.CoffinSmokeParticleFactory::new);
+
+
         EntityRendererRegistry.register(ModEntities.TWISTED_GREATAXE_ENTITY, TwistedGreataxeEntityRenderer::new);
         EntityRendererRegistry.register(ModEntities.TWISTED_SCYTHE_ENTITY, TwistedScytheEntityRenderer::new);
         BlockRenderLayerMap.INSTANCE.putBlocks(RenderLayer.getCutout(),ModBlocks.TWISTED_SAPLING,ModBlocks.KARMIUM_FENCE,ModBlocks.TWISTED_LEAVES,ModBlocks.KARMIUM_CHAIN);

@@ -45,18 +45,16 @@ public class DrawingContextMixin implements TwistedGlintInterface {
     @Override
     public void twistedAndCarved$drawItemGlint(ItemStack item, int x, int y) {
         if (!item.isEmpty()) {
+            DrawContext drawContext = (DrawContext) (Object) this;
             if (item.isIn(ModTags.Items.TWISTED_SPIRIT)) {
-                DrawContext drawContext = (DrawContext) (Object) this;
                 drawContext.fillGradient(RenderLayer.getGui(),x,y,x +16, y + 8,ColorHelper.withAlpha(2,16770653),  ColorHelper.withAlpha(45,12811848),200);
                 drawContext.fillGradient(RenderLayer.getGui(),x,y + 8,x +16, y + 16,ColorHelper.withAlpha(45,12811848),  ColorHelper.withAlpha(2,16770653),200);
             }
             if (item.isIn(ModTags.Items.TWISTED_TOOL) && TwistedToolItem.hasAura(item.getOrDefault(ModDataComponents.TWISTED_SPIRIT, ItemStack.EMPTY))) {
-                DrawContext drawContext = (DrawContext) (Object) this;
                 drawContext.fillGradient(RenderLayer.getGui(),x,y,x +16, y + 8,ColorHelper.withAlpha(2,16711693),  ColorHelper.withAlpha(45,12779591),200);
                 drawContext.fillGradient(RenderLayer.getGui(),x,y + 8,x +16, y + 16,ColorHelper.withAlpha(45,12779591),  ColorHelper.withAlpha(2,16711693),200);
             }
             if (item.isIn(ModTags.Items.KARMIUM)) {
-                DrawContext drawContext = (DrawContext) (Object) this;
                 drawContext.fillGradient(RenderLayer.getGui(),x,y,x +16, y + 8,ColorHelper.withAlpha(2,11578541),  ColorHelper.withAlpha(45,14869218),200);
                 drawContext.fillGradient(RenderLayer.getGui(),x,y + 8,x +16, y + 16,ColorHelper.withAlpha(45,14869218),  ColorHelper.withAlpha(2,11578541),200);
             }
