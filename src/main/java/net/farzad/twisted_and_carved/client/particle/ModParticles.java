@@ -19,14 +19,17 @@ public class     ModParticles {
     public static final SimpleParticleType COFFIN_SMOKE = FabricParticleTypes.simple();
     public static final ParticleType<FalchionSlashEffect> FALCHION_SLASH = FabricParticleTypes.complex(FalchionSlashEffect.CODEC,FalchionSlashEffect.PACKET_CODEC);
     public static final ParticleType<DashEffect> DASH_PARTICLE = FabricParticleTypes.complex(DashEffect.CODEC,DashEffect.PACKET_CODEC);
+    public static final SimpleParticleType COFFIN_ASH = FabricParticleTypes.simple();
+
 
     public static void init() {
         Registry.register(Registries.PARTICLE_TYPE, TwistedAndCarved.id("twisted_sweep_attack"), TWISTED_SWEEP_ATTACK);
         Registry.register(Registries.PARTICLE_TYPE, TwistedAndCarved.id("twisted_glaive_sweep"), TWISTED_GLAIVE_SWEEP);
-        Registry.register(Registries.PARTICLE_TYPE, TwistedAndCarved.id( "parry_particle"), PARRY_PARTICLE);
+        Registry.register(Registries.PARTICLE_TYPE, TwistedAndCarved.id("parry_particle"), PARRY_PARTICLE);
         Registry.register(Registries.PARTICLE_TYPE, TwistedAndCarved.id("twisted_leaf"), TWISTED_LEAF_PARTICLE);
         Registry.register(Registries.PARTICLE_TYPE, TwistedAndCarved.id("falchion_slash"), FALCHION_SLASH);
         Registry.register(Registries.PARTICLE_TYPE, TwistedAndCarved.id("coffin_smoke"),COFFIN_SMOKE);
+        Registry.register(Registries.PARTICLE_TYPE, TwistedAndCarved.id("coffin_ash"),COFFIN_ASH);
         Registry.register(Registries.PARTICLE_TYPE, TwistedAndCarved.id("dash_particle"),DASH_PARTICLE);
     }
 

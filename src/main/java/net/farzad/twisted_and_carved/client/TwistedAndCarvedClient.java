@@ -55,6 +55,7 @@ public class TwistedAndCarvedClient implements ClientModInitializer {
         ParticleFactoryRegistry.getInstance().register(ModParticles.FALCHION_SLASH, FalchionSlashParticle.Factory::new);
         ParticleFactoryRegistry.getInstance().register(ModParticles.DASH_PARTICLE, DashParticle.Factory::new);
         ParticleFactoryRegistry.getInstance().register(ModParticles.COFFIN_SMOKE, CoffinSmokeParticle.CoffinSmokeParticleFactory::new);
+        ParticleFactoryRegistry.getInstance().register(ModParticles.COFFIN_ASH, DotParticle.Factory::new);
 
 
         EntityRendererRegistry.register(ModEntities.TWISTED_GREATAXE_ENTITY, TwistedGreataxeEntityRenderer::new);

@@ -28,6 +28,7 @@ import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.random.Random;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
@@ -133,6 +134,19 @@ public class CoffinBlock extends BlockWithEntity {
         builder.add(OPEN);
         builder.add(FACING);
         builder.add(FIRST_OPENING);
+    }
+
+    @Override
+    public void randomDisplayTick(BlockState state, World world, BlockPos pos, Random random) {
+        double x = pos.getX() + 0.5;
+        double y = pos.getY() + 0.5;
+        double z = pos.getZ() + 0.5;
+        if (state.get(OPEN)) {
+            world.addParticleClient(ModParticles.COFFIN_ASH, x + Math.max(random.nextDouble() / 2,0.28) * (random.nextBoolean() ? 1 : -1), y + Math.max(random.nextDouble() / 20,0.15) * (random.nextBoolean() ? 1 : -1), z + Math.max(random.nextDouble() / 2,0.28) * (random.nextBoolean() ? 1 : -1), 0, 0, 0);
+            world.addParticleClient(ModParticles.COFFIN_ASH, x + Math.max(random.nextDouble() / 2,0.28) * (random.nextBoolean() ? 1 : -1), y + Math.max(random.nextDouble() / 20,0.15) * (random.nextBoolean() ? 1 : -1), z + Math.max(random.nextDouble() / 2,0.28) * (random.nextBoolean() ? 1 : -1), 0, 0, 0);
+            world.addParticleClient(ModParticles.COFFIN_ASH, x + Math.max(random.nextDouble() / 2,0.28) * (random.nextBoolean() ? 1 : -1), y + Math.max(random.nextDouble() / 20,0.15) * (random.nextBoolean() ? 1 : -1), z + Math.max(random.nextDouble() / 2,0.28) * (random.nextBoolean() ? 1 : -1), 0, 0, 0);
+        }
+
     }
 
     protected VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {

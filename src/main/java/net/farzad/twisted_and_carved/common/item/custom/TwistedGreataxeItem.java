@@ -71,7 +71,7 @@ public class TwistedGreataxeItem extends TwistedToolItem {
 
     private static void applyDashMovement(PlayerEntity user, ItemStack stack) {
         Vec3d dashDir = user.getRotationVec(1.0f).normalize();
-        user.addVelocity(dashDir.x * 3.5, dashDir.y * 3.5, dashDir.z * 3.5);
+        user.setVelocity(dashDir.x * 3.5, dashDir.y * 1.5, dashDir.z * 3.5);
         user.velocityModified = true;
         user.useRiptide(20 , 5, stack);
     }

@@ -51,10 +51,10 @@ public class DashParticle extends SpriteBillboardParticle {
     protected void render(VertexConsumer vertexConsumer, Camera camera, Quaternionf quaternionf, float tickProgress) {
 
         Quaternionf rotation = new Quaternionf();
-
-        rotation.rotateY((float) Math.toRadians (-this.yaw));
-        rotation.rotateZ((float) Math.toRadians(this.pitch));
-        rotation.rotateX((float) Math.toRadians(offset));
+        System.out.println(yaw + "yaw" + pitch + "pitch");
+        rotation.rotateY(this.yaw);
+        rotation.rotateX(-this.pitch);
+        rotation.rotateZ((float) Math.toRadians(offset));
         super.render(vertexConsumer, camera, rotation, tickProgress);
 
         rotation.rotateY((float) Math.toRadians(180));
@@ -62,7 +62,7 @@ public class DashParticle extends SpriteBillboardParticle {
     }
     @Override
     public int getBrightness(float tint) {
-        return 240;
+        return 200;
     }
 
     @Override
