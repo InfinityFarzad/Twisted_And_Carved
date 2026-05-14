@@ -118,7 +118,7 @@ public class ModBlocks {
                             .pistonBehavior(PistonBehavior.DESTROY)), true);
 
     public static final Block TWISTED_LEAVES = registerBlock("twisted_leaves",
-            properties -> new TwistedLeavesBlock(1, ModParticles.TWISTED_LEAF_PARTICLE, properties
+            properties -> new TwistedLeavesBlock(0.25f, ModParticles.TWISTED_LEAF_PARTICLE, properties
                     .mapColor(MapColor.CLEAR).strength(0.2F).ticksRandomly()
                     .sounds(BlockSoundGroup.AZALEA_LEAVES).nonOpaque()
                     .allowsSpawning(Blocks::canSpawnOnLeaves).suffocates(Blocks::never)

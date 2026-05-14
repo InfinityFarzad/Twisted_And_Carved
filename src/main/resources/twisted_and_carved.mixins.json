@@ -16,9 +16,11 @@
     "requireAnnotations": true
   },
   "client": [
+    "BackgroundRendererMixin",
     "DrawingContextMixin",
     "PlayerEntityRendererMixin",
     "PlayerEntityRenderStateMixin",
-    "TwistedRiptideRendererMixin"
+    "TwistedRiptideRendererMixin",
+    "WorldRendererMixin"
   ]
 }

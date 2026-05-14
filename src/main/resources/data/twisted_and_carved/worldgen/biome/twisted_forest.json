@@ -19,7 +19,13 @@
     "music_volume": 0.0,
     "sky_color": 12171705,
     "water_color": 7768221,
-    "water_fog_color": 5597568
+    "water_fog_color": 5597568,
+    "particle": {
+      "options": {
+        "type": "twisted_and_carved:twisted_leaf"
+      },
+      "probability": 0.00088334
+    }
   },
   "features": [
     [],
@@ -73,9 +79,8 @@
       "minecraft:spring_lava"
     ],
     [
-      "twisted_and_carved:twisted_tree_big",
-      "twisted_and_carved:twisted_tree_medium",
       "twisted_and_carved:twisted_tree_small",
+      "twisted_and_carved:twisted_tree_big",
       "minecraft:patch_grass_forest",
       "minecraft:patch_pumpkin",
       "minecraft:patch_firefly_bush_near_water"

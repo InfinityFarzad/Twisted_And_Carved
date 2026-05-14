@@ -71,7 +71,7 @@ public class TwistedGreataxeItem extends TwistedToolItem {
 
     private static void applyDashMovement(PlayerEntity user, ItemStack stack) {
         Vec3d dashDir = user.getRotationVec(1.0f).normalize();
-        user.setVelocity(dashDir.x * 3.5, dashDir.y * 1.5, dashDir.z * 3.5);
+        user.setVelocity(dashDir.x * 4.8, dashDir.y * 1.5, dashDir.z * 4.8);
         user.velocityModified = true;
         user.useRiptide(20 , 5, stack);
     }
@@ -137,8 +137,8 @@ public class TwistedGreataxeItem extends TwistedToolItem {
         if (user instanceof PlayerEntity player) {
             if (Objects.equals(TwistedWeaponUtil.getAbilityID(stack), "stride")) {
                 applyDashMovement(player, stack);
-                //player.playSound(SoundEvents.ITEM_TRIDENT_RIPTIDE_2.value(),1f,MathHelper.nextBetween(player.getRandom(),0.6f,0.7f));
-                player.playSoundToPlayer(SoundEvents.BLOCK_AZALEA_LEAVES_BREAK,player.getSoundCategory(),1f,MathHelper.nextBetween(player.getRandom(),1f,2f));
+                player.playSound(SoundEvents.ITEM_TRIDENT_RIPTIDE_2.value(),1f,MathHelper.nextBetween(player.getRandom(),0.6f,0.7f));
+                player.playSoundToPlayer(SoundEvents.ITEM_TRIDENT_RIPTIDE_3.value(),player.getSoundCategory(),1f,MathHelper.nextBetween(player.getRandom(),1f,2f));
 
                 if (!user.isInCreativeMode()) {
                     setCharge(stack, getCharge(stack) - (maxCharge / 2));

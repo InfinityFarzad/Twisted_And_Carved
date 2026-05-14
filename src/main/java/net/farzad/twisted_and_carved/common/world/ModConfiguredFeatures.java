@@ -25,7 +25,6 @@ import java.util.OptionalInt;
 
 public class ModConfiguredFeatures {
 
-    public static final RegistryKey<ConfiguredFeature<?, ?>> TWISTED_TREE_MEDIUM_KEY = registerKey("twisted_tree_medium");
     public static final RegistryKey<ConfiguredFeature<?, ?>> TWISTED_TREE_BIG_KEY = registerKey("twisted_tree_big");
     public static final RegistryKey<ConfiguredFeature<?, ?>> TWISTED_TREE_SMALL_KEY = registerKey("twisted_tree_small");
 
@@ -51,17 +50,7 @@ public class ModConfiguredFeatures {
 
                 new TwoLayersFeatureSize(8, 2, 2, OptionalInt.empty())).decorators(List.of(placeOnGroundTreeDecorator)).build());
 
-        register(context, TWISTED_TREE_MEDIUM_KEY, Feature.TREE, new TreeFeatureConfig.Builder(
-                BlockStateProvider.of(ModBlocks.TWISTED_LOG),
-                new MegaJungleTrunkPlacer(13, 12, 14),
-
-                BlockStateProvider.of(ModBlocks.TWISTED_LEAVES),
-                new DarkOakFoliagePlacer(ConstantIntProvider.create(3), ConstantIntProvider.create(0)),
-
-                new TwoLayersFeatureSize(4, 2, 2, OptionalInt.empty()))
-                .decorators(List.of(placeOnGroundTreeDecorator))
-                .build());
-    }
+        }
 
     public static RegistryKey<ConfiguredFeature<?, ?>> registerKey(String name) {
         return RegistryKey.of(RegistryKeys.CONFIGURED_FEATURE, Identifier.of(TwistedAndCarved.MOD_ID, name));

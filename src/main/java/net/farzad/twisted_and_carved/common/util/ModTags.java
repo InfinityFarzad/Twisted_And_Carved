@@ -5,6 +5,7 @@ import net.minecraft.item.Item;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.tag.TagKey;
 import net.minecraft.util.Identifier;
+import net.minecraft.world.biome.Biome;
 
 public class ModTags {
     public static class Items {
@@ -15,6 +16,17 @@ public class ModTags {
 
         private static TagKey<Item> createTag(String name) {
             return TagKey.of(RegistryKeys.ITEM, Identifier.of(TwistedAndCarved.MOD_ID, name));
+        }
+
+    }
+
+    public static class Biomes {
+        public static final TagKey<Biome> THICK_FOG = createTag("thick_fog");
+        public static final TagKey<Biome> TWISTED_FOREST = createTag("twisted_forest");
+
+
+        private static TagKey<Biome> createTag(String name) {
+            return TagKey.of(RegistryKeys.BIOME, Identifier.of(TwistedAndCarved.MOD_ID, name));
         }
 
     }

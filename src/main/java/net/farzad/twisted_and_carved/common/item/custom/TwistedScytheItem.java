@@ -3,6 +3,8 @@ package net.farzad.twisted_and_carved.common.item.custom;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import com.mojang.datafixers.util.Pair;
+import net.farzad.twisted_and_carved.client.particle.custom.FalchionSlashEffect;
+import net.farzad.twisted_and_carved.client.particle.custom.HarvestSlashEffect;
 import net.farzad.twisted_and_carved.common.TwistedAndCarved;
 import net.farzad.twisted_and_carved.common.component.ModDataComponents;
 import net.farzad.twisted_and_carved.common.component.TwistedSpiritComponent;
@@ -117,7 +119,9 @@ public class TwistedScytheItem extends TwistedToolItem implements CritInterface 
             user.sendMessage(Text.translatable("massage.twisted_and_carved.unable_to_harvest").formatted(Formatting.DARK_RED),true);
             user.playSoundToPlayer(SoundEvents.ENTITY_ITEM_BREAK.value(),user.getSoundCategory(),1,MathHelper.nextBetween(user.getRandom(),0.5f,0.7f));
         } else {
-            user.spawnSweepAttackParticles();
+            if (world instanceof ServerWorld serverWorld) {
+                serverWorld.spawnParticles(new HarvestSlashEffect(user.getYaw()), user.getX(), user.getY() + 0.5, user.getZ(), 1, 0, 0, 0, 1);
+            }
         }
 
     }
@@ -217,12 +221,14 @@ public class TwistedScytheItem extends TwistedToolItem implements CritInterface 
     @Override
     public void onCrit(LivingEntity attacker, LivingEntity target, ItemStack stack) {
         if (TwistedWeaponUtil.getAbilityID(stack).equals("grappling")) {
-            target.setVelocity(0,0,0);
-
-            double f = (target.getPos().distanceTo(attacker.getPos()) / (target.getBoundingBox().getLengthX() * target.getBoundingBox().getLengthY())) / 5.5;
+            double boxSize = (target.getBoundingBox().getLengthZ() + target.getBoundingBox().getLengthX() + target.getBoundingBox().getLengthY()) / 3;
+            double dis = target.getPos().distanceTo(attacker.getPos());
+            double f = dis / 3.5;
+            f /= boxSize > 1.4 ? boxSize : 1;
+            f = boxSize > 1.4 ? dis / 3.5 / boxSize : dis / 3.5;
             Vec3d velocity = (new Vec3d(target.getX() - attacker.getX(), target.getY() - attacker.getY(), target.getZ() - attacker.getZ()).normalize().multiply(f * -1));
-            target.addVelocity(velocity);
-
+            target.setVelocity(velocity);
+            System.out.println(boxSize);
             target.velocityModified=true;
         }
     }

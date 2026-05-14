@@ -11,9 +11,9 @@ public class DotParticle extends SpriteBillboardParticle {
     protected DotParticle(ClientWorld clientWorld, double d, double e, double f, SpriteProvider provider) {
         super(clientWorld, d, e, f);
         this.gravityStrength = 0.0f;
-        this.maxAge = (int) (20 * 1.3f);
+        this.maxAge = (int) (20 * 1.8f);
         this.collidesWithWorld = false;
-        this.velocityY = 0.15;
+        this.velocityY = 0.08;
         this.scale = 0.02F;
         setSprite(provider);
     }

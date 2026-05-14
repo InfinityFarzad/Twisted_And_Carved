@@ -51,7 +51,6 @@ public class DashParticle extends SpriteBillboardParticle {
     protected void render(VertexConsumer vertexConsumer, Camera camera, Quaternionf quaternionf, float tickProgress) {
 
         Quaternionf rotation = new Quaternionf();
-        System.out.println(yaw + "yaw" + pitch + "pitch");
         rotation.rotateY(this.yaw);
         rotation.rotateX(-this.pitch);
         rotation.rotateZ((float) Math.toRadians(offset));

@@ -8,19 +8,19 @@ import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.world.ClientWorld;
 import org.joml.Quaternionf;
 
-public class FalchionSlashParticle extends SpriteBillboardParticle {
+public class DirectionalSlashParticle extends SpriteBillboardParticle {
     private final float yaw;
     private final SpriteProvider spriteProvider;
     private final float offset;
 
-    FalchionSlashParticle(ClientWorld world, double x, double y, double z, float yaw, SpriteProvider spriteProvider) {
+    DirectionalSlashParticle(ClientWorld world, double x, double y, double z, float yaw, float scale, boolean hasZOffset, SpriteProvider spriteProvider) {
         super(world, x, y, z, 0.0, 0.0, 0.0);
-        this.scale = 4;
+        this.scale = scale;
         this.yaw = yaw;
         this.maxAge = 4;
         this.gravityStrength = 0.0F;
         this.angle =0;
-        this.offset = world.getRandom().nextBetween(-360,360);
+        this.offset = random.nextBetween(-360,360) * (hasZOffset ? 1 : 0);
         this.lastAngle =0;
         this.velocityX = 0.0;
         this.velocityY = 0.0;
@@ -67,15 +67,28 @@ public class FalchionSlashParticle extends SpriteBillboardParticle {
     }
 
     @Environment(EnvType.CLIENT)
-    public static class Factory implements ParticleFactory<FalchionSlashEffect> {
+    public static class FalchionSlashFactory implements ParticleFactory<FalchionSlashEffect> {
         private final SpriteProvider spriteProvider;
 
-        public Factory(SpriteProvider spriteProvider) {
+        public FalchionSlashFactory(SpriteProvider spriteProvider) {
             this.spriteProvider = spriteProvider;
         }
 
         public Particle createParticle(FalchionSlashEffect slashEffect, ClientWorld clientWorld, double d, double e, double f, double g, double h, double i) {
-            return new FalchionSlashParticle(clientWorld, d, e, f, slashEffect.yaw(),spriteProvider);
+            return new DirectionalSlashParticle(clientWorld, d, e, f, slashEffect.yaw(),2,true,spriteProvider);
+        }
+    }
+
+    @Environment(EnvType.CLIENT)
+    public static class HarvestSlashFactory implements ParticleFactory<HarvestSlashEffect> {
+        private final SpriteProvider spriteProvider;
+
+        public HarvestSlashFactory(SpriteProvider spriteProvider) {
+            this.spriteProvider = spriteProvider;
+        }
+
+        public Particle createParticle(HarvestSlashEffect slashEffect, ClientWorld clientWorld, double d, double e, double f, double g, double h, double i) {
+            return new DirectionalSlashParticle(clientWorld, d, e, f, slashEffect.yaw(),1,false,spriteProvider);
         }
     }
 }

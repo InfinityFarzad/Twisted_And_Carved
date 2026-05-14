@@ -15,7 +15,6 @@ import java.util.List;
 public class ModPlacedFeatures {
 
     public static final RegistryKey<PlacedFeature> TWISTED_TREE_SMALL_KEY = registerKey("twisted_tree_small");
-    public static final RegistryKey<PlacedFeature> TWISTED_TREE_MEDIUM_KEY = registerKey("twisted_tree_medium");
     public static final RegistryKey<PlacedFeature> TWISTED_TREE_BIG_KEY = registerKey("twisted_tree_big");
 
 
@@ -23,9 +22,6 @@ public class ModPlacedFeatures {
         var configuredFeatures = context.getRegistryLookup(RegistryKeys.CONFIGURED_FEATURE);
 
         register(context, TWISTED_TREE_SMALL_KEY, configuredFeatures.getOrThrow(ModConfiguredFeatures.TWISTED_TREE_SMALL_KEY),
-                VegetationPlacedFeatures.treeModifiersWithWouldSurvive(
-                        PlacedFeatures.createCountExtraModifier(2, 0.1f, 2), ModBlocks.TWISTED_SAPLING));
-        register(context, TWISTED_TREE_MEDIUM_KEY, configuredFeatures.getOrThrow(ModConfiguredFeatures.TWISTED_TREE_MEDIUM_KEY),
                 VegetationPlacedFeatures.treeModifiersWithWouldSurvive(
                         PlacedFeatures.createCountExtraModifier(2, 0.1f, 2), ModBlocks.TWISTED_SAPLING));
         register(context, TWISTED_TREE_BIG_KEY, configuredFeatures.getOrThrow(ModConfiguredFeatures.TWISTED_TREE_BIG_KEY),

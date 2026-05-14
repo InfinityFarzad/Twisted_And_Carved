@@ -8,7 +8,6 @@ import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.HudLayerRegistrationCallback;
-import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.farzad.twisted_and_carved.client.particle.ModParticles;
 import net.farzad.twisted_and_carved.client.particle.custom.*;
 import net.farzad.twisted_and_carved.client.properties.TwistedScytheGrapplingProperty;
@@ -52,11 +51,11 @@ public class TwistedAndCarvedClient implements ClientModInitializer {
         ParticleFactoryRegistry.getInstance().register(ModParticles.TWISTED_GLAIVE_SWEEP, TwistedGlaiveSweepParticle.Factory::new);
         ParticleFactoryRegistry.getInstance().register(ModParticles.TWISTED_LEAF_PARTICLE, LeavesParticle.CherryLeavesFactory::new);
         ParticleFactoryRegistry.getInstance().register(ModParticles.PARRY_PARTICLE, ParryParticle.Factory::new);
-        ParticleFactoryRegistry.getInstance().register(ModParticles.FALCHION_SLASH, FalchionSlashParticle.Factory::new);
+        ParticleFactoryRegistry.getInstance().register(ModParticles.FALCHION_SLASH, DirectionalSlashParticle.FalchionSlashFactory::new);
         ParticleFactoryRegistry.getInstance().register(ModParticles.DASH_PARTICLE, DashParticle.Factory::new);
         ParticleFactoryRegistry.getInstance().register(ModParticles.COFFIN_SMOKE, CoffinSmokeParticle.CoffinSmokeParticleFactory::new);
         ParticleFactoryRegistry.getInstance().register(ModParticles.COFFIN_ASH, DotParticle.Factory::new);
-
+        ParticleFactoryRegistry.getInstance().register(ModParticles.HARVEST_SLASH, DirectionalSlashParticle.HarvestSlashFactory::new);
 
         EntityRendererRegistry.register(ModEntities.TWISTED_GREATAXE_ENTITY, TwistedGreataxeEntityRenderer::new);
         EntityRendererRegistry.register(ModEntities.TWISTED_SCYTHE_ENTITY, TwistedScytheEntityRenderer::new);
