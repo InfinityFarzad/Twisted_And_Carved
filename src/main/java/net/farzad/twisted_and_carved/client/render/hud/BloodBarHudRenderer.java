@@ -95,11 +95,25 @@ public class BloodBarHudRenderer implements HudLayerRegistrationCallback {
                 assert client.player != null;
                 ItemStack stack = getStack(client.player);
 
-
-                Identifier texture = Identifier.of(TwistedAndCarved.MOD_ID, "textures/gui/blood_bar_" + getBloodChargeOverlay(stack) + ".png");
                 if (stack.isOf(ModItems.TWISTED_FALCHION) && Objects.equals(TwistedWeaponUtil.getAbilityID(stack), "bleeding")) {
+                    int xCord = client.getWindow().getScaledWidth() / 2 + 120;
+                    int yCord = client.getWindow().getScaledHeight() - 28;
+                    context.drawTexture(RenderLayer::getGuiTextured, TwistedAndCarved.id("textures/gui/blood_bar.png"), xCord, yCord, 0, 0, 64, 32, 64, 32);
+                    context.drawGuiTexture(RenderLayer::getGuiTextured, TwistedAndCarved.id("textures/gui/sprites/blood_bar_slice.png"),0,0,16,16);
+                    /*
+                    context.fill(xCord + 39 - stack.getOrDefault(ModDataComponents.BLOOD_CHARGE,0).intValue() / 4,yCord + 13,xCord + 39,yCord + 19,ColorHelper.getArgb(249,78,109));
+                    context.fill(xCord + 38 - stack.getOrDefault(ModDataComponents.BLOOD_CHARGE,0).intValue() / 4,yCord + 14,xCord + 39,yCord + 18,ColorHelper.getArgb(249,78,109));
 
-                    context.drawTexture(RenderLayer::getGuiTextured, texture, client.getWindow().getScaledWidth() / 2 + 120, client.getWindow().getScaledHeight() - 28, 0, 0, 64, 32, 64, 32);
+                    context.fill(xCord + 39 - stack.getOrDefault(ModDataComponents.BLOOD_CHARGE,0).intValue() / 4,yCord + 13,xCord + 39,yCord + 19,ColorHelper.getArgb(249,78,109));
+                    context.fill(xCord + 38 - stack.getOrDefault(ModDataComponents.BLOOD_CHARGE,0).intValue() / 4,yCord + 14,xCord + 39,yCord + 18,ColorHelper.getArgb(249,78,109));
+
+                    context.fill(xCord + 38,yCord + 13,xCord + 48,yCord + 19,ColorHelper.getArgb(193,36,88));
+                    context.fill(xCord + 37,yCord + 14,xCord + 48,yCord + 18,ColorHelper.getArgb(193,36,88));
+*/
+
+
+                    context.drawTexture(RenderLayer::getGuiTextured, TwistedAndCarved.id("textures/gui/blood_bar_overlay.png"), xCord, yCord, 0, 0, 64, 32, 64, 32);
+
                     context.drawText(client.textRenderer,"%" + stack.getOrDefault(ModDataComponents.BLOOD_CHARGE,0).toString(),client.getWindow().getScaledWidth() / 2 + 130 + x_offset, client.getWindow().getScaledHeight() - 16 + y_offset, ColorHelper.withAlpha(opacity* 255 / 20,16777215),true);
                 }
             }

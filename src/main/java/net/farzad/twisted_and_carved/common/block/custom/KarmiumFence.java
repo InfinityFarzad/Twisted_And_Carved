@@ -26,7 +26,14 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-// IMPORTENT NOTE : CODE HERE WAS PROVIDED AND BASED ON THE CODE FOR THE RAILING BLOCK BY POWERCYPHE FOR MEDECOOLES MEDES DECOR MOD, THANK YOU SO MUCH TO HIM! GO CHECK HIM AND MEDECOOLE OUT! and download festive frenzy or i will be sad :(
+/*
+ * ALL RIGHTS RESERVED
+ *
+ * Powercyphe : originally coded the class
+ * InfinityFarzad : modified class with permission for twisted and carved
+ *
+ */
+
 
 public class KarmiumFence extends Block implements Segmented {
     public static final BooleanProperty WATERLOGGED = Properties.WATERLOGGED;

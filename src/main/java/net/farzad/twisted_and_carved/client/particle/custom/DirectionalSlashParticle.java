@@ -75,7 +75,7 @@ public class DirectionalSlashParticle extends SpriteBillboardParticle {
         }
 
         public Particle createParticle(FalchionSlashEffect slashEffect, ClientWorld clientWorld, double d, double e, double f, double g, double h, double i) {
-            return new DirectionalSlashParticle(clientWorld, d, e, f, slashEffect.yaw(),2,true,spriteProvider);
+            return new DirectionalSlashParticle(clientWorld, d, e, f, slashEffect.yaw(),4,true,spriteProvider);
         }
     }
 

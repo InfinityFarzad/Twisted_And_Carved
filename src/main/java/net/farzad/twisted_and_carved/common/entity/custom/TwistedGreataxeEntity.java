@@ -129,7 +129,7 @@ public class TwistedGreataxeEntity extends PersistentProjectileEntity {
                 this.setNoClip(true);
                 Vec3d target = entity != null ? new Vec3d(entity.getX(),entity.getY() + 0.8,entity.getZ()) : targetPos;
                 if (target != null) {
-                    Vec3d direction = target.subtract(this.getPos()).normalize();
+                    Vec3d direction = target.subtract(this.getPos().add(entity.getVelocity())).normalize();
                     double distance = this.getPos().distanceTo(this.getOwner().getPos()) / 5;
 
                     this.setVelocity(direction.multiply(0.55));
@@ -186,24 +186,26 @@ public class TwistedGreataxeEntity extends PersistentProjectileEntity {
                         .getOrThrow(RegistryKeys.DAMAGE_TYPE)
                         .getEntry(ModDamageTypes.TOMAHAWK_DAMAGE.getValue()).get());
         World var7 = this.getWorld();
-        if (var7 instanceof ServerWorld serverWorld) {
-            f = EnchantmentHelper.getDamage(serverWorld, Objects.requireNonNull(this.getWeaponStack()), entity, damageSource, f);
-        }
-
-        this.dealtDamage = true;
-        if (entity.sidedDamage(damageSource, f + damageMultiplier)) {
-            if (entity.getType() == EntityType.ENDERMAN) {
-                return;
-            }
-
-            var7 = this.getWorld();
+        if (entity != this.getOwner()) {
             if (var7 instanceof ServerWorld serverWorld) {
-                EnchantmentHelper.onTargetDamaged(serverWorld, entity, damageSource, this.getWeaponStack(), (item) -> this.kill(serverWorld));
+                f = EnchantmentHelper.getDamage(serverWorld, Objects.requireNonNull(this.getWeaponStack()), entity, damageSource, f);
             }
 
-            if (entity instanceof LivingEntity livingEntity) {
-                this.knockback(livingEntity, damageSource);
-                this.onHit(livingEntity);
+            this.dealtDamage = true;
+            if (entity.sidedDamage(damageSource, f + damageMultiplier)) {
+                if (entity.getType() == EntityType.ENDERMAN) {
+                    return;
+                }
+
+                var7 = this.getWorld();
+                if (var7 instanceof ServerWorld serverWorld) {
+                    EnchantmentHelper.onTargetDamaged(serverWorld, entity, damageSource, this.getWeaponStack(), (item) -> this.kill(serverWorld));
+                }
+
+                if (entity instanceof LivingEntity livingEntity) {
+                    this.knockback(livingEntity, damageSource);
+                    this.onHit(livingEntity);
+                }
             }
         }
 
@@ -251,7 +253,7 @@ public class TwistedGreataxeEntity extends PersistentProjectileEntity {
 
     @Override
     public void onPlayerCollision(PlayerEntity player) {
-        if (this.isOwner(player) || this.getOwner() == null) {
+        if (this.isOwner(player) || this.getOwner() != null) {
             if (!this.getWorld().isClient && (this.isInGround() || this.isNoClip()) && this.shake <= 0) {
                 if (this.tryPickup(player)) {
                     returnToSlot(player, this.slot, this.asItemStack());

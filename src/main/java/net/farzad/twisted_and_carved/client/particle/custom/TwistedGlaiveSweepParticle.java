@@ -19,7 +19,7 @@ public class TwistedGlaiveSweepParticle extends SpriteBillboardParticle {
 
         this.velocityMultiplier = 0f;
         this.scale = 1f;
-        this.maxAge = 10;
+        this.maxAge = 15;
         this.setSpriteForAge(spriteProvider);
         this.red = 1f;
         this.green = 1f;
@@ -50,7 +50,7 @@ public class TwistedGlaiveSweepParticle extends SpriteBillboardParticle {
     public void tick() {
 
         fadeOut();
-        rotationAngle = (rotationAngle + 5) % 360;
+        rotationAngle = (rotationAngle + 15) % 360;
         if (this.age++ >= this.maxAge) {
             this.markDead();
         } else {

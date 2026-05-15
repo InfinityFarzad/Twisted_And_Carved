@@ -46,7 +46,6 @@ public class TwistedScytheEntity extends PersistentProjectileEntity {
         super(entityType, world);
     }
 
-
     private void playSound() {
         if (!this.isInGround() && !isPlayingSound) {
             if (!this.getWorld().isClient) {
@@ -83,7 +82,7 @@ public class TwistedScytheEntity extends PersistentProjectileEntity {
 
 
     public void tick() {
-        if (isOwnerAlive() && this.getOwner() instanceof LivingEntity owner) {
+        if (this.getOwner() != null && this.getOwner() instanceof LivingEntity owner) {
             Vec3d targetPos = owner.getPos();
             double distance = targetPos.distanceTo(this.getPos());
 
@@ -91,7 +90,7 @@ public class TwistedScytheEntity extends PersistentProjectileEntity {
                 this.isGripped = true;
             }
 
-            if ((distance > 57 && !this.isGripped)  || this.inGroundTime > 8) {
+            if ((distance > 57 && !this.isGripped) || this.inGroundTime > 8) {
                 this.playSound(SoundEvents.ITEM_TRIDENT_RETURN, 1.0F, 1.0F);
                 this.shouldReturn = true;
                 this.isGripped = false;
@@ -126,8 +125,8 @@ public class TwistedScytheEntity extends PersistentProjectileEntity {
 
     @Override
     public void onPlayerCollision(PlayerEntity player) {
-        if (this.isOwner(player) && this.getOwner() == null) {
-            if (!this.getWorld().isClient && (this.isInGround() || shouldReturn)) {
+        if (this.isOwner(player) && this.getOwner() != null && !player.isSpectator()) {
+            if (!this.getWorld().isClient && shouldReturn) {
                 getScytheStack(player).set(ModDataComponents.TWISTED_SCYTHE_GRAPPLING, false);
                 this.discard();
             }
@@ -163,7 +162,7 @@ public class TwistedScytheEntity extends PersistentProjectileEntity {
                     if (boxSize >= 1.5) {
                         pullOwner(owner);
                     } else {
-                        pullTarget(owner,livingEntity);
+                        pullTarget(owner, livingEntity);
                     }
 
                     getScytheStack((PlayerEntity) this.getOwner()).set(ModDataComponents.TWISTED_SCYTHE_GRAPPLING, false);
@@ -177,18 +176,6 @@ public class TwistedScytheEntity extends PersistentProjectileEntity {
             this.deflect(ProjectileDeflection.SIMPLE, entity, this.getOwner(), false);
             this.setVelocity(this.getVelocity().multiply(0.2, 0.02, 0.2));
             this.playSound(SoundEvents.ITEM_TRIDENT_HIT, 1.0F, 1.0F);
-        }
-    }
-
-
-
-
-    private boolean isOwnerAlive() {
-        Entity entity = this.getOwner();
-        if (entity != null && entity.isAlive()) {
-            return !(entity instanceof ServerPlayerEntity) || !entity.isSpectator();
-        } else {
-            return false;
         }
     }
 

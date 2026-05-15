@@ -96,7 +96,7 @@ public class TwistedFalchionItem extends TwistedToolItem {
     public ActionResult use(World world, PlayerEntity user, Hand hand) {
         ItemStack stack = user.getStackInHand(hand);
         if (TwistedWeaponUtil.getAbilityID(stack).equals("bleeding")) {
-            if (getBlood(stack) >= (100 / 3) || user.isCreative()) {
+            if (getBlood(stack) >= (100 / 3)) {
                 if (world instanceof ServerWorld serverWorld) {
                     serverWorld.spawnParticles(new FalchionSlashEffect(user.getYaw()), user.getX(), user.getY() + 0.5, user.getZ(), 1, 0, 0, 0, 1);
                     serverWorld.playSound(null, user.getX(), user.getY(), user.getZ(), SoundEvents.BLOCK_MUD_HIT, user.getSoundCategory(), 2.0F, MathHelper.nextBetween(user.getRandom(), 3.8f, 3.5f));
