@@ -2,6 +2,7 @@ package net.farzad.twisted_and_carved.common;
 
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
+import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents;
 import net.fabricmc.fabric.api.registry.StrippableBlockRegistry;
 import net.farzad.twisted_and_carved.client.particle.ModParticles;
 import net.farzad.twisted_and_carved.common.block.ModBlocks;
@@ -52,6 +53,8 @@ public class TwistedAndCarved implements ModInitializer, TerraBlenderApi {
         ModBlockEntities.init();
         TwistedToolPiecePlacer.init();
         ModBiomes.init();
+
+        // ServerLivingEntityEvents.AFTER_DAMAGE
 
         StrippableBlockRegistry.register(ModBlocks.TWISTED_LOG, ModBlocks.STRIPPED_TWISTED_LOG);
         StrippableBlockRegistry.register(ModBlocks.TWISTED_WOOD, ModBlocks.STRIPPED_TWISTED_WOOD);

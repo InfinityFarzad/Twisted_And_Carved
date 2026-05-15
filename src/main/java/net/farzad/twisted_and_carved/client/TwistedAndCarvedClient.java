@@ -64,6 +64,7 @@ public class TwistedAndCarvedClient implements ClientModInitializer {
 
         applyItemTooltips();
 
+
         HudLayerRegistrationCallback.EVENT.register(bloodBarHudRenderer);
         ClientTickEvents.END_CLIENT_TICK.register((client) -> {
             this.bloodBarHudRenderer.tick();

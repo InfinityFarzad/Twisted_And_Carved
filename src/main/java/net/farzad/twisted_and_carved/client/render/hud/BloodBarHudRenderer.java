@@ -96,10 +96,12 @@ public class BloodBarHudRenderer implements HudLayerRegistrationCallback {
                 ItemStack stack = getStack(client.player);
 
                 if (stack.isOf(ModItems.TWISTED_FALCHION) && Objects.equals(TwistedWeaponUtil.getAbilityID(stack), "bleeding")) {
+                    float s = stack.getOrDefault(ModDataComponents.BLOOD_CHARGE, 0) / 100F;
+
                     int xCord = client.getWindow().getScaledWidth() / 2 + 120;
                     int yCord = client.getWindow().getScaledHeight() - 28;
-                    context.drawTexture(RenderLayer::getGuiTextured, TwistedAndCarved.id("textures/gui/blood_bar.png"), xCord, yCord, 0, 0, 64, 32, 64, 32);
-                    context.drawGuiTexture(RenderLayer::getGuiTextured, TwistedAndCarved.id("textures/gui/sprites/blood_bar_slice.png"),0,0,16,16);
+                    context.drawGuiTexture(RenderLayer::getGuiTextured, TwistedAndCarved.id("blood_bar/blood_bar"), xCord, yCord, 64, 32);
+                    context.drawGuiTexture(RenderLayer::getGuiTextured, TwistedAndCarved.id("blood_bar/blood_bar_slice"), xCord + 39 - (int) (s * 26), yCord + 14, (int) (s * 26), 4);
                     /*
                     context.fill(xCord + 39 - stack.getOrDefault(ModDataComponents.BLOOD_CHARGE,0).intValue() / 4,yCord + 13,xCord + 39,yCord + 19,ColorHelper.getArgb(249,78,109));
                     context.fill(xCord + 38 - stack.getOrDefault(ModDataComponents.BLOOD_CHARGE,0).intValue() / 4,yCord + 14,xCord + 39,yCord + 18,ColorHelper.getArgb(249,78,109));
@@ -112,7 +114,7 @@ public class BloodBarHudRenderer implements HudLayerRegistrationCallback {
 */
 
 
-                    context.drawTexture(RenderLayer::getGuiTextured, TwistedAndCarved.id("textures/gui/blood_bar_overlay.png"), xCord, yCord, 0, 0, 64, 32, 64, 32);
+                    context.drawGuiTexture(RenderLayer::getGuiTextured, TwistedAndCarved.id("blood_bar/blood_bar_overlay"), xCord, yCord, 64, 32);
 
                     context.drawText(client.textRenderer,"%" + stack.getOrDefault(ModDataComponents.BLOOD_CHARGE,0).toString(),client.getWindow().getScaledWidth() / 2 + 130 + x_offset, client.getWindow().getScaledHeight() - 16 + y_offset, ColorHelper.withAlpha(opacity* 255 / 20,16777215),true);
                 }
