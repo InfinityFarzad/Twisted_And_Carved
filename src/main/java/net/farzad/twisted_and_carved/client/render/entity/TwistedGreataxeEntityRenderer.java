@@ -2,13 +2,15 @@ package net.farzad.twisted_and_carved.client.render.entity;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.farzad.twisted_and_carved.common.entity.custom.TwistedGreataxeEntity;
-import net.farzad.twisted_and_carved.common.item.ModItems;
+import net.farzad.twisted_and_carved.client.render.entity.state.TwistedGreataxeEntityRenderstate;
+import net.farzad.twisted_and_carved.common.entity.TwistedGreataxeEntity;
+import net.farzad.twisted_and_carved.common.register.TCItems;
 import net.minecraft.client.item.ItemModelManager;
 import net.minecraft.client.render.OverlayTexture;
-import net.minecraft.client.render.VertexConsumerProvider;
+import net.minecraft.client.render.command.OrderedRenderCommandQueue;
 import net.minecraft.client.render.entity.EntityRenderer;
 import net.minecraft.client.render.entity.EntityRendererFactory;
+import net.minecraft.client.render.state.CameraRenderState;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.ItemDisplayContext;
 import net.minecraft.util.math.RotationAxis;
@@ -30,15 +32,16 @@ public class TwistedGreataxeEntityRenderer extends EntityRenderer<TwistedGreatax
         this(context, 1.0F);
     }
 
-    public void render(TwistedGreataxeEntityRenderstate itemEntityRenderState, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i) {
-        matrixStack.push();
-        matrixStack.scale(this.scale, this.scale, this.scale);
-        matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(itemEntityRenderState.entity.getLerpedYaw(itemEntityRenderState.tickDelta)));
-        matrixStack.multiply(new Quaternionf().rotateX((float) Math.toRadians(((itemEntityRenderState.entity.getWorld().getTime() + itemEntityRenderState.tickDelta)) * 120 * itemEntityRenderState.entity.getVelocity().length())));
+    @Override
+    public void render(TwistedGreataxeEntityRenderstate renderState, MatrixStack matrices, OrderedRenderCommandQueue queue, CameraRenderState cameraState) {
+        matrices.push();
+        matrices.scale(this.scale, this.scale, this.scale);
+        matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(renderState.entity.getLerpedYaw(renderState.tickDelta)));
+        matrices.multiply(new Quaternionf().rotateX((float) Math.toRadians(((renderState.entity.getEntityWorld().getTime() + renderState.tickDelta)) * 120 * renderState.entity.getVelocity().length())));
 
-        itemEntityRenderState.itemRenderState.render(matrixStack, vertexConsumerProvider, i, OverlayTexture.DEFAULT_UV);
-        matrixStack.pop();
-        super.render(itemEntityRenderState, matrixStack, vertexConsumerProvider, i);
+        renderState.itemRenderState.render(matrices, queue, renderState.light, OverlayTexture.DEFAULT_UV,renderState.outlineColor);
+        matrices.pop();
+        super.render(renderState, matrices, queue,cameraState);
     }
 
     @Override
@@ -48,7 +51,7 @@ public class TwistedGreataxeEntityRenderer extends EntityRenderer<TwistedGreatax
 
     @Override
     public void updateRenderState(TwistedGreataxeEntity entity, TwistedGreataxeEntityRenderstate state, float tickDelta) {
-        itemModelManager.updateForNonLivingEntity(state.itemRenderState, ModItems.TWISTED_GREATAXE.getDefaultStack(), ItemDisplayContext.THIRD_PERSON_RIGHT_HAND, entity);
+        itemModelManager.updateForNonLivingEntity(state.itemRenderState, TCItems.TWISTED_GREATAXE.getDefaultStack(), ItemDisplayContext.THIRD_PERSON_RIGHT_HAND, entity);
         state.entity = entity;
         state.stack = entity.getWeaponStack();
         state.tickDelta = tickDelta;

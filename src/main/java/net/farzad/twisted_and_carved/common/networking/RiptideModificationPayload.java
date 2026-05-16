@@ -7,8 +7,6 @@ import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.network.codec.PacketCodecs;
 import net.minecraft.network.packet.CustomPayload;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.math.Vec3d;
-import org.joml.Vector3d;
 
 public record RiptideModificationPayload(int entityID, ItemStack stack) implements CustomPayload {
 

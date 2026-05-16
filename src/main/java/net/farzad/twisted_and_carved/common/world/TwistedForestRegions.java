@@ -28,7 +28,7 @@ public class TwistedForestRegions extends Region {
                 .depth(ParameterUtils.Depth.SURFACE, ParameterUtils.Depth.SURFACE)
                 .continentalness(MultiNoiseUtil.ParameterRange.of(0.25f,0.9f))
                 .weirdness(ParameterUtils.Weirdness.FULL_RANGE)
-                .build().forEach(point -> builder.add(point, ModBiomes.TWISTED_FOREST));
+                .build().forEach(point -> builder.add(point, TCBiomes.TWISTED_FOREST));
 
         builder.build().forEach(mapper);
     }

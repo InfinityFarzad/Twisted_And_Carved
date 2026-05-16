@@ -2,9 +2,9 @@ package net.farzad.twisted_and_carved.common.datagen;
 
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
-import net.farzad.twisted_and_carved.common.block.ModBlocks;
-import net.farzad.twisted_and_carved.common.item.ModItems;
-import net.farzad.twisted_and_carved.common.util.ModTags;
+import net.farzad.twisted_and_carved.common.register.TCBlocks;
+import net.farzad.twisted_and_carved.common.register.TCItems;
+import net.farzad.twisted_and_carved.common.register.TDTags;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.registry.tag.ItemTags;
 
@@ -17,41 +17,41 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
 
     @Override
     protected void configure(RegistryWrapper.WrapperLookup wrapperLookup) {
-        getOrCreateTagBuilder(ItemTags.AXES).add(ModItems.TWISTED_GREATAXE);
-        getOrCreateTagBuilder(ItemTags.HOES).add(ModItems.TWISTED_SCYTHE);
-        getOrCreateTagBuilder(ModTags.Items.TWISTED_TOOL_REPAIR_INGREDIENT).add(ModItems.KARMIUM_INGOT);
-        getOrCreateTagBuilder(ItemTags.SWORD_ENCHANTABLE).add(ModItems.TWISTED_FALCHION).add(ModItems.TWISTED_GLAIVE);
-        getOrCreateTagBuilder(ItemTags.HOES).add(ModItems.TWISTED_SCYTHE);
-        getOrCreateTagBuilder(ItemTags.PLANKS).add(ModBlocks.TWISTED_PLANKS.asItem());
-        getOrCreateTagBuilder(ItemTags.SHARP_WEAPON_ENCHANTABLE).addOptionalTag(ModTags.Items.TWISTED_TOOL);
-        getOrCreateTagBuilder(ItemTags.LOGS_THAT_BURN)
-                .add(ModBlocks.TWISTED_LOG.asItem())
-                .add(ModBlocks.STRIPPED_TWISTED_LOG.asItem())
-                .add(ModBlocks.STRIPPED_TWISTED_WOOD.asItem())
-                .add(ModBlocks.TWISTED_WOOD.asItem());
+        valueLookupBuilder(ItemTags.AXES).add(TCItems.TWISTED_GREATAXE);
+        valueLookupBuilder(ItemTags.HOES).add(TCItems.TWISTED_SCYTHE);
+        valueLookupBuilder(TDTags.Items.TWISTED_TOOL_REPAIR_INGREDIENT).add(TCItems.KARMIUM_INGOT);
+        valueLookupBuilder(ItemTags.SHARP_WEAPON_ENCHANTABLE).add(TCItems.TWISTED_FALCHION).add(TCItems.TWISTED_GLAIVE);
+        valueLookupBuilder(ItemTags.HOES).add(TCItems.TWISTED_SCYTHE);
+        valueLookupBuilder(ItemTags.PLANKS).add(TCBlocks.TWISTED_PLANKS.asItem());
+        valueLookupBuilder(ItemTags.SHARP_WEAPON_ENCHANTABLE).addOptionalTag(TDTags.Items.TWISTED_TOOL);
+        valueLookupBuilder(ItemTags.LOGS_THAT_BURN)
+                .add(TCBlocks.TWISTED_LOG.asItem())
+                .add(TCBlocks.STRIPPED_TWISTED_LOG.asItem())
+                .add(TCBlocks.STRIPPED_TWISTED_WOOD.asItem())
+                .add(TCBlocks.TWISTED_WOOD.asItem());
 
-        getOrCreateTagBuilder(ItemTags.SAPLINGS)
-                .add(ModBlocks.TWISTED_SAPLING.asItem());
+        valueLookupBuilder(ItemTags.SAPLINGS)
+                .add(TCBlocks.TWISTED_SAPLING.asItem());
 
-        getOrCreateTagBuilder(ItemTags.LEAVES).add(ModBlocks.TWISTED_LEAVES.asItem());
-        getOrCreateTagBuilder(ModTags.Items.KARMIUM)
-                .add(ModItems.KARMIUM_INGOT)
-                .add(ModItems.RAW_KARMIUM)
-                .add(ModItems.KARMIUM_BLOCK);
+        valueLookupBuilder(ItemTags.LEAVES).add(TCBlocks.TWISTED_LEAVES.asItem());
+        valueLookupBuilder(TDTags.Items.KARMIUM)
+                .add(TCItems.KARMIUM_INGOT)
+                .add(TCItems.RAW_KARMIUM)
+                .add(TCItems.KARMIUM_BLOCK);
 
-        getOrCreateTagBuilder(ItemTags.WOODEN_STAIRS).add(ModBlocks.TWISTED_STAIRS.asItem());
-        getOrCreateTagBuilder(ItemTags.WOODEN_SLABS).add(ModBlocks.TWISTED_SLAB.asItem());
-        getOrCreateTagBuilder(ItemTags.WOODEN_BUTTONS).add(ModBlocks.TWISTED_BUTTON.asItem());
-        getOrCreateTagBuilder(ItemTags.WOODEN_PRESSURE_PLATES).add(ModBlocks.TWISTED_PRESSURE_PLATE.asItem());
-        getOrCreateTagBuilder(ItemTags.WOODEN_TRAPDOORS).add(ModBlocks.TWISTED_TRAPDOOR.asItem());
-        getOrCreateTagBuilder(ItemTags.WOODEN_DOORS).add(ModBlocks.TWISTED_DOOR.asItem());
-        getOrCreateTagBuilder(ItemTags.FENCE_GATES).add(ModBlocks.TWISTED_FENCE_GATE.asItem());
-        getOrCreateTagBuilder(ItemTags.WOODEN_FENCES).add(ModBlocks.TWISTED_FENCE.asItem());
-        getOrCreateTagBuilder(ModTags.Items.TWISTED_SPIRIT).add(ModItems.BLEEDING_SPIRIT);
-        getOrCreateTagBuilder(ModTags.Items.TWISTED_SPIRIT).add(ModItems.HARVEST_SPIRIT);
-        getOrCreateTagBuilder(ModTags.Items.TWISTED_SPIRIT).add(ModItems.GRAPPLING_SPIRIT);
-        getOrCreateTagBuilder(ModTags.Items.TWISTED_SPIRIT).add(ModItems.STRIDE_SPIRIT);
-        getOrCreateTagBuilder(ModTags.Items.TWISTED_SPIRIT).add(ModItems.SWEEPING_SPIRIT);
-        getOrCreateTagBuilder(ModTags.Items.TWISTED_SPIRIT).add(ModItems.TOMAHAWK_SPIRIT);
+        valueLookupBuilder(ItemTags.WOODEN_STAIRS).add(TCBlocks.TWISTED_STAIRS.asItem());
+        valueLookupBuilder(ItemTags.WOODEN_SLABS).add(TCBlocks.TWISTED_SLAB.asItem());
+        valueLookupBuilder(ItemTags.WOODEN_BUTTONS).add(TCBlocks.TWISTED_BUTTON.asItem());
+        valueLookupBuilder(ItemTags.WOODEN_PRESSURE_PLATES).add(TCBlocks.TWISTED_PRESSURE_PLATE.asItem());
+        valueLookupBuilder(ItemTags.WOODEN_TRAPDOORS).add(TCBlocks.TWISTED_TRAPDOOR.asItem());
+        valueLookupBuilder(ItemTags.WOODEN_DOORS).add(TCBlocks.TWISTED_DOOR.asItem());
+        valueLookupBuilder(ItemTags.FENCE_GATES).add(TCBlocks.TWISTED_FENCE_GATE.asItem());
+        valueLookupBuilder(ItemTags.WOODEN_FENCES).add(TCBlocks.TWISTED_FENCE.asItem());
+        valueLookupBuilder(TDTags.Items.TWISTED_SPIRIT).add(TCItems.BLEEDING_SPIRIT);
+        valueLookupBuilder(TDTags.Items.TWISTED_SPIRIT).add(TCItems.HARVEST_SPIRIT);
+        valueLookupBuilder(TDTags.Items.TWISTED_SPIRIT).add(TCItems.GRAPPLING_SPIRIT);
+        valueLookupBuilder(TDTags.Items.TWISTED_SPIRIT).add(TCItems.STRIDE_SPIRIT);
+        valueLookupBuilder(TDTags.Items.TWISTED_SPIRIT).add(TCItems.SWEEPING_SPIRIT);
+        valueLookupBuilder(TDTags.Items.TWISTED_SPIRIT).add(TCItems.TOMAHAWK_SPIRIT);
     }
 }

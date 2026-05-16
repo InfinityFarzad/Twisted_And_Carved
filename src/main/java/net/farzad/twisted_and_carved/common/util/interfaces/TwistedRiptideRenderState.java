@@ -1,8 +1,8 @@
 package net.farzad.twisted_and_carved.common.util.interfaces;
 
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
 
 public interface TwistedRiptideRenderState {
-    void twistedAndCarved$setPlayer(PlayerEntity player);
-    PlayerEntity twistedAndCarved$getPlayer();
+    void twistedAndCarved$setRiptideStack(ItemStack stack);
+    ItemStack twistedAndCarved$getRiptideStack();
 }

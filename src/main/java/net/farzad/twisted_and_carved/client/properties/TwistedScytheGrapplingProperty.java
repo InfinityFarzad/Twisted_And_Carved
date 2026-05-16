@@ -1,7 +1,7 @@
 package net.farzad.twisted_and_carved.client.properties;
 
 import com.mojang.serialization.MapCodec;
-import net.farzad.twisted_and_carved.common.component.ModDataComponents;
+import net.farzad.twisted_and_carved.common.register.TCDataComponents;
 import net.minecraft.client.render.item.property.bool.BooleanProperty;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.LivingEntity;
@@ -20,6 +20,6 @@ public class TwistedScytheGrapplingProperty implements BooleanProperty {
 
     @Override
     public boolean test(ItemStack stack, @Nullable ClientWorld world, @Nullable LivingEntity entity, int seed, ItemDisplayContext displayContext) {
-        return stack.getOrDefault(ModDataComponents.TWISTED_SCYTHE_GRAPPLING,false);
+        return stack.getOrDefault(TCDataComponents.TWISTED_SCYTHE_GRAPPLING,false);
     }
 }

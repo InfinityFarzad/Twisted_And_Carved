@@ -1,25 +1,22 @@
 package net.farzad.twisted_and_carved.client.render.hud;
 
-import net.fabricmc.fabric.api.client.rendering.v1.HudLayerRegistrationCallback;
-import net.fabricmc.fabric.api.client.rendering.v1.IdentifiedLayer;
-import net.fabricmc.fabric.api.client.rendering.v1.LayeredDrawerWrapper;
+import net.fabricmc.fabric.api.client.rendering.v1.hud.HudElement;
 import net.farzad.twisted_and_carved.common.TwistedAndCarved;
-import net.farzad.twisted_and_carved.common.component.ModDataComponents;
-import net.farzad.twisted_and_carved.common.item.ModItems;
+import net.farzad.twisted_and_carved.common.register.TCDataComponents;
+import net.farzad.twisted_and_carved.common.register.TCItems;
 import net.farzad.twisted_and_carved.common.util.TwistedWeaponUtil;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gl.RenderPipelines;
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.RenderTickCounter;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.math.ColorHelper;
 import net.minecraft.util.math.MathHelper;
 
 import java.util.Objects;
 
-public class BloodBarHudRenderer implements HudLayerRegistrationCallback {
+public class BloodBarHudRenderer implements HudElement {
 
     private int currentVal;
     private int oldVal;
@@ -28,8 +25,8 @@ public class BloodBarHudRenderer implements HudLayerRegistrationCallback {
     private int y_offset = 0;
 
     public void tick() {
-        currentVal = MinecraftClient.getInstance().player != null ? MinecraftClient.getInstance().player.getMainHandStack().getOrDefault(ModDataComponents.BLOOD_CHARGE,0) : 0;
-        if (MinecraftClient.getInstance().player != null && !getStack(MinecraftClient.getInstance().player).contains(ModDataComponents.BLOOD_CHARGE)) {
+        currentVal = MinecraftClient.getInstance().player != null ? MinecraftClient.getInstance().player.getMainHandStack().getOrDefault(TCDataComponents.BLOOD_CHARGE,0) : 0;
+        if (MinecraftClient.getInstance().player != null && !getStack(MinecraftClient.getInstance().player).contains(TCDataComponents.BLOOD_CHARGE)) {
             this.opacity = 3;
             this.oldVal = 0;
             this.currentVal = 0;
@@ -55,9 +52,9 @@ public class BloodBarHudRenderer implements HudLayerRegistrationCallback {
     }
 
     private ItemStack getStack(PlayerEntity player) {
-        if (player.getOffHandStack().isOf(ModItems.TWISTED_FALCHION)) {
+        if (player.getOffHandStack().isOf(TCItems.TWISTED_FALCHION)) {
             return player.getOffHandStack();
-        } else if (player.getMainHandStack().isOf(ModItems.TWISTED_FALCHION)) {
+        } else if (player.getMainHandStack().isOf(TCItems.TWISTED_FALCHION)) {
             return player.getMainHandStack();
         } else {
             return player.getMainHandStack();
@@ -66,7 +63,7 @@ public class BloodBarHudRenderer implements HudLayerRegistrationCallback {
     }
 
     private int getBloodChargeOverlay(ItemStack stack) {
-        int comp = stack.getOrDefault(ModDataComponents.BLOOD_CHARGE, 0);
+        int comp = stack.getOrDefault(TCDataComponents.BLOOD_CHARGE, 0);
         if (comp <= 25 && comp > 0) {
             return 0;
         } else if (comp <= 50 && comp > 25) {
@@ -81,44 +78,22 @@ public class BloodBarHudRenderer implements HudLayerRegistrationCallback {
     }
 
     @Override
-    public void register(LayeredDrawerWrapper layeredDrawer) {
-        layeredDrawer.addLayer(new IdentifiedLayer() {
-            @Override
-            public Identifier id() {
-                return TwistedAndCarved.id("blood_ui");
-            }
+    public void render(DrawContext context, RenderTickCounter tickCounter) {
+        MinecraftClient client = MinecraftClient.getInstance();
 
-            @Override
-            public void render(DrawContext context, RenderTickCounter tickCounter) {
-                MinecraftClient client = MinecraftClient.getInstance();
+        assert client.player != null;
+        ItemStack stack = getStack(client.player);
 
-                assert client.player != null;
-                ItemStack stack = getStack(client.player);
+        if (stack.isOf(TCItems.TWISTED_FALCHION) && Objects.equals(TwistedWeaponUtil.getAbilityID(stack), "bleeding")) {
+            float s = stack.getOrDefault(TCDataComponents.BLOOD_CHARGE, 0) / 100F;
 
-                if (stack.isOf(ModItems.TWISTED_FALCHION) && Objects.equals(TwistedWeaponUtil.getAbilityID(stack), "bleeding")) {
-                    float s = stack.getOrDefault(ModDataComponents.BLOOD_CHARGE, 0) / 100F;
+            int xCord = client.getWindow().getScaledWidth() / 2 + 120;
+            int yCord = client.getWindow().getScaledHeight() - 28;
+            context.drawGuiTexture(RenderPipelines.GUI_TEXTURED, TwistedAndCarved.id("blood_bar/blood_bar"), xCord, yCord, 64, 32);
+            context.drawGuiTexture(RenderPipelines.GUI_TEXTURED, TwistedAndCarved.id("blood_bar/blood_bar_slice"), xCord + 39 - (int) (s * 26), yCord + 14, (int) (s * 26), 4);
+            context.drawGuiTexture(RenderPipelines.GUI_TEXTURED, TwistedAndCarved.id("blood_bar/blood_bar_overlay"), xCord, yCord, 64, 32);
 
-                    int xCord = client.getWindow().getScaledWidth() / 2 + 120;
-                    int yCord = client.getWindow().getScaledHeight() - 28;
-                    context.drawGuiTexture(RenderLayer::getGuiTextured, TwistedAndCarved.id("blood_bar/blood_bar"), xCord, yCord, 64, 32);
-                    context.drawGuiTexture(RenderLayer::getGuiTextured, TwistedAndCarved.id("blood_bar/blood_bar_slice"), xCord + 39 - (int) (s * 26), yCord + 14, (int) (s * 26), 4);
-                    /*
-                    context.fill(xCord + 39 - stack.getOrDefault(ModDataComponents.BLOOD_CHARGE,0).intValue() / 4,yCord + 13,xCord + 39,yCord + 19,ColorHelper.getArgb(249,78,109));
-                    context.fill(xCord + 38 - stack.getOrDefault(ModDataComponents.BLOOD_CHARGE,0).intValue() / 4,yCord + 14,xCord + 39,yCord + 18,ColorHelper.getArgb(249,78,109));
-
-                    context.fill(xCord + 39 - stack.getOrDefault(ModDataComponents.BLOOD_CHARGE,0).intValue() / 4,yCord + 13,xCord + 39,yCord + 19,ColorHelper.getArgb(249,78,109));
-                    context.fill(xCord + 38 - stack.getOrDefault(ModDataComponents.BLOOD_CHARGE,0).intValue() / 4,yCord + 14,xCord + 39,yCord + 18,ColorHelper.getArgb(249,78,109));
-
-                    context.fill(xCord + 38,yCord + 13,xCord + 48,yCord + 19,ColorHelper.getArgb(193,36,88));
-                    context.fill(xCord + 37,yCord + 14,xCord + 48,yCord + 18,ColorHelper.getArgb(193,36,88));
-*/
-
-
-                    context.drawGuiTexture(RenderLayer::getGuiTextured, TwistedAndCarved.id("blood_bar/blood_bar_overlay"), xCord, yCord, 64, 32);
-
-                    context.drawText(client.textRenderer,"%" + stack.getOrDefault(ModDataComponents.BLOOD_CHARGE,0).toString(),client.getWindow().getScaledWidth() / 2 + 130 + x_offset, client.getWindow().getScaledHeight() - 16 + y_offset, ColorHelper.withAlpha(opacity* 255 / 20,16777215),true);
-                }
-            }
-        });
+            context.drawText(client.textRenderer,"%" + stack.getOrDefault(TCDataComponents.BLOOD_CHARGE,0).toString(),client.getWindow().getScaledWidth() / 2 + 130 + x_offset, client.getWindow().getScaledHeight() - 16 + y_offset, ColorHelper.withAlpha(opacity* 255 / 20,16777215),true);
+        }
     }
 }

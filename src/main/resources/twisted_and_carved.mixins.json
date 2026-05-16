@@ -3,11 +3,11 @@
   "package": "net.farzad.twisted_and_carved.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
-    "LivingEntityMixin",
-    "PlayerEntityMixin",
-    "PlayerEntityRiptideMixin",
-    "ProjectileEntityMixin",
-    "RiptideStackAccesor"
+    "PlayerEntityAttackMixin",
+    "spirit_effects.stride.LivingEntityMixin",
+    "spirit_effects.stride.RiptideStackAccesor",
+    "spirit_effects.tomahawk.PlayerEntityMixin",
+    "spirit_effects.tomahawk.ProjectileEntityMixin"
   ],
   "injectors": {
     "defaultRequire": 1
@@ -16,11 +16,9 @@
     "requireAnnotations": true
   },
   "client": [
-    "BackgroundRendererMixin",
-    "DrawingContextMixin",
-    "PlayerEntityRendererMixin",
-    "PlayerEntityRenderStateMixin",
-    "TwistedRiptideRendererMixin",
-    "WorldRendererMixin"
+    "client.DrawingContextMixin",
+    "spirit_effects.stride.PlayerEntityRendererMixin",
+    "spirit_effects.stride.PlayerEntityRenderStateMixin",
+    "spirit_effects.stride.TwistedRiptideRendererMixin"
   ]
 }

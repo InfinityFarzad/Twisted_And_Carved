@@ -18,6 +18,9 @@ repositories {
 	maven {
 		url = 'https://maven.minecraftforge.net/'
 	}
+    maven {
+        url = "https://api.modrinth.com/maven"
+    }
 }
 
 fabricApi {
@@ -32,10 +35,10 @@ dependencies {
 	mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
 	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 	//dependencies
-	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-	modImplementation "com.terraformersmc.terraform-api:terraform-wood-api-v1:14.0.0"
-	modImplementation "com.github.glitchfiend:TerraBlender-fabric:${minecraft_version}-${terrablender_version}"
-
+	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
+	modImplementation "com.terraformersmc.terraform-api:terraform-wood-api-v1:16.0.0"
+    modImplementation "com.github.glitchfiend:TerraBlender-fabric:${minecraft_version}-${terrablender_version}"
+    modImplementation "maven.modrinth:chiseled-lib:${project.chiseled_lib_version}"
 }
 
 processResources {
