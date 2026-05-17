@@ -2,8 +2,8 @@
 	"format_version": "1.21.6",
 	"credit": "Made with Blockbench",
 	"textures": {
-		"0": "twisted_and_carved:block/karmium_fence_top",
-		"particle": "twisted_and_carved:block/karmium_fence_top"
+		"0": "twisted_and_carved:block/karmium_railing_top",
+		"particle": "twisted_and_carved:block/karmium_railing_top"
 	},
 	"elements": [
 		{

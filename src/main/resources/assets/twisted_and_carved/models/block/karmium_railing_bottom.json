@@ -2,7 +2,7 @@
 	"format_version": "1.21.6",
 	"credit": "Made with Blockbench",
 	"textures": {
-		"1": "twisted_and_carved:block/karmium_fence_bottom"
+		"1": "twisted_and_carved:block/karmium_railing_bottom"
 	},
 	"elements": [
 		{

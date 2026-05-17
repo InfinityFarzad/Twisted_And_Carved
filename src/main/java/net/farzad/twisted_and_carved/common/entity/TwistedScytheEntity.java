@@ -75,14 +75,14 @@ public class TwistedScytheEntity extends PersistentProjectileEntity {
 
     private void pullOwner(Entity owner) {
         Vec3d dir = this.getEntityPos().subtract(owner.getEntityPos());
-        owner.addVelocity(dir.multiply(0.2));
+        owner.addVelocity(dir.multiply(0.15));
         owner.velocityDirty = true;
         this.shouldReturn = true;
     }
 
     private void pullTarget(Entity owner, LivingEntity target) {
         Vec3d dir = owner.getEntityPos().subtract(target.getEntityPos());
-        target.addVelocity(dir.multiply(0.2));
+        target.addVelocity(dir.multiply(0.15));
         target.velocityDirty = true;
         this.shouldReturn = true;
     }
@@ -174,7 +174,7 @@ public class TwistedScytheEntity extends PersistentProjectileEntity {
 
             if (entity instanceof LivingEntity livingEntity && ownerEntity instanceof PlayerEntity player) {
                 double boxSize = (livingEntity.getBoundingBox().getLengthZ() + livingEntity.getBoundingBox().getLengthX() + livingEntity.getBoundingBox().getLengthY()) / 3;
-                if (boxSize >= 1.5) {
+                if (boxSize >= 1.5 || (livingEntity instanceof PlayerEntity && player.isSneaking())) {
                     pullOwner(player);
                 } else {
                     pullTarget(player, livingEntity);

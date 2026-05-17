@@ -91,7 +91,7 @@ public class TCItems {
 
     public static final Item TWISTED_FALCHION =
             register("twisted_falchion", (settings) -> {
-                return new TwistedFalchionItem(6, -2.8f, -0.15, settings);
+                return new TwistedFalchionItem(6, -2.4f, -0.15, settings);
             }, new Item.Settings()
                     .component(DataComponentTypes.TOOLTIP_STYLE, Identifier.ofVanilla("twisted"))
                     .component(TCDataComponents.TWISTED_SPIRIT, ItemStack.EMPTY)

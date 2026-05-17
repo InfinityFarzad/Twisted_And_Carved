@@ -2,7 +2,7 @@
   "multipart": [
     {
       "apply": {
-        "model": "twisted_and_carved:block/karmium_fence"
+        "model": "twisted_and_carved:block/karmium_railing"
       },
       "when": {
         "north": "true",
@@ -11,7 +11,7 @@
     },
     {
       "apply": {
-        "model": "twisted_and_carved:block/karmium_fence"
+        "model": "twisted_and_carved:block/karmium_railing"
       },
       "when": {
         "east": "false",
@@ -23,7 +23,7 @@
     },
     {
       "apply": {
-        "model": "twisted_and_carved:block/karmium_fence",
+        "model": "twisted_and_carved:block/karmium_railing",
         "uvlock": true,
         "y": 90
       },
@@ -34,7 +34,7 @@
     },
     {
       "apply": {
-        "model": "twisted_and_carved:block/karmium_fence",
+        "model": "twisted_and_carved:block/karmium_railing",
         "uvlock": true,
         "y": 90
       },
@@ -48,7 +48,7 @@
     },
     {
       "apply": {
-        "model": "twisted_and_carved:block/karmium_fence",
+        "model": "twisted_and_carved:block/karmium_railing",
         "uvlock": true,
         "y": 180
       },
@@ -59,7 +59,7 @@
     },
     {
       "apply": {
-        "model": "twisted_and_carved:block/karmium_fence",
+        "model": "twisted_and_carved:block/karmium_railing",
         "uvlock": true,
         "y": 180
       },
@@ -73,7 +73,7 @@
     },
     {
       "apply": {
-        "model": "twisted_and_carved:block/karmium_fence",
+        "model": "twisted_and_carved:block/karmium_railing",
         "uvlock": true,
         "y": 270
       },
@@ -84,7 +84,7 @@
     },
     {
       "apply": {
-        "model": "twisted_and_carved:block/karmium_fence",
+        "model": "twisted_and_carved:block/karmium_railing",
         "uvlock": true,
         "y": 270
       },
@@ -103,7 +103,7 @@
 
     {
       "apply": {
-        "model": "twisted_and_carved:block/karmium_fence_bottom"
+        "model": "twisted_and_carved:block/karmium_railing_bottom"
       },
       "when": {
         "north": "true",
@@ -112,7 +112,7 @@
     },
     {
       "apply": {
-        "model": "twisted_and_carved:block/karmium_fence"
+        "model": "twisted_and_carved:block/karmium_railing"
       },
       "when": {
         "east": "false",
@@ -124,7 +124,7 @@
     },
     {
       "apply": {
-        "model": "twisted_and_carved:block/karmium_fence_bottom",
+        "model": "twisted_and_carved:block/karmium_railing_bottom",
         "uvlock": true,
         "y": 90
       },
@@ -135,7 +135,7 @@
     },
     {
       "apply": {
-        "model": "twisted_and_carved:block/karmium_fence",
+        "model": "twisted_and_carved:block/karmium_railing",
         "uvlock": true,
         "y": 90
       },
@@ -149,7 +149,7 @@
     },
     {
       "apply": {
-        "model": "twisted_and_carved:block/karmium_fence_bottom",
+        "model": "twisted_and_carved:block/karmium_railing_bottom",
         "uvlock": true,
         "y": 180
       },
@@ -160,7 +160,7 @@
     },
     {
       "apply": {
-        "model": "twisted_and_carved:block/karmium_fence",
+        "model": "twisted_and_carved:block/karmium_railing",
         "uvlock": true,
         "y": 180
       },
@@ -174,7 +174,7 @@
     },
     {
       "apply": {
-        "model": "twisted_and_carved:block/karmium_fence_bottom",
+        "model": "twisted_and_carved:block/karmium_railing_bottom",
         "uvlock": true,
         "y": 270
       },
@@ -185,7 +185,7 @@
     },
     {
       "apply": {
-        "model": "twisted_and_carved:block/karmium_fence",
+        "model": "twisted_and_carved:block/karmium_railing",
         "uvlock": true,
         "y": 270
       },
