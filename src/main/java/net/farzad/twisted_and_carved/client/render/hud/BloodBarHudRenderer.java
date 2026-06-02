@@ -25,28 +25,33 @@ public class BloodBarHudRenderer implements HudElement {
     private int y_offset = 0;
 
     public void tick() {
-        currentVal = MinecraftClient.getInstance().player != null ? MinecraftClient.getInstance().player.getMainHandStack().getOrDefault(TCDataComponents.BLOOD_CHARGE,0) : 0;
-        if (MinecraftClient.getInstance().player != null && !getStack(MinecraftClient.getInstance().player).contains(TCDataComponents.BLOOD_CHARGE)) {
-            this.opacity = 3;
-            this.oldVal = 0;
-            this.currentVal = 0;
-            x_offset = 0;
-            y_offset = 0;
-        }
-        if (currentVal != oldVal || currentVal == 100) {
-            oldVal = currentVal;
-            opacity = currentVal >= 100 ? 255 * 20 : 15;
-        }
-        if (opacity >= 3 && currentVal != 100) {
-            opacity -= 1;
-        }
+        MinecraftClient client = MinecraftClient.getInstance();
+        if (client != null && client.player != null) {
+            currentVal = client.player.getMainHandStack().getOrDefault(TCDataComponents.BLOOD_CHARGE,0);
 
-        if (currentVal >= 100) {
-            y_offset = MathHelper.nextBetween(MinecraftClient.getInstance().player.getRandom(), -1,1);
-            x_offset = MathHelper.nextBetween(MinecraftClient.getInstance().player.getRandom(), -1,1);
-        } else {
-            x_offset = 0;
-            y_offset = 0;
+            if (!getStack(client.player).contains(TCDataComponents.BLOOD_CHARGE)) {
+                this.opacity = 3;
+                this.oldVal = 0;
+                this.currentVal = 0;
+                x_offset = 0;
+                y_offset = 0;
+            }
+            if (currentVal != oldVal || currentVal == 100) {
+                oldVal = currentVal;
+                opacity = currentVal >= 100 ? 255 * 20 : 15;
+            }
+            if (opacity >= 3 && currentVal != 100) {
+                opacity -= 1;
+            }
+
+            if (currentVal >= 100) {
+                opacity = (int) (99 -(Math.sin(client.getRenderTickCounter().getTickProgress(true) * 4) * 5));
+                y_offset = MathHelper.nextBetween(client.player.getRandom(), -1,1);
+                x_offset = MathHelper.nextBetween(client.player.getRandom(), -1,1);
+            } else {
+                x_offset = 0;
+                y_offset = 0;
+            }
         }
 
     }
@@ -60,21 +65,6 @@ public class BloodBarHudRenderer implements HudElement {
             return player.getMainHandStack();
         }
 
-    }
-
-    private int getBloodChargeOverlay(ItemStack stack) {
-        int comp = stack.getOrDefault(TCDataComponents.BLOOD_CHARGE, 0);
-        if (comp <= 25 && comp > 0) {
-            return 0;
-        } else if (comp <= 50 && comp > 25) {
-            return 1;
-        } else if (comp <= 75 && comp > 50) {
-            return 2;
-        } else if (comp <= 100 && comp > 75) {
-            return 3;
-        } else {
-            return 0;
-        }
     }
 
     @Override

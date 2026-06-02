@@ -2,8 +2,12 @@ package net.farzad.twisted_and_carved.client.particle;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.farzad.twisted_and_carved.client.TwistedAndCarvedClient;
+import net.farzad.twisted_and_carved.common.TwistedAndCarved;
+import net.minecraft.client.gl.RenderPipelines;
 import net.minecraft.client.particle.*;
 import net.minecraft.client.texture.Sprite;
+import net.minecraft.client.texture.SpriteAtlasTexture;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.particle.SimpleParticleType;
 import net.minecraft.util.math.random.Random;
@@ -43,7 +47,7 @@ public class CoffinSmokeParticle extends BillboardParticle {
 
     @Override
     protected RenderType getRenderType() {
-        return RenderType.PARTICLE_ATLAS_TRANSLUCENT;
+        return RenderType.BLOCK_ATLAS_TRANSLUCENT;
     }
 
     @Environment(EnvType.CLIENT)

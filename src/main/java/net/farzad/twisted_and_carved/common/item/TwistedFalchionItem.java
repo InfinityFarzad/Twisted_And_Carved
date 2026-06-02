@@ -63,6 +63,7 @@ public class TwistedFalchionItem extends TwistedToolItem implements AttackCharga
 
     private void setBlood(ItemStack stack, int value) {
         stack.set(TCDataComponents.BLOOD_CHARGE, value);
+        System.out.println("used" + value);
     }
 
     private int getBlood(ItemStack stack) {
@@ -106,10 +107,9 @@ public class TwistedFalchionItem extends TwistedToolItem implements AttackCharga
                 }
                 applySlashDamage(world, user);
                 user.swingHand(hand);
-                if (!user.isCreative()) {
-                    setBlood(stack, getBlood(stack) - 100 / 3);
-                    user.getItemCooldownManager().set(stack, 20 * 2);
-                }
+                setBlood(stack, getBlood(stack) - 100 / 3);
+                user.getItemCooldownManager().set(stack, 20 * 2);
+
             }
         }
 
@@ -123,6 +123,7 @@ public class TwistedFalchionItem extends TwistedToolItem implements AttackCharga
             int amount = player.getEntityWorld().random.nextBetween(1, 3) * 5;
             if (!(getBlood(stack) + amount >= 100)) {
                 setBlood(stack, getBlood(stack) + amount);
+                System.out.println("chas2");
             } else {
                 setBlood(stack, 100);
             }

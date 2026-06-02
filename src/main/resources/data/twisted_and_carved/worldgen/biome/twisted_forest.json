@@ -1,31 +1,25 @@
 {
+  "attributes": {
+    "minecraft:audio/background_music": {},
+    "minecraft:audio/music_volume": 0.0,
+    "minecraft:visual/fog_color": "#817770",
+    "minecraft:visual/sky_color": "#827c7a",
+    "minecraft:visual/water_fog_color": "#556980",
+    "minecraft:visual/fog_end_distance": 55.0,
+    "minecraft:visual/fog_start_distance": 5.0,
+    "minecraft:visual/sky_fog_end_distance": 15.0,
+    "minecraft:visual/cloud_fog_end_distance": 15.0
+  },
   "carvers": [
     "minecraft:cave",
     "minecraft:cave_extra_underground",
     "minecraft:canyon"
   ],
-  "downfall": 0.1,
+  "downfall": 0.8,
   "effects": {
-    "fog_color": 8484720,
     "foliage_color": 8883574,
     "grass_color": 6576468,
-    "mood_sound": {
-      "block_search_extent": 8,
-      "offset": 2.0,
-      "sound": "minecraft:ambient.cave",
-      "tick_delay": 6000
-    },
-    "music": [],
-    "music_volume": 0.0,
-    "sky_color": 12171705,
-    "water_color": 7768221,
-    "water_fog_color": 5597568,
-    "particle": {
-      "options": {
-        "type": "twisted_and_carved:twisted_leaf"
-      },
-      "probability": 0.00088334
-    }
+    "water_color": 7768221
   },
   "features": [
     [],
@@ -122,5 +116,5 @@
     "water_ambient": [],
     "water_creature": []
   },
-  "temperature": 0.5
+  "temperature": 0.25
 }

@@ -54,12 +54,6 @@ import java.util.function.Predicate;
 
 public class TwistedScytheItem extends TwistedToolItem implements CritInterface {
 
-    protected static final Map<Block, Pair<Predicate<ItemUsageContext>, Consumer<ItemUsageContext>>> TILLING_ACTIONS;
-
-    static {
-        TILLING_ACTIONS = Maps.newHashMap(ImmutableMap.of(Blocks.GRASS_BLOCK, Pair.of(HoeItem::canTillFarmland, createTillAction(Blocks.FARMLAND.getDefaultState())), Blocks.DIRT_PATH, Pair.of(HoeItem::canTillFarmland, createTillAction(Blocks.FARMLAND.getDefaultState())), Blocks.DIRT, Pair.of(HoeItem::canTillFarmland, createTillAction(Blocks.FARMLAND.getDefaultState())), Blocks.COARSE_DIRT, Pair.of(HoeItem::canTillFarmland, createTillAction(Blocks.DIRT.getDefaultState())), Blocks.ROOTED_DIRT, Pair.of((itemUsageContext) -> true, createTillAndDropAction(Blocks.DIRT.getDefaultState(), Items.HANGING_ROOTS))));
-    }
-
     public TwistedScytheItem(float attackDamage, float attackSpeed, double attackRange, Settings settings) {
         super(applyToolSettings(settings, attackDamage, attackSpeed, attackRange));
     }
@@ -75,21 +69,6 @@ public class TwistedScytheItem extends TwistedToolItem implements CritInterface 
                 .add(EntityAttributes.ATTACK_SPEED, new EntityAttributeModifier(Item.BASE_ATTACK_SPEED_MODIFIER_ID, attackSpeed, EntityAttributeModifier.Operation.ADD_VALUE), AttributeModifierSlot.MAINHAND)
                 .add(EntityAttributes.ENTITY_INTERACTION_RANGE, new EntityAttributeModifier(Identifier.of(TwistedAndCarved.MOD_ID, "base_attack_range"), attackRange, EntityAttributeModifier.Operation.ADD_VALUE), AttributeModifierSlot.MAINHAND)
                 .build();
-    }
-
-    public static Consumer<ItemUsageContext> createTillAction(BlockState result) {
-        return (context) -> {
-            context.getWorld().setBlockState(context.getBlockPos(), result, 11);
-            context.getWorld().emitGameEvent(GameEvent.BLOCK_CHANGE, context.getBlockPos(), GameEvent.Emitter.of(context.getPlayer(), result));
-        };
-    }
-
-    public static Consumer<ItemUsageContext> createTillAndDropAction(BlockState result, ItemConvertible droppedItem) {
-        return (context) -> {
-            context.getWorld().setBlockState(context.getBlockPos(), result, 11);
-            context.getWorld().emitGameEvent(GameEvent.BLOCK_CHANGE, context.getBlockPos(), GameEvent.Emitter.of(context.getPlayer(), result));
-            Block.dropStack(context.getWorld(), context.getBlockPos(), context.getSide(), new ItemStack(droppedItem));
-        };
     }
 
     @Override
@@ -179,7 +158,7 @@ public class TwistedScytheItem extends TwistedToolItem implements CritInterface 
             }
 
         } else {
-            if (ability.equals("grappling") && !user.getStackInHand(hand).getOrDefault(TCDataComponents.TWISTED_SCYTHE_GRAPPLING,true)) {
+            if (ability.equals("grappling") && !user.getStackInHand(hand).getOrDefault(TCDataComponents.TWISTED_SCYTHE_GRAPPLING,true) && user.getInventory().contains(itemStack)) {
                 user.setCurrentHand(hand);
                 return ActionResult.CONSUME;
             }
@@ -188,33 +167,6 @@ public class TwistedScytheItem extends TwistedToolItem implements CritInterface 
             }
 
         }
-    }
-
-    public ActionResult useOnBlock(ItemUsageContext context) {
-        if (Objects.equals(TwistedWeaponUtil.getAbilityID(context.getStack()), "harvest")) {
-            World world = context.getWorld();
-            BlockPos blockPos = context.getBlockPos();
-            Pair<Predicate<ItemUsageContext>, Consumer<ItemUsageContext>> pair = TILLING_ACTIONS.get(world.getBlockState(blockPos).getBlock());
-            if (pair == null) {
-                return ActionResult.PASS;
-            } else {
-                Predicate<ItemUsageContext> predicate = pair.getFirst();
-                if (predicate.test(context) && context.getPlayer() != null && !context.getPlayer().isSneaking() && Objects.equals(TwistedWeaponUtil.getAbilityID(context.getStack()), "harvest")) {
-                    PlayerEntity playerEntity = context.getPlayer();
-                    world.playSound(playerEntity, blockPos, SoundEvents.ITEM_HOE_TILL, SoundCategory.BLOCKS, 1.0F, 1.0F);
-                    return ActionResult.SUCCESS;
-                } else {
-                    return ActionResult.PASS;
-                }
-            }
-        } else {
-            return ActionResult.FAIL;
-        }
-    }
-
-    @Override
-    public boolean canMine(ItemStack stack, BlockState state, World world, BlockPos pos, LivingEntity user) {
-        return super.canMine(stack,state,world,pos,user);
     }
 
     @Override

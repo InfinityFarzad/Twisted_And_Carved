@@ -1,5 +1,10 @@
 package net.farzad.twisted_and_carved.client;
 
+import com.mojang.blaze3d.pipeline.BlendFunction;
+import com.mojang.blaze3d.pipeline.RenderPipeline;
+import com.mojang.blaze3d.platform.DestFactor;
+import com.mojang.blaze3d.platform.SourceFactor;
+import net.akws.chiseled_lib.common.util.RegistryUtil;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
@@ -39,6 +44,8 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 
+import static net.minecraft.client.gl.RenderPipelines.PARTICLE_SNIPPET;
+
 public class TwistedAndCarvedClient implements ClientModInitializer {
     private final BloodBarHudRenderer bloodBarHudRenderer = new BloodBarHudRenderer();
 
@@ -69,7 +76,9 @@ public class TwistedAndCarvedClient implements ClientModInitializer {
             TwistedGreataxeEntity twistedGreataxe = (TwistedGreataxeEntity) context.player().getEntityWorld().getEntityById(payload.entityID());
             if (twistedGreataxe != null && !twistedGreataxe.isRemoved()) {
                 WeaponEntitySoundInstance instance = new WeaponEntitySoundInstance(SoundEvents.ITEM_ELYTRA_FLYING,twistedGreataxe, SoundCategory.AMBIENT);
-                context.client().getSoundManager().play(instance);
+                if (!context.client().getSoundManager().isPlaying(instance)) {
+                    context.client().getSoundManager().play(instance);
+                }
             }
         });
 

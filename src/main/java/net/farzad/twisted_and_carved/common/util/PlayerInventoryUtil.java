@@ -5,12 +5,14 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.world.ServerWorld;
 
-public class EntityUtil {
+public class PlayerInventoryUtil {
     public static boolean hasEmptySlot(PlayerEntity player, int slot) {
         PlayerInventory playerInventory = player.getInventory();
         if (slot == -1) {
             return (playerInventory.getEmptySlot() != -1 && player.getOffHandStack().isEmpty()) || (playerInventory.getEmptySlot() != -1 && !player.getOffHandStack().isEmpty()) || (playerInventory.getEmptySlot() == -1 && player.getOffHandStack().isEmpty());
-        } else return playerInventory.getEmptySlot() != -1;
+        } else {
+            return playerInventory.getEmptySlot() != -1 || (playerInventory.getEmptySlot() == -1 && player.getOffHandStack().isEmpty());
+        }
 
     }
 
@@ -21,11 +23,20 @@ public class EntityUtil {
                 if (player.getEntityWorld() instanceof ServerWorld) {
                     playerInventory.setStack(PlayerInventory.OFF_HAND_SLOT, stack);
                 }
+            } else {
+                playerInventory.insertStack(stack);
             }
         } else if (playerInventory.getStack(slot).isEmpty()) {
             playerInventory.setStack(slot, stack);
         } else if (!playerInventory.getStack(slot).isEmpty()) {
-            playerInventory.insertStack(stack);
+            if (playerInventory.getEmptySlot() != -1) {
+                playerInventory.insertStack(stack);
+            } else {
+                if (player.getOffHandStack().isEmpty()) {
+                    playerInventory.setStack(PlayerInventory.OFF_HAND_SLOT,stack);
+                }
+            }
+
         }
     }
 }

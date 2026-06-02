@@ -122,7 +122,7 @@ public class TwistedGreataxeItem extends TwistedToolItem implements AttackCharga
     }
 
     public int getMaxUseTime(ItemStack stack, LivingEntity user) {
-        return 72000;
+        return 20000;
     }
 
     public boolean onStoppedUsing(ItemStack stack, World world, LivingEntity user, int remainingUseTicks) {
@@ -140,14 +140,15 @@ public class TwistedGreataxeItem extends TwistedToolItem implements AttackCharga
                 return true;
 
             } else if (Objects.equals(TwistedWeaponUtil.getAbilityID(stack), "tomahawk")) {
-                if (useTime < 10) {
+                if (useTime < 6) {
                     return false;
                 } else {
+                    player.playSound(SoundEvents.ITEM_TRIDENT_THROW.value(),1f,MathHelper.nextBetween(player.getRandom(),0.9f,1f));
                     if (world instanceof ServerWorld serverWorld) {
-                        TwistedGreataxeEntity.spawnWithVelocity(TwistedGreataxeEntity::new, player.getInventory().getSlotWithStack(stack), serverWorld, stack, user, 0.0F, (float) remainingUseTicks * 0.00005f, 1.0F);
+                        TwistedGreataxeEntity.spawnTwistedGreataxeWithVelocity(TwistedGreataxeEntity::new, player.getInventory().getSlotWithStack(stack), serverWorld, stack, user, 0.0F, 3f, 0.0F);
                     }
                     if (!user.isInCreativeMode()) {
-                        player.getInventory().removeOne(stack);
+                        stack.decrement(1);
                         player.getItemCooldownManager().set(stack,20 * 5);
                     }
                     return true;

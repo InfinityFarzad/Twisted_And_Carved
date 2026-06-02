@@ -70,31 +70,36 @@ public class TwistedScytheEntityRenderer extends EntityRenderer<TwistedScytheEnt
     }
 
     public static void renderChain(TwistedScytheEntityRenderstate scytheEntityRenderstate, MatrixStack.Entry stackEntry, VertexConsumer vertexConsumer, int i) {
-
         TwistedScytheEntity scytheEntity = scytheEntityRenderstate.entity;
+        MatrixStack.Entry entry = stackEntry.copy();
+        Matrix4f clientWorldPos = stackEntry.getPositionMatrix();
+        float r = 0.68f;
 
         if (scytheEntity.getOwner() instanceof LivingEntity livingOwner && livingOwner.isAlive()) {
             double dx = livingOwner.getX() - (scytheEntity.getX());
             double dy = livingOwner.getY() - scytheEntity.getY() + (livingOwner.getEyeHeight(livingOwner.getPose()) - 0.5);
             double dz = livingOwner.getZ() - (scytheEntity.getZ());
+
             float length = (float) Math.sqrt(dx * dx + dy * dy + dz * dz);
-            float textureRepeatInterval = 0.68f;
-            float vMax = length / textureRepeatInterval;
-            Matrix4f model = stackEntry.getPositionMatrix();
+            float v = length / r;
+
             Vec3d dir = new Vec3d(dx, dy, dz).normalize();
             Vec3d renderFace = dir.crossProduct(new Vec3d(0, 1, 0)).normalize().multiply(0.32);
-            MatrixStack.Entry entry = stackEntry.copy();
 
-            vertexConsumer.vertex(model, (float) renderFace.x, (float) 0, (float) renderFace.z).color(255, 255, 255, 255).texture(0, 0).overlay(OverlayTexture.DEFAULT_UV).light(i).normal(entry, 0, 1, 0);
-            vertexConsumer.vertex(model, (float) -renderFace.x, (float) 0, (float) -renderFace.z).color(255, 255, 255, 255).texture(1, 0).overlay(OverlayTexture.DEFAULT_UV).light(i).normal(entry, 0, 1, 0);
-            vertexConsumer.vertex(model, (float) (dx - renderFace.x), (float) (dy), (float) (dz - renderFace.z)).color(255, 255, 255, 255).texture(1, vMax).overlay(OverlayTexture.DEFAULT_UV).light(i).normal(entry, 0, 1, 0);
-            vertexConsumer.vertex(model, (float) (dx + renderFace.x), (float) (dy), (float) (dz + renderFace.z)).color(255, 255, 255, 255).texture(0, vMax).overlay(OverlayTexture.DEFAULT_UV).light(i).normal(entry, 0, 1, 0);
+            vertex(vertexConsumer,clientWorldPos,entry, (float) renderFace.x,0.0f, (float) renderFace.z,0,0,i);
+            vertex(vertexConsumer,clientWorldPos,entry, (float) -renderFace.x,0.0f, (float) -renderFace.z,1,0,i);
+            vertex(vertexConsumer,clientWorldPos,entry, (float) (dx - renderFace.x), (float)dy, (float) (dz - renderFace.z),1,v,i);
+            vertex(vertexConsumer,clientWorldPos,entry, (float) (dx + renderFace.x), (float)dy, (float) (dz + renderFace.z),0,v,i);
 
-            vertexConsumer.vertex(model, (float) 0, (float) renderFace.y, (float) 0).color(255, 255, 255, 255).texture(0, 0).overlay(OverlayTexture.DEFAULT_UV).light(i).normal(entry, 0, 1, 0);
-            vertexConsumer.vertex(model, (float) 0, (float) -renderFace.y, (float) 0).color(255, 255, 255, 255).texture(1, 0).overlay(OverlayTexture.DEFAULT_UV).light(i).normal(entry, 0, 1, 0);
-            vertexConsumer.vertex(model, (float) 0, (float) (dy - renderFace.y), (float) 0).color(255, 255, 255, 255).texture(1, vMax).overlay(OverlayTexture.DEFAULT_UV).light(i).normal(entry, 0, 1, 0);
-            vertexConsumer.vertex(model, (float) 0, (float) (dy + renderFace.y), (float) 0).color(255, 255, 255, 255).texture(0, vMax).overlay(OverlayTexture.DEFAULT_UV).light(i).normal(entry, 0, 1, 0);
+            vertex(vertexConsumer,clientWorldPos,entry, (float) 0, (float) renderFace.y, (float) 0,0, 0,i);
+            vertex(vertexConsumer,clientWorldPos,entry, (float) 0, (float) -renderFace.y, (float) 0,1, 0,i);
+            vertex(vertexConsumer,clientWorldPos,entry, (float) 0, (float) (dy - renderFace.y), (float) 0,1, v,i);
+            vertex(vertexConsumer,clientWorldPos,entry, (float) 0, (float) (dy + renderFace.y), (float) 0,0, v,i);
         }
+    }
+
+    private static void vertex(VertexConsumer vertexConsumer,Matrix4f mat4, MatrixStack.Entry entry ,float x, float y, float z, float u, float v, int i) {
+        vertexConsumer.vertex(mat4, x, y, z).texture(u, v).light(i).color(255, 255, 255, 255).normal(entry, 0, 1, 0).overlay(OverlayTexture.DEFAULT_UV);
     }
 
 }

@@ -34,10 +34,14 @@ public class TwistedGreataxeEntityRenderer extends EntityRenderer<TwistedGreatax
 
     @Override
     public void render(TwistedGreataxeEntityRenderstate renderState, MatrixStack matrices, OrderedRenderCommandQueue queue, CameraRenderState cameraState) {
+        int rotDir = renderState.entity.shouldReturn ? -1 : 1;
+
         matrices.push();
         matrices.scale(this.scale, this.scale, this.scale);
-        matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(renderState.entity.getLerpedYaw(renderState.tickDelta)));
-        matrices.multiply(new Quaternionf().rotateX((float) Math.toRadians(((renderState.entity.getEntityWorld().getTime() + renderState.tickDelta)) * 120 * renderState.entity.getVelocity().length())));
+        matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(renderState.entity.getYaw(renderState.tickDelta) + 180));
+        if (!(renderState.entity.shake > 0)) {
+            matrices.multiply(new Quaternionf().rotateX((float) -Math.toRadians(((renderState.entity.getEntityWorld().getTime() + renderState.tickDelta)) * 65) * rotDir));
+        }
 
         renderState.itemRenderState.render(matrices, queue, renderState.light, OverlayTexture.DEFAULT_UV,renderState.outlineColor);
         matrices.pop();

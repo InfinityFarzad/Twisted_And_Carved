@@ -1,5 +1,6 @@
 package net.farzad.twisted_and_carved.common.sound;
 
+import net.farzad.twisted_and_carved.common.entity.TwistedGreataxeEntity;
 import net.minecraft.client.sound.MovingSoundInstance;
 import net.minecraft.client.sound.SoundInstance;
 import net.minecraft.entity.projectile.ProjectileEntity;
@@ -9,10 +10,13 @@ import net.minecraft.util.math.MathHelper;
 
 public class WeaponEntitySoundInstance extends MovingSoundInstance {
     private final ProjectileEntity entity;
+    private final float baseVolume;
 
     public WeaponEntitySoundInstance(SoundEvent soundEvent, ProjectileEntity entity, SoundCategory soundCategory) {
         super(soundEvent, soundCategory, SoundInstance.createRandom());
-        this.volume = (float) (2f / entity.getEntityPos().distanceTo(entity.getOwner().getEntityPos()));
+        this.baseVolume = (float) (2f / entity.getEntityPos().distanceTo(entity.getOwner().getEntityPos()));
+        this.volume = baseVolume;
+
         this.pitch = MathHelper.nextBetween(random,0.5f,0.7f);
         this.repeat = true;
         this.setPositionToEntity();
@@ -25,8 +29,10 @@ public class WeaponEntitySoundInstance extends MovingSoundInstance {
             this.setDone();
         } else {
             this.setPositionToEntity();
+            if (entity instanceof TwistedGreataxeEntity twistedGreataxe) {
+                this.volume = twistedGreataxe.shouldStopPlayingSound() ? 0 : this.baseVolume;
+            }
         }
-
     }
 
     private void setPositionToEntity() {

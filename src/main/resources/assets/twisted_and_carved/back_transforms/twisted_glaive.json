@@ -1,7 +1,9 @@
 {
-  "xscale": 2.5,
-  "yscale": 2.5,
-  "zscale": 1.2,
-  "xposition": -0.12,
-  "yposition": 0.04
+  "scale": [2.55, 2.55, 1.7],
+  "position": [-0.15, 0.05, 0.0],
+  "rotation": [0.0, 0.0, 7.0],
+  "body_part": "body",
+  "backslot_model": "",
+  "backslot_model_armored": "",
+  "relocate_with_chestplate": true
 }

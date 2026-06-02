@@ -93,7 +93,6 @@ public class TwistedScytheEntity extends PersistentProjectileEntity {
         }
     }
 
-
     public void tick() {
         if (this.getOwner() != null && this.getOwner() instanceof LivingEntity owner) {
             Vec3d targetPos = owner.getEntityPos();

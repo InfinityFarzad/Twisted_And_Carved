@@ -37,6 +37,8 @@ public class TwistedToolPiecePlacer {
 
                 tableBuilder.pool(poolBuilder.build());
             }
+
+
         });
         TradeOfferHelper.registerWanderingTraderOffers(factories ->
                 factories.addOffersToPool(TwistedAndCarved.id("scythe_trade"),(world, entity, random) -> new TradeOffer(

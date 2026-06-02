@@ -30,10 +30,9 @@ public abstract class PlayerEntityMixin {
                 serverWorld.playSound(null, owner.getX(), owner.getY(), owner.getZ(), TDSounds.PARRY, owner.getSoundCategory(), 8.0F, 1.0F);
                 serverWorld.spawnParticles(TCParticles.PARRY_PARTICLE, pos.getX(), pos.getY() + 0.85, pos.getZ(), 1, 0.0, 0.0,0.0, 2);
             }
-            twistedGreataxe.returnTimer = -6;
-            twistedGreataxe.dealtDamage = false;
+            twistedGreataxe.resetGroundTime();
+            twistedGreataxe.shouldReturn = false;
             twistedGreataxe.noClip = false;
-            twistedGreataxe.resetInGroundTime = true;
             twistedGreataxe.damageMultiplier += 0.5f;
         }
     }
