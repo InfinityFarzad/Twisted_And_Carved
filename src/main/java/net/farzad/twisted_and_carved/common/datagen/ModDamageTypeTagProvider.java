@@ -18,5 +18,6 @@ public class ModDamageTypeTagProvider extends FabricTagProvider<DamageType> {
     @Override
     protected void configure(RegistryWrapper.WrapperLookup wrapperLookup) {
         this.builder(DamageTypeTags.BYPASSES_ARMOR).addOptional(TCDamageTypes.FALCHION_SLASH);
+        this.builder(DamageTypeTags.IS_PROJECTILE).addOptional(TCDamageTypes.TOMAHAWK_DAMAGE);
     }
 }

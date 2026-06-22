@@ -113,7 +113,6 @@ public class TwistedFalchionItem extends TwistedToolItem implements AttackCharga
             }
         }
 
-
         return super.use(world, user, hand);
     }
 

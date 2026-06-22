@@ -47,7 +47,7 @@ public class CoffinSmokeParticle extends BillboardParticle {
 
     @Override
     protected RenderType getRenderType() {
-        return RenderType.BLOCK_ATLAS_TRANSLUCENT;
+        return RenderType.PARTICLE_ATLAS_TRANSLUCENT;
     }
 
     @Environment(EnvType.CLIENT)

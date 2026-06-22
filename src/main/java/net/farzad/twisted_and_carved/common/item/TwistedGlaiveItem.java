@@ -47,7 +47,7 @@ public class TwistedGlaiveItem extends TwistedToolItem {
                 Box baseBox = user.getBoundingBox().expand(4).contract(0, user.getBoundingBox().getLengthY() - 2, 0);
                 List<LivingEntity> entities = serverWorld.getEntitiesByClass(LivingEntity.class,
                         baseBox,
-                        entity -> entity != user);
+                        entity -> entity != user && entity.isAlive() && !entity.isSpectator() && entity instanceof LivingEntity);
 
                 for (Entity entity : entities) {
                     if (entity instanceof LivingEntity livingEntity) {
