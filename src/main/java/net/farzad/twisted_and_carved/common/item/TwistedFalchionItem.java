@@ -122,7 +122,6 @@ public class TwistedFalchionItem extends TwistedToolItem implements AttackCharga
             int amount = player.getEntityWorld().random.nextBetween(1, 3) * 5;
             if (!(getBlood(stack) + amount >= 100)) {
                 setBlood(stack, getBlood(stack) + amount);
-                System.out.println("chas2");
             } else {
                 setBlood(stack, 100);
             }

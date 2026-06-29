@@ -24,10 +24,10 @@ public class TwistedForestRegions extends Region {
         new ParameterUtils.ParameterPointListBuilder()
                 .temperature(ParameterUtils.Temperature.COOL)
                 .humidity(ParameterUtils.Humidity.WET)
-                .erosion(MultiNoiseUtil.ParameterRange.of(-0.2f,0.2f))
-                .depth(ParameterUtils.Depth.SURFACE, ParameterUtils.Depth.SURFACE)
-                .continentalness(MultiNoiseUtil.ParameterRange.of(0.25f,0.9f))
-                .weirdness(ParameterUtils.Weirdness.FULL_RANGE)
+                .erosion(ParameterUtils.Erosion.EROSION_2)
+                .depth(ParameterUtils.Depth.SURFACE)
+                .continentalness(ParameterUtils.Continentalness.span(ParameterUtils.Continentalness.MID_INLAND, ParameterUtils.Continentalness.FAR_INLAND))
+                .weirdness(MultiNoiseUtil.ParameterRange.of(1.0f))
                 .build().forEach(point -> builder.add(point, TCBiomes.TWISTED_FOREST));
 
         builder.build().forEach(mapper);

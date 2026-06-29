@@ -172,6 +172,10 @@
         "height": 2,
         "radius": 6,
         "tries": 96
+      },
+      {
+        "type": "minecraft:leave_vine",
+        "probability": 0.25
       }
     ],
     "dirt_provider": {

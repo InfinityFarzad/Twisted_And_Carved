@@ -2,7 +2,7 @@
   "structures": [
     {
       "structure": "twisted_and_carved:small_graveyard_0",
-      "weight": 5
+      "weight": 1
     }
   ],
   "placement": {
@@ -14,7 +14,7 @@
     },
     "frequency": 1,
     "salt": 165745296,
-    "separation": 4,
-    "spacing": 5
+    "separation": 1,
+    "spacing": 2
   }
 }

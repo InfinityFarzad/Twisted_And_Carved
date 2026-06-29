@@ -13,6 +13,7 @@ import net.minecraft.world.gen.foliage.CherryFoliagePlacer;
 import net.minecraft.world.gen.foliage.MegaPineFoliagePlacer;
 import net.minecraft.world.gen.stateprovider.BlockStateProvider;
 import net.minecraft.world.gen.stateprovider.WeightedBlockStateProvider;
+import net.minecraft.world.gen.treedecorator.LeavesVineTreeDecorator;
 import net.minecraft.world.gen.treedecorator.PlaceOnGroundTreeDecorator;
 import net.minecraft.world.gen.trunk.MegaJungleTrunkPlacer;
 
@@ -26,6 +27,8 @@ public class TCConfiguredFeatures {
 
     public static void bootstrap(Registerable<ConfiguredFeature<?, ?>> context) {
         PlaceOnGroundTreeDecorator placeOnGroundTreeDecorator = new PlaceOnGroundTreeDecorator(96, 6, 2, new WeightedBlockStateProvider(VegetationConfiguredFeatures.leafLitter(1, 4)));
+        LeavesVineTreeDecorator vineTreeDecorator = new LeavesVineTreeDecorator(0.25f);
+
         register(context, TWISTED_TREE_SMALL_KEY, Feature.TREE, new TreeFeatureConfig.Builder(
                 BlockStateProvider.of(TCBlocks.TWISTED_LOG),
                 new MegaJungleTrunkPlacer(13, 2, 18),
@@ -34,7 +37,7 @@ public class TCConfiguredFeatures {
                 new MegaPineFoliagePlacer(ConstantIntProvider.create(4), ConstantIntProvider.create(3), ConstantIntProvider.create(4)),
 
                 new TwoLayersFeatureSize(8, 2, 2, OptionalInt.empty()))
-                .decorators(List.of(placeOnGroundTreeDecorator))
+                .decorators(List.of(placeOnGroundTreeDecorator,vineTreeDecorator))
                 .build());
 
         register(context, TWISTED_TREE_BIG_KEY, Feature.TREE, new TreeFeatureConfig.Builder(
@@ -44,7 +47,7 @@ public class TCConfiguredFeatures {
                 BlockStateProvider.of(TCBlocks.TWISTED_LEAVES),
                 new CherryFoliagePlacer(ConstantIntProvider.create(5), ConstantIntProvider.create(0), ConstantIntProvider.create(4), 0.25f, 0.25f, 0.25f, 0.75f),
 
-                new TwoLayersFeatureSize(8, 2, 2, OptionalInt.empty())).decorators(List.of(placeOnGroundTreeDecorator)).build());
+                new TwoLayersFeatureSize(8, 2, 2, OptionalInt.empty())).decorators(List.of(placeOnGroundTreeDecorator,vineTreeDecorator)).build());
 
         }
 

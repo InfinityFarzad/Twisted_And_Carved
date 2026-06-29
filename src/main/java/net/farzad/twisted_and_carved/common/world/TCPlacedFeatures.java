@@ -23,10 +23,10 @@ public class TCPlacedFeatures {
 
         register(context, TWISTED_TREE_SMALL_KEY, configuredFeatures.getOrThrow(TCConfiguredFeatures.TWISTED_TREE_SMALL_KEY),
                 VegetationPlacedFeatures.treeModifiersWithWouldSurvive(
-                        PlacedFeatures.createCountExtraModifier(2, 0.1f, 2), TCBlocks.TWISTED_SAPLING));
+                        PlacedFeatures.createCountExtraModifier(8, 0.1f, 8), TCBlocks.TWISTED_SAPLING));
         register(context, TWISTED_TREE_BIG_KEY, configuredFeatures.getOrThrow(TCConfiguredFeatures.TWISTED_TREE_BIG_KEY),
                 VegetationPlacedFeatures.treeModifiersWithWouldSurvive(
-                        PlacedFeatures.createCountExtraModifier(2, 0.1f, 2), TCBlocks.TWISTED_SAPLING));
+                        PlacedFeatures.createCountExtraModifier(8, 0.1f, 8), TCBlocks.TWISTED_SAPLING));
     }
 
     public static RegistryKey<PlacedFeature> registerKey(String name) {

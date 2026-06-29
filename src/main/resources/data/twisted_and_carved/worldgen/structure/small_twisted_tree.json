@@ -5,7 +5,7 @@
   "step": "surface_structures",
   "terrain_adaptation": "beard_thin",
   "start_pool": "twisted_and_carved:small_twisted_tree",
-  "size": 3,
+  "size": 2,
   "start_height": {
     "absolute": 0
   },

@@ -20,7 +20,6 @@ public class ModBiomeTagProvider extends FabricTagProvider<Biome> {
     @Override
     protected void configure(RegistryWrapper.WrapperLookup wrapperLookup) {
         this.getTagBuilder(ConventionalBiomeTags.IS_OVERWORLD).addOptional(TCBiomes.TWISTED_FOREST.getValue());
-        this.getTagBuilder(TDTags.Biomes.THICK_FOG).addOptional(TCBiomes.TWISTED_FOREST.getValue());
         this.getTagBuilder(TDTags.Biomes.TWISTED_FOREST).add(TCBiomes.TWISTED_FOREST.getValue());
     }
 }

@@ -21,7 +21,6 @@ public class TDTags {
     }
 
     public static class Biomes {
-        public static final TagKey<Biome> THICK_FOG = createTag("thick_fog");
         public static final TagKey<Biome> TWISTED_FOREST = createTag("twisted_forest");
 
 

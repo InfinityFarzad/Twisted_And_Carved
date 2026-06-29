@@ -15,7 +15,7 @@
     "minecraft:cave_extra_underground",
     "minecraft:canyon"
   ],
-  "downfall": 0.8,
+  "downfall": 0.25,
   "effects": {
     "foliage_color": 8883574,
     "grass_color": 6576468,
@@ -76,6 +76,8 @@
       "twisted_and_carved:twisted_tree_small",
       "twisted_and_carved:twisted_tree_big",
       "minecraft:patch_grass_forest",
+      "minecraft:patch_grass_normal",
+      "minecraft:patch_dead_bush",
       "minecraft:patch_pumpkin",
       "minecraft:patch_firefly_bush_near_water"
     ],
