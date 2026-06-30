@@ -78,6 +78,9 @@
       "minecraft:patch_grass_forest",
       "minecraft:patch_grass_normal",
       "minecraft:patch_dead_bush",
+      "minecraft:brown_mushroom_normal",
+      "minecraft:red_mushroom_normal",
+      "minecraft:patch_leaf_litter",
       "minecraft:patch_pumpkin",
       "minecraft:patch_firefly_bush_near_water"
     ],

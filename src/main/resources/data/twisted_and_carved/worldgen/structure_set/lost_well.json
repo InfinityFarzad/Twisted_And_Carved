@@ -1,7 +1,7 @@
 {
   "structures": [
     {
-      "structure": "twisted_and_carved:small_graveyard_0",
+      "structure": "twisted_and_carved:lost_well",
       "weight": 1
     }
   ],
@@ -13,8 +13,8 @@
       "other_set": "minecraft:villages"
     },
     "frequency": 1,
-    "salt": 165742296,
-    "separation": 2,
+    "salt": 165345296,
+    "separation": 3,
     "spacing": 8
   }
 }
