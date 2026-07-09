@@ -1,5 +1,5 @@
 plugins {
-	id 'fabric-loom' version "${loom_version}"
+	id 'net.fabricmc.fabric-loom' version "${loom_version}"
 	id 'maven-publish'
 }
 
@@ -32,13 +32,12 @@ fabricApi {
 dependencies {
 
 	minecraft "com.mojang:minecraft:${project.minecraft_version}"
-	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
-	mappings loom.officialMojangMappings()
+	implementation "net.fabricmc:fabric-loader:${project.loader_version}"
 	//dependencies
-	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
-	modImplementation "com.terraformersmc.terraform-api:terraform-wood-api-v1:16.0.0"
-    modImplementation "com.github.glitchfiend:TerraBlender-fabric:${minecraft_version}-${terrablender_version}"
-    modImplementation "maven.modrinth:chiseled-lib:${project.chiseled_lib_version}"
+	implementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
+	implementation "com.terraformersmc.terraform-api:terraform-wood-api-v1:17.0.0-beta.5"
+    implementation "com.github.glitchfiend:TerraBlender-fabric:${minecraft_version}-${terrablender_version}"
+    implementation "maven.modrinth:chiseled-lib:${project.chiseled_lib_version}"
 }
 
 processResources {
@@ -50,7 +49,7 @@ processResources {
 }
 
 tasks.withType(JavaCompile).configureEach {
-	it.options.release = 21
+	it.options.release = 25
 }
 
 java {
@@ -59,8 +58,8 @@ java {
 	// If you remove this line, sources will not be generated.
 	withSourcesJar()
 
-	sourceCompatibility = JavaVersion.VERSION_21
-	targetCompatibility = JavaVersion.VERSION_21
+	sourceCompatibility = JavaVersion.VERSION_25
+	targetCompatibility = JavaVersion.VERSION_25
 }
 
 jar {

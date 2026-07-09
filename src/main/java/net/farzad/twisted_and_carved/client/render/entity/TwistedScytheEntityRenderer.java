@@ -14,7 +14,7 @@ import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.item.ItemModelResolver;
 import net.minecraft.client.renderer.rendertype.RenderTypes;
-import net.minecraft.client.renderer.state.CameraRenderState;
+import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemDisplayContext;
@@ -50,7 +50,7 @@ public class TwistedScytheEntityRenderer extends EntityRenderer<TwistedScytheEnt
         renderState.itemRenderState.submit(matrixStack, queue, renderState.lightCoords, OverlayTexture.NO_OVERLAY,renderState.outlineColor);
         matrixStack.popPose();
         matrixStack.pushPose();
-        queue.submitCustomGeometry(matrixStack, RenderTypes.entitySmoothCutout(TwistedAndCarved.id("textures/entity/scythe_chain.png")),(matricesEntry, vertexConsumer) -> renderChain(renderState,matricesEntry,vertexConsumer,renderState.lightCoords));
+        queue.submitCustomGeometry(matrixStack, RenderTypes.entityCutoutCull(TwistedAndCarved.id("textures/entity/scythe_chain.png")),(matricesEntry, vertexConsumer) -> renderChain(renderState,matricesEntry,vertexConsumer,renderState.lightCoords));
         matrixStack.popPose();
 
         super.submit(renderState, matrixStack, queue, cameraState);

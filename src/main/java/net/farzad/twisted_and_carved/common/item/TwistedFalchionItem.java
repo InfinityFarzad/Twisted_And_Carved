@@ -118,7 +118,7 @@ public class TwistedFalchionItem extends TwistedToolItem {
     @Override
     public void onFullAttack(LivingEntity attacker, LivingEntity target, ItemStack stack) {
         if (attacker instanceof Player player && TwistedWeaponUtil.getAbilityID(stack) == "bleeding") {
-            int amount = player.level().random.nextIntBetweenInclusive(1, 3) * 5;
+            int amount = player.level().getRandom().nextIntBetweenInclusive(1, 3) * 5;
             if (!(getBlood(stack) + amount >= 100)) {
                 setBlood(stack, getBlood(stack) + amount);
             } else {

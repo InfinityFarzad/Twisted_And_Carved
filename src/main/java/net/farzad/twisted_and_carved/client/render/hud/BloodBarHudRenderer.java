@@ -7,7 +7,7 @@ import net.farzad.twisted_and_carved.common.register.TCItems;
 import net.farzad.twisted_and_carved.common.util.TwistedWeaponUtil;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.util.ARGB;
 import net.minecraft.util.Mth;
@@ -67,7 +67,7 @@ public class BloodBarHudRenderer implements HudElement {
     }
 
     @Override
-    public void render(GuiGraphics context, DeltaTracker tickCounter) {
+    public void extractRenderState(GuiGraphicsExtractor context, DeltaTracker tickCounter) {
         Minecraft client = Minecraft.getInstance();
 
         assert client.player != null;
@@ -82,7 +82,7 @@ public class BloodBarHudRenderer implements HudElement {
             context.blitSprite(RenderPipelines.GUI_TEXTURED, TwistedAndCarved.id("blood_bar/blood_bar_slice"), xCord + 39 - (int) (s * 26), yCord + 14, (int) (s * 26), 4);
             context.blitSprite(RenderPipelines.GUI_TEXTURED, TwistedAndCarved.id("blood_bar/blood_bar_overlay"), xCord, yCord, 64, 32);
 
-            context.drawString(client.font,"%" + stack.getOrDefault(TCDataComponents.BLOOD_CHARGE,0).toString(),client.getWindow().getGuiScaledWidth() / 2 + 130 + x_offset, client.getWindow().getGuiScaledHeight() - 16 + y_offset, ARGB.color(opacity* 255 / 20,16777215),true);
+            context.text(client.font,"%" + stack.getOrDefault(TCDataComponents.BLOOD_CHARGE,0).toString(),client.getWindow().getGuiScaledWidth() / 2 + 130 + x_offset, client.getWindow().getGuiScaledHeight() - 16 + y_offset, ARGB.color(opacity* 255 / 20,16777215),true);
         }
     }
 }

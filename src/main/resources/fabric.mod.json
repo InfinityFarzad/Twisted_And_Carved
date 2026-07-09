@@ -38,14 +38,13 @@
 		"twisted_and_carved.mixins.json"
 	],
 	"depends": {
-		"fabricloader": ">=0.19.2",
-		"minecraft": "~1.21.11",
-		"java": ">=21",
+		"fabricloader": ">=0.19.3",
+		"minecraft": "~26.1",
+		"java": ">=25",
 		"fabric-api": "*"
 	},
 	"suggests": {
-		"another-mod": "*",
-        "terrablender": ">=21.11.0",
-        "chisledLib": ">=2.0.1"
+        "terrablender": "*",
+        "chisledLib": "*"
 	}
 }

@@ -85,7 +85,7 @@ public class TwistedScytheItem extends TwistedToolItem {
         }
 
         if (blocks.isEmpty()) {
-            user.displayClientMessage(Component.translatable("massage.twisted_and_carved.unable_to_harvest").withStyle(ChatFormatting.DARK_RED),true);
+            user.sendOverlayMessage(Component.translatable("massage.twisted_and_carved.unable_to_harvest").withStyle(ChatFormatting.DARK_RED));
             user.level().playSound(user,user.blockPosition(),SoundEvents.ITEM_BREAK.value(),user.getSoundSource(),1,Mth.randomBetween(user.getRandom(),0.5f,0.7f));
         } else {
             if (world instanceof ServerLevel serverWorld) {

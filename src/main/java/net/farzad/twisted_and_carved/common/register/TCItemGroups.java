@@ -1,7 +1,7 @@
 package net.farzad.twisted_and_carved.common.register;
 
-import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
-import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
+import net.fabricmc.fabric.api.creativetab.v1.CreativeModeTabEvents;
+import net.fabricmc.fabric.api.creativetab.v1.FabricCreativeModeTab;
 import net.farzad.twisted_and_carved.common.TwistedAndCarved;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -13,7 +13,7 @@ import net.minecraft.world.item.ItemStack;
 
 public class TCItemGroups {
     public static final ResourceKey<CreativeModeTab> TWISTED_AND_CARVED_ITEM_GROUP_KEY = ResourceKey.create(BuiltInRegistries.CREATIVE_MODE_TAB.key(), Identifier.fromNamespaceAndPath(TwistedAndCarved.MOD_ID, "twisted_and_carved"));
-    public static final CreativeModeTab TWISTED_AND_CARVED_ITEM_GROUP = FabricItemGroup.builder()
+    public static final CreativeModeTab TWISTED_AND_CARVED_ITEM_GROUP = FabricCreativeModeTab.builder()
             .backgroundTexture(TwistedAndCarved.id("textures/gui/container/tab_items.png"))
             .hideTitle()
             .noScrollBar()
@@ -24,7 +24,7 @@ public class TCItemGroups {
     public static void init() {
         Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB, TWISTED_AND_CARVED_ITEM_GROUP_KEY, TWISTED_AND_CARVED_ITEM_GROUP);
 
-        ItemGroupEvents.modifyEntriesEvent(TWISTED_AND_CARVED_ITEM_GROUP_KEY).register(itemGroup -> {
+        CreativeModeTabEvents.modifyOutputEvent(TWISTED_AND_CARVED_ITEM_GROUP_KEY).register(itemGroup -> {
             itemGroup.accept(TCItems.TWISTED_GREATAXE);
             itemGroup.accept(TCItems.TWISTED_GLAIVE);
             itemGroup.accept(TCItems.TWISTED_FALCHION);

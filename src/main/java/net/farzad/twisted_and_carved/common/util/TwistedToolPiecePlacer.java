@@ -1,7 +1,6 @@
 package net.farzad.twisted_and_carved.common.util;
 
 import net.fabricmc.fabric.api.loot.v3.LootTableEvents;
-import net.fabricmc.fabric.api.object.builder.v1.trade.TradeOfferHelper;
 import net.farzad.twisted_and_carved.common.TwistedAndCarved;
 import net.farzad.twisted_and_carved.common.register.TCItems;
 import net.minecraft.world.item.ItemStack;
@@ -39,12 +38,6 @@ public class TwistedToolPiecePlacer {
 
 
         });
-        TradeOfferHelper.registerWanderingTraderOffers(factories ->
-                factories.addOffersToPool(TwistedAndCarved.id("scythe_trade"),(world, entity, random) -> new MerchantOffer(
-                        new ItemCost(Items.EMERALD,25),
-                        Optional.of(new ItemCost(Items.WHEAT, 5)),
-                        new ItemStack(TCItems.TWISTED_SCYTHE_PIECE),
-                        1,20,0.075f)));
     }
 
 }

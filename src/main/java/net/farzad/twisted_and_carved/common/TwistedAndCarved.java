@@ -20,7 +20,7 @@ import net.minecraft.world.item.HoeItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.FarmBlock;
+import net.minecraft.world.level.block.FarmlandBlock;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import terrablender.api.Regions;
@@ -60,7 +60,7 @@ public class TwistedAndCarved implements ModInitializer, TerraBlenderApi {
         });
 
         FlattenableBlockRegistry.register(TCBlocks.FESTERING_ROOTS,Blocks.DIRT_PATH.defaultBlockState());
-        TillableBlockRegistry.register(TCBlocks.FESTERING_ROOTS, HoeItem::onlyIfAirAbove, Blocks.FARMLAND.defaultBlockState().setValue(FarmBlock.MOISTURE,7));
+        TillableBlockRegistry.register(TCBlocks.FESTERING_ROOTS, HoeItem::onlyIfAirAbove, Blocks.FARMLAND.defaultBlockState().setValue(FarmlandBlock.MOISTURE,7));
         StrippableBlockRegistry.register(TCBlocks.TWISTED_LOG, TCBlocks.STRIPPED_TWISTED_LOG);
         StrippableBlockRegistry.register(TCBlocks.TWISTED_WOOD, TCBlocks.STRIPPED_TWISTED_WOOD);
     }

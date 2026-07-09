@@ -1,6 +1,6 @@
 package net.farzad.twisted_and_carved.common.datagen;
 
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
+import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
 import net.farzad.twisted_and_carved.common.register.TCBlocks;
 import net.farzad.twisted_and_carved.common.register.TCItems;
@@ -14,7 +14,7 @@ import net.minecraft.world.item.crafting.Ingredient;
 import java.util.concurrent.CompletableFuture;
 
 public class ModRecipeProvider extends FabricRecipeProvider {
-    public ModRecipeProvider(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
+    public ModRecipeProvider(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
         super(output, registriesFuture);
     }
 

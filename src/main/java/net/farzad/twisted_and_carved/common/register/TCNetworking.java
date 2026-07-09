@@ -14,15 +14,15 @@ import net.minecraft.world.level.Level;
 public class TCNetworking {
 
     public static void init() {
-        PayloadTypeRegistry.playS2C().register(GreataxeSoundLoopS2CPayload.ID, GreataxeSoundLoopS2CPayload.CODEC);
-        PayloadTypeRegistry.playS2C().register(ScytheSoundLoopS2CPayload.ID, ScytheSoundLoopS2CPayload.CODEC);
-        PayloadTypeRegistry.playS2C().register(RiptideModificationPayload.ID, RiptideModificationPayload.CODEC);
+        PayloadTypeRegistry.clientboundPlay().register(GreataxeSoundLoopS2CPayload.ID, GreataxeSoundLoopS2CPayload.CODEC);
+        PayloadTypeRegistry.clientboundPlay().register(ScytheSoundLoopS2CPayload.ID, ScytheSoundLoopS2CPayload.CODEC);
+        PayloadTypeRegistry.clientboundPlay().register(RiptideModificationPayload.ID, RiptideModificationPayload.CODEC);
 
     }
 
     public static void sendPacketToAllClients(Level world, CustomPacketPayload payload) {
         if (!world.isClientSide() && world instanceof ServerLevel serverWorld) {
-            for (ServerPlayer player : PlayerLookup.world(serverWorld)) {
+            for (ServerPlayer player : PlayerLookup.level(serverWorld)) {
                 ServerPlayNetworking.send(player,payload);
             }
         }

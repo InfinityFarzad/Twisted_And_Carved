@@ -1,13 +1,13 @@
 package net.farzad.twisted_and_carved.common.datagen;
 
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
+import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricDynamicRegistryProvider;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
 import java.util.concurrent.CompletableFuture;
 
 public class ModRegistryDataGenerator extends FabricDynamicRegistryProvider {
-    public ModRegistryDataGenerator(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
+    public ModRegistryDataGenerator(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
         super(output, registriesFuture);
     }
 

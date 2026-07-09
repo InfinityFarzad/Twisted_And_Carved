@@ -1,14 +1,14 @@
 package net.farzad.twisted_and_carved.common.datagen;
 
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
-import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
+import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
+import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagsProvider;
 import net.farzad.twisted_and_carved.common.register.TCBlocks;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.tags.BlockTags;
 import java.util.concurrent.CompletableFuture;
 
-public class ModBlockTagProvider extends FabricTagProvider.BlockTagProvider {
-    public ModBlockTagProvider(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
+public class ModBlockTagProvider extends FabricTagsProvider.BlockTagsProvider {
+    public ModBlockTagProvider(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
         super(output, registriesFuture);
     }
 
@@ -29,8 +29,8 @@ public class ModBlockTagProvider extends FabricTagProvider.BlockTagProvider {
 
         valueLookupBuilder(BlockTags.LOGS).add(TCBlocks.TWISTED_LOG);
         valueLookupBuilder(BlockTags.VALID_SPAWN).add(TCBlocks.FESTERING_ROOTS);
-        valueLookupBuilder(BlockTags.MUSHROOM_GROW_BLOCK).add(TCBlocks.FESTERING_ROOTS);
-        valueLookupBuilder(BlockTags.BIG_DRIPLEAF_PLACEABLE).add(TCBlocks.FESTERING_ROOTS);
+        valueLookupBuilder(BlockTags.OVERRIDES_MUSHROOM_LIGHT_REQUIREMENT).add(TCBlocks.FESTERING_ROOTS);
+        valueLookupBuilder(BlockTags.SUPPORTS_BIG_DRIPLEAF).add(TCBlocks.FESTERING_ROOTS);
         valueLookupBuilder(BlockTags.MINEABLE_WITH_SHOVEL).add(TCBlocks.FESTERING_ROOTS);
         valueLookupBuilder(BlockTags.SNIFFER_DIGGABLE_BLOCK).add(TCBlocks.FESTERING_ROOTS).add(TCBlocks.FESTERING_ROOTS);
         valueLookupBuilder(BlockTags.DIRT).add(TCBlocks.FESTERING_ROOTS);

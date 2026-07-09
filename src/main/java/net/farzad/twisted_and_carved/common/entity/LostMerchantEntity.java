@@ -13,13 +13,10 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.npc.villager.AbstractVillager;
-import net.minecraft.world.entity.npc.villager.VillagerTrades;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.trading.ItemCost;
-import net.minecraft.world.item.trading.MerchantOffer;
-import net.minecraft.world.item.trading.MerchantOffers;
+import net.minecraft.world.item.trading.*;
 import net.minecraft.world.level.Level;
 import org.apache.commons.lang3.tuple.Pair;
 import org.jspecify.annotations.Nullable;
@@ -27,24 +24,6 @@ import org.jspecify.annotations.Nullable;
 import java.util.List;
 
 public class LostMerchantEntity extends AbstractVillager {
-
-    private static VillagerTrades.ItemListing create(ItemCost tradedItem, ItemStack returnItem, int maxUses,int xp, int priceMul) {
-        return new VillagerTrades.ItemListing() {
-            @Override
-            public @Nullable MerchantOffer getOffer(ServerLevel world, Entity entity, RandomSource random) {
-                return new MerchantOffer(tradedItem, returnItem,maxUses,xp,priceMul);
-            }
-        };
-    }
-
-    public static final List<Pair<VillagerTrades.ItemListing[], Integer>> LOST_MERCHANT_TRADES = (
-            (ImmutableList.Builder)ImmutableList.builder()
-            .add(Pair.of(new VillagerTrades.ItemListing[]{
-                    create(new ItemCost(Items.DIAMOND,4),new ItemStack(TCBlocks.TWISTED_SAPLING.asItem(),2),20,5,1),
-                    new VillagerTrades.ItemsForEmeralds(Items.FIREFLY_BUSH, 3, 1, 12, 1)
-            }, 5))
-            ).build();
-
 
     public LostMerchantEntity(EntityType<? extends AbstractVillager> entityType, Level world) {
         super(TCEntities.LOST_MERCHANT_ENTITY, world);
@@ -104,11 +83,8 @@ public class LostMerchantEntity extends AbstractVillager {
 
     @Override
     protected void updateTrades(ServerLevel world) {
-        MerchantOffers tradeOfferList = this.getOffers();
-        for (Pair<VillagerTrades.ItemListing[], Integer> pair : LOST_MERCHANT_TRADES) {
-            VillagerTrades.ItemListing[] trade = pair.getLeft();
-            this.addOffersFromItemListings(world, tradeOfferList, trade, pair.getRight());
-        }
+        MerchantOffers offers = this.getOffers();
+        this.addOffersFromTradeSet(world, offers,TradeSets.WANDERING_TRADER_BUYING);
     }
 
     @Override

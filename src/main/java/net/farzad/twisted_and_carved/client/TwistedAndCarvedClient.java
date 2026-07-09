@@ -5,8 +5,7 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
-import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
-import net.fabricmc.fabric.api.client.rendering.v1.BlockRenderLayerMap;
+import net.fabricmc.fabric.api.client.particle.v1.ParticleProviderRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.hud.VanillaHudElements;
 import net.fabricmc.fabric.impl.client.rendering.EntityRendererRegistryImpl;
 import net.fabricmc.fabric.impl.client.rendering.hud.HudElementRegistryImpl;
@@ -45,24 +44,22 @@ public class TwistedAndCarvedClient implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
-        ParticleFactoryRegistry.getInstance().register(TCParticles.TWISTED_SWEEP_ATTACK, AttackSweepParticle.Provider::new);
-        ParticleFactoryRegistry.getInstance().register(TCParticles.TWISTED_GLAIVE_SWEEP, TwistedGlaiveSweepParticle.Factory::new);
-        ParticleFactoryRegistry.getInstance().register(TCParticles.TWISTED_LEAF_PARTICLE, FallingLeavesParticle.CherryProvider::new);
-        ParticleFactoryRegistry.getInstance().register(TCParticles.PARRY_PARTICLE, ParryParticle.Factory::new);
-        ParticleFactoryRegistry.getInstance().register(TCParticles.FALCHION_SLASH, DirectionalSlashParticle.FalchionSlashFactory::new);
-        ParticleFactoryRegistry.getInstance().register(TCParticles.DASH_PARTICLE, DashParticle.Factory::new);
-        ParticleFactoryRegistry.getInstance().register(TCParticles.COFFIN_SMOKE, CoffinSmokeParticle.CoffinSmokeParticleFactory::new);
-        ParticleFactoryRegistry.getInstance().register(TCParticles.COFFIN_ASH, DotParticle.Factory::new);
-        ParticleFactoryRegistry.getInstance().register(TCParticles.HARVEST_SLASH, DirectionalSlashParticle.HarvestSlashFactory::new);
+        ParticleProviderRegistry.getInstance().register(TCParticles.TWISTED_SWEEP_ATTACK, AttackSweepParticle.Provider::new);
+        ParticleProviderRegistry.getInstance().register(TCParticles.TWISTED_GLAIVE_SWEEP, TwistedGlaiveSweepParticle.Factory::new);
+        ParticleProviderRegistry.getInstance().register(TCParticles.TWISTED_LEAF_PARTICLE, FallingLeavesParticle.CherryProvider::new);
+        ParticleProviderRegistry.getInstance().register(TCParticles.PARRY_PARTICLE, ParryParticle.Factory::new);
+        ParticleProviderRegistry.getInstance().register(TCParticles.FALCHION_SLASH, DirectionalSlashParticle.FalchionSlashFactory::new);
+        ParticleProviderRegistry.getInstance().register(TCParticles.DASH_PARTICLE, DashParticle.Factory::new);
+        ParticleProviderRegistry.getInstance().register(TCParticles.COFFIN_SMOKE, CoffinSmokeParticle.CoffinSmokeParticleFactory::new);
+        ParticleProviderRegistry.getInstance().register(TCParticles.COFFIN_ASH, DotParticle.Factory::new);
+        ParticleProviderRegistry.getInstance().register(TCParticles.HARVEST_SLASH, DirectionalSlashParticle.HarvestSlashFactory::new);
 
         EntityRendererRegistryImpl.register(TCEntities.LOST_MERCHANT_ENTITY, LostMerchentRenderer::new);
         EntityRendererRegistryImpl.register(TCEntities.TWISTED_GREATAXE_ENTITY, TwistedGreataxeEntityRenderer::new);
         EntityRendererRegistryImpl.register(TCEntities.TWISTED_SCYTHE_ENTITY, TwistedScytheEntityRenderer::new);
-        BlockRenderLayerMap.putBlocks(ChunkSectionLayer.CUTOUT, TCBlocks.TWISTED_SAPLING, TCBlocks.KARMIUM_RAILING, TCBlocks.TWISTED_LEAVES, TCBlocks.KARMIUM_CHAIN, TCBlocks.POTTED_TWISTED_SAPLING);
         ConditionalItemModelProperties.ID_MAPPER.put(Identifier.fromNamespaceAndPath(TwistedAndCarved.MOD_ID,"twisted_scythe_grappling"),TwistedScytheGrapplingProperty.CODEC);
 
         applyItemTooltips();
-
 
         HudElementRegistryImpl.attachElementAfter(Identifier.parse(VanillaHudElements.HOTBAR.getPath()),TwistedAndCarved.id("bloodbar_hud"),bloodBarHudRenderer);
         ClientTickEvents.END_CLIENT_TICK.register((client) -> this.bloodBarHudRenderer.tick());

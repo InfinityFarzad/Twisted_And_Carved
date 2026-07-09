@@ -1,7 +1,7 @@
 package net.farzad.twisted_and_carved.common.datagen;
 
 import net.fabricmc.fabric.api.client.datagen.v1.provider.FabricModelProvider;
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
+import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.farzad.twisted_and_carved.common.register.TCBlocks;
 import net.farzad.twisted_and_carved.common.register.TCItems;
 import net.minecraft.client.data.models.BlockModelGenerators;
@@ -21,7 +21,7 @@ public class ModModelProvider extends FabricModelProvider {
             .button(TCBlocks.TWISTED_BUTTON)
             .getFamily();
 
-    public ModModelProvider(FabricDataOutput output) {
+    public ModModelProvider(FabricPackOutput output) {
         super(output);
     }
 
