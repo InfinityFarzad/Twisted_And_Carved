@@ -1,11 +1,11 @@
 package net.farzad.twisted_and_carved.common.world;
 
 import com.mojang.datafixers.util.Pair;
-import net.minecraft.registry.Registry;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.util.Identifier;
-import net.minecraft.world.biome.Biome;
-import net.minecraft.world.biome.source.util.MultiNoiseUtil;
+import net.minecraft.core.Registry;
+import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.biome.Climate;
 import terrablender.api.ParameterUtils;
 import terrablender.api.Region;
 import terrablender.api.RegionType;
@@ -19,7 +19,7 @@ public class TwistedForestRegions extends Region {
     }
 
     @Override
-    public void addBiomes(Registry<Biome> registry, Consumer<Pair<MultiNoiseUtil.NoiseHypercube, RegistryKey<Biome>>> mapper) {
+    public void addBiomes(Registry<Biome> registry, Consumer<Pair<Climate.ParameterPoint, ResourceKey<Biome>>> mapper) {
         VanillaParameterOverlayBuilder builder = new VanillaParameterOverlayBuilder();
         new ParameterUtils.ParameterPointListBuilder()
                 .temperature(ParameterUtils.Temperature.COOL)
@@ -27,7 +27,7 @@ public class TwistedForestRegions extends Region {
                 .erosion(ParameterUtils.Erosion.EROSION_2)
                 .depth(ParameterUtils.Depth.SURFACE)
                 .continentalness(ParameterUtils.Continentalness.span(ParameterUtils.Continentalness.MID_INLAND, ParameterUtils.Continentalness.FAR_INLAND))
-                .weirdness(MultiNoiseUtil.ParameterRange.of(1.0f))
+                .weirdness(Climate.Parameter.point(1.0f))
                 .build().forEach(point -> builder.add(point, TCBiomes.TWISTED_FOREST));
 
         builder.build().forEach(mapper);

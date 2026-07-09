@@ -1,7 +1,7 @@
-// 1.21.5	-999999999-01-01T00:00:00	Twisted And Carved/Tags for minecraft:item
+// 1.21.11	-999999999-01-01T00:00:00	Twisted And Carved/Tags for minecraft:item
 4c391b2757703dcf242cd43aa91b7ba2acac990e data/minecraft/tags/item/axes.json
-290101fb7baf01ca6ac8024a0cd9e36c404092c1 data/minecraft/tags/item/enchantable/sharp_weapon.json
-7e753dd17a2e70c9850a305cf4eb1ce1628ae993 data/minecraft/tags/item/enchantable/sword.json
+5951ec06dc543275997c987b14506df37a09fb92 data/minecraft/tags/item/dirt.json
+5b5fc7fb73d3fb06414ff86d595282f338e88d25 data/minecraft/tags/item/enchantable/sharp_weapon.json
 54e9f0cb8a5f0b5a81abd17fcca4ebed4f1ae269 data/minecraft/tags/item/fence_gates.json
 71a35574f2dbfb98869f9c63888601bba3d61731 data/minecraft/tags/item/hoes.json
 48b6e3f33ca6baf30d6ddf6c0f5fd608804c6c6b data/minecraft/tags/item/leaves.json

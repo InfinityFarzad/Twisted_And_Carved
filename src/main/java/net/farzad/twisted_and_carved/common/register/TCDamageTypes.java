@@ -1,14 +1,14 @@
 package net.farzad.twisted_and_carved.common.register;
 
 import net.farzad.twisted_and_carved.common.TwistedAndCarved;
-import net.minecraft.entity.damage.DamageType;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.RegistryKeys;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.damagesource.DamageType;
 
 public class TCDamageTypes {
 
-    public static final RegistryKey<DamageType> TOMAHAWK_DAMAGE = RegistryKey.of(RegistryKeys.DAMAGE_TYPE, TwistedAndCarved.id("tomahawk"));
-    public static final RegistryKey<DamageType> FALCHION_SLASH = RegistryKey.of(RegistryKeys.DAMAGE_TYPE, TwistedAndCarved.id("falchion_slash"));
-    public static final RegistryKey<DamageType> SWEEPING_SLASH = RegistryKey.of(RegistryKeys.DAMAGE_TYPE, TwistedAndCarved.id("sweeping_slash"));
+    public static final ResourceKey<DamageType> TOMAHAWK_DAMAGE = ResourceKey.create(Registries.DAMAGE_TYPE, TwistedAndCarved.id("tomahawk"));
+    public static final ResourceKey<DamageType> FALCHION_SLASH = ResourceKey.create(Registries.DAMAGE_TYPE, TwistedAndCarved.id("falchion_slash"));
+    public static final ResourceKey<DamageType> SWEEPING_SLASH = ResourceKey.create(Registries.DAMAGE_TYPE, TwistedAndCarved.id("sweeping_slash"));
 
 }

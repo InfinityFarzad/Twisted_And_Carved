@@ -2,95 +2,99 @@ package net.farzad.twisted_and_carved.client.particle;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.particle.*;
-import net.minecraft.client.render.Camera;
-import net.minecraft.client.world.ClientWorld;
-import net.minecraft.util.math.random.Random;
+import net.minecraft.client.Camera;
+import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.particle.Particle;
+import net.minecraft.client.particle.ParticleProvider;
+import net.minecraft.client.particle.SingleQuadParticle;
+import net.minecraft.client.particle.SpriteSet;
+import net.minecraft.client.renderer.state.QuadParticleRenderState;
+import net.minecraft.util.RandomSource;
 import org.joml.Quaternionf;
 import org.jspecify.annotations.Nullable;
 
-public class DirectionalSlashParticle extends BillboardParticle {
+public class DirectionalSlashParticle extends SingleQuadParticle {
     private final float yaw;
-    private final SpriteProvider spriteProvider;
+    private final SpriteSet spriteProvider;
     private final float offset;
 
-    DirectionalSlashParticle(ClientWorld world, double x, double y, double z, float yaw, float scale, boolean hasZOffset, SpriteProvider spriteProvider) {
-        super(world, x, y, z, 0.0, 0.0, 0.0,spriteProvider.getFirst());
-        this.scale = scale;
+    DirectionalSlashParticle(ClientLevel world, double x, double y, double z, float yaw, float scale, boolean hasZOffset, SpriteSet spriteProvider) {
+        super(world, x, y, z, 0.0, 0.0, 0.0,spriteProvider.first());
+        this.quadSize = scale;
         this.yaw = yaw;
-        this.maxAge = 4;
-        this.gravityStrength = 0.0F;
-        this.zRotation =0;
-        this.offset = random.nextBetween(-360,360) * (hasZOffset ? 1 : 0);
-        this.lastZRotation =0;
-        this.velocityX = 0.0;
-        this.velocityY = 0.0;
-        this.velocityZ = 0.0;
+        this.lifetime = 4;
+        this.gravity = 0.0F;
+        this.roll =0;
+        this.offset = random.nextIntBetweenInclusive(-360,360) * (hasZOffset ? 1 : 0);
+        this.oRoll =0;
+        this.xd = 0.0;
+        this.yd = 0.0;
+        this.zd = 0.0;
         this.spriteProvider = spriteProvider;
-        this.updateSprite(spriteProvider);
+        this.setSpriteFromAge(spriteProvider);
     }
 
     @Override
     public void tick() {
-        if (this.age++ >= this.maxAge) {
-            this.markDead();
+        if (this.age++ >= this.lifetime) {
+            this.remove();
         } else {
-            this.updateSprite(this.spriteProvider);
+            this.setSpriteFromAge(this.spriteProvider);
         }
     }
 
     @Override
-    public float getSize(float tickProgress) {
-        return this.scale;
+    public float getQuadSize(float tickProgress) {
+        return this.quadSize;
     }
 
     @Override
-    protected RenderType getRenderType() {
-        return RenderType.PARTICLE_ATLAS_TRANSLUCENT;
+    protected Layer getLayer() {
+        return Layer.TRANSLUCENT;
     }
 
     @Override
-    protected void render(BillboardParticleSubmittable submittable, Camera camera, Quaternionf q, float tickProgress) {
+    protected void extractRotatedQuad(QuadParticleRenderState submittable, Camera camera, Quaternionf q, float tickProgress) {
         Quaternionf rotation = new Quaternionf();
 
         rotation.rotateY((float) Math.toRadians (-this.yaw));
         rotation.rotateX((float) Math.toRadians(90));
         rotation.rotateY((float) Math.toRadians(offset));
-        super.render(submittable, camera, rotation, tickProgress);
+        super.extractRotatedQuad(submittable, camera, rotation, tickProgress);
 
         rotation.rotateY((float) Math.toRadians(180));
-        super.render(submittable, camera, rotation, tickProgress);
+        super.extractRotatedQuad(submittable, camera, rotation, tickProgress);
     }
 
     @Override
-    public int getBrightness(float tint) {
+    public int getLightColor(float tint) {
         return 240;
     }
 
     @Environment(EnvType.CLIENT)
-    public static class FalchionSlashFactory implements ParticleFactory<FalchionSlashEffect> {
-        private final SpriteProvider spriteProvider;
+    public static class FalchionSlashFactory implements ParticleProvider<FalchionSlashEffect> {
+        private final SpriteSet spriteProvider;
 
-        public FalchionSlashFactory(SpriteProvider spriteProvider) {
+        public FalchionSlashFactory(SpriteSet spriteProvider) {
             this.spriteProvider = spriteProvider;
         }
 
         @Override
-        public @Nullable Particle createParticle(FalchionSlashEffect parameters, ClientWorld world, double x, double y, double z, double velocityX, double velocityY, double velocityZ, Random random) {
+        public @Nullable Particle createParticle(FalchionSlashEffect parameters, ClientLevel world, double x, double y, double z, double velocityX, double velocityY, double velocityZ, RandomSource random) {
             return new DirectionalSlashParticle(world, x, y, z, parameters.yaw(),4,true,spriteProvider);
         }
     }
 
     @Environment(EnvType.CLIENT)
-    public static class HarvestSlashFactory implements ParticleFactory<HarvestSlashEffect> {
-        private final SpriteProvider spriteProvider;
+    public static class HarvestSlashFactory implements ParticleProvider<HarvestSlashEffect> {
+        private final SpriteSet spriteProvider;
 
-        public HarvestSlashFactory(SpriteProvider spriteProvider) {
+        public HarvestSlashFactory(SpriteSet spriteProvider) {
             this.spriteProvider = spriteProvider;
         }
 
         @Override
-        public @Nullable Particle createParticle(HarvestSlashEffect parameters, ClientWorld world, double x, double y, double z, double velocityX, double velocityY, double velocityZ, Random random) {
+        public @Nullable Particle createParticle(HarvestSlashEffect parameters, ClientLevel world, double x, double y, double z, double velocityX, double velocityY, double velocityZ, RandomSource random) {
             return new DirectionalSlashParticle(world, x, y, z, parameters.yaw(),1,false,spriteProvider);
 
         }

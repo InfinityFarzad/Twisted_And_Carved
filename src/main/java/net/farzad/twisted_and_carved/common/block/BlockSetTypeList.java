@@ -1,9 +1,9 @@
 package net.farzad.twisted_and_carved.common.block;
 
 import net.farzad.twisted_and_carved.common.TwistedAndCarved;
-import net.minecraft.block.BlockSetType;
-import net.minecraft.util.Identifier;
+import net.minecraft.resources.Identifier;
+import net.minecraft.world.level.block.state.properties.BlockSetType;
 
 public class BlockSetTypeList {
-    public static final BlockSetType TWISTED = new BlockSetType(Identifier.of(TwistedAndCarved.MOD_ID, "twisted").toString());
+    public static final BlockSetType TWISTED = new BlockSetType(Identifier.fromNamespaceAndPath(TwistedAndCarved.MOD_ID, "twisted").toString());
 }

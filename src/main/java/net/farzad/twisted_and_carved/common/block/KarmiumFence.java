@@ -1,27 +1,28 @@
 package net.farzad.twisted_and_carved.common.block;
 
 import net.farzad.twisted_and_carved.common.register.TCBlocks;
-import net.minecraft.block.*;
-import net.minecraft.fluid.FluidState;
-import net.minecraft.fluid.Fluids;
-import net.minecraft.item.ItemPlacementContext;
-import net.minecraft.state.StateManager;
-import net.minecraft.state.property.BooleanProperty;
-import net.minecraft.state.property.IntProperty;
-import net.minecraft.state.property.Properties;
-import net.minecraft.util.BlockMirror;
-import net.minecraft.util.BlockRotation;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.util.RandomSource;
 import net.minecraft.util.Util;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.random.Random;
-import net.minecraft.util.shape.VoxelShape;
-import net.minecraft.util.shape.VoxelShapes;
-import net.minecraft.world.BlockView;
-import net.minecraft.world.World;
-import net.minecraft.world.WorldView;
-import net.minecraft.world.tick.ScheduledTickView;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.ScheduledTickAccess;
+import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.block.state.properties.IntegerProperty;
+import net.minecraft.world.level.material.FluidState;
+import net.minecraft.world.level.material.Fluids;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
+
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -35,140 +36,140 @@ import java.util.stream.Collectors;
  */
 
 
-public class KarmiumFence extends Block implements Segmented {
-    public static final BooleanProperty WATERLOGGED = Properties.WATERLOGGED;
-    public static final BooleanProperty NORTH = ConnectingBlock.NORTH;
-    public static final BooleanProperty EAST = ConnectingBlock.EAST;
-    public static final BooleanProperty SOUTH = ConnectingBlock.SOUTH;
-    public static final BooleanProperty WEST = ConnectingBlock.WEST;
-    public static final BooleanProperty UP_FENCE = BooleanProperty.of("up_fence");
-    public static final IntProperty FENCE_SEGMENTS = IntProperty.of("fence_segments",1,4);
-    public static final Map<Direction, BooleanProperty> FACING_PROPERTIES = ConnectingBlock.FACING_PROPERTIES.entrySet().stream().collect(Util.toMap());
-    private static final VoxelShape EAST_SHAPE = Block.createCuboidShape(0.0, 0.0, 0.0, 1.0, 16.0, 16.0);
-    private static final VoxelShape WEST_SHAPE = Block.createCuboidShape(15.0, 0.0, 0.0, 16.0, 16.0, 16.0);
-    private static final VoxelShape SOUTH_SHAPE = Block.createCuboidShape(0.0, 0.0, 0.0, 16.0, 16.0, 1.0);
-    private static final VoxelShape NORTH_SHAPE = Block.createCuboidShape(0.0, 0.0, 15.0, 16.0, 16.0, 16.0);
+public class KarmiumFence extends Block implements SegmentableBlock {
+    public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
+    public static final BooleanProperty NORTH = PipeBlock.NORTH;
+    public static final BooleanProperty EAST = PipeBlock.EAST;
+    public static final BooleanProperty SOUTH = PipeBlock.SOUTH;
+    public static final BooleanProperty WEST = PipeBlock.WEST;
+    public static final BooleanProperty UP_FENCE = BooleanProperty.create("up_fence");
+    public static final IntegerProperty FENCE_SEGMENTS = IntegerProperty.create("fence_segments",1,4);
+    public static final Map<Direction, BooleanProperty> FACING_PROPERTIES = PipeBlock.PROPERTY_BY_DIRECTION.entrySet().stream().collect(Util.toMap());
+    private static final VoxelShape EAST_SHAPE = Block.box(0.0, 0.0, 0.0, 1.0, 16.0, 16.0);
+    private static final VoxelShape WEST_SHAPE = Block.box(15.0, 0.0, 0.0, 16.0, 16.0, 16.0);
+    private static final VoxelShape SOUTH_SHAPE = Block.box(0.0, 0.0, 0.0, 16.0, 16.0, 1.0);
+    private static final VoxelShape NORTH_SHAPE = Block.box(0.0, 0.0, 15.0, 16.0, 16.0, 16.0);
     private final Map<BlockState, VoxelShape> shapesByState;
 
 
-    public KarmiumFence(Settings settings) {
+    public KarmiumFence(Properties settings) {
         super(settings);
-        this.setDefaultState(this.stateManager.getDefaultState().with(UP_FENCE, false).with(NORTH, false).with(EAST, false).with(SOUTH, false).with(WEST, false).with(WATERLOGGED, false));
-        this.shapesByState = Map.copyOf(this.stateManager.getStates().stream().collect(Collectors.toMap(Function.identity(), KarmiumFence::getShapeForState)));
+        this.registerDefaultState(this.stateDefinition.any().setValue(UP_FENCE, false).setValue(NORTH, false).setValue(EAST, false).setValue(SOUTH, false).setValue(WEST, false).setValue(WATERLOGGED, false));
+        this.shapesByState = Map.copyOf(this.stateDefinition.getPossibleStates().stream().collect(Collectors.toMap(Function.identity(), KarmiumFence::getShapeForState)));
     }
 
     private static VoxelShape getShapeForState(BlockState state) {
-        VoxelShape voxelShape = VoxelShapes.empty();
+        VoxelShape voxelShape = Shapes.empty();
 
-        if (state.get(NORTH)) {
-            voxelShape = VoxelShapes.union(voxelShape, SOUTH_SHAPE);
+        if (state.getValue(NORTH)) {
+            voxelShape = Shapes.or(voxelShape, SOUTH_SHAPE);
         }
 
-        if (state.get(SOUTH)) {
-            voxelShape = VoxelShapes.union(voxelShape, NORTH_SHAPE);
+        if (state.getValue(SOUTH)) {
+            voxelShape = Shapes.or(voxelShape, NORTH_SHAPE);
         }
 
-        if (state.get(EAST)) {
-            voxelShape = VoxelShapes.union(voxelShape, WEST_SHAPE);
+        if (state.getValue(EAST)) {
+            voxelShape = Shapes.or(voxelShape, WEST_SHAPE);
         }
 
-        if (state.get(WEST)) {
-            voxelShape = VoxelShapes.union(voxelShape, EAST_SHAPE);
+        if (state.getValue(WEST)) {
+            voxelShape = Shapes.or(voxelShape, EAST_SHAPE);
         }
 
-        return voxelShape.isEmpty() ? VoxelShapes.fullCube() : voxelShape;
+        return voxelShape.isEmpty() ? Shapes.block() : voxelShape;
     }
 
     @Override
-    public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
+    public VoxelShape getShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
         return this.shapesByState.get(state);
     }
 
     @Override
-    protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-        super.appendProperties(builder);
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+        super.createBlockStateDefinition(builder);
         builder.add(WATERLOGGED, NORTH, EAST, SOUTH, WEST, UP_FENCE, FENCE_SEGMENTS);
     }
 
     @Override
-    public boolean canReplace(BlockState state, ItemPlacementContext context) {
-        if (!context.getStack().isOf(state.getBlock().asItem())) return false;
+    public boolean canBeReplaced(BlockState state, BlockPlaceContext context) {
+        if (!context.getItemInHand().is(state.getBlock().asItem())) return false;
 
-        boolean bl = context.getPlayer() == null || !context.getPlayer().isSneaking();
+        boolean bl = context.getPlayer() == null || !context.getPlayer().isShiftKeyDown();
         return canAdd(state) && bl;
     }
 
     @Override
-    public IntProperty getAmountProperty() {
+    public IntegerProperty getSegmentAmountProperty() {
         return FENCE_SEGMENTS;
     }
 
     @Override
-    public double getHeight() {
+    public double getShapeHeight() {
         return 1.0;
     }
 
     @Override
-    protected BlockState getStateForNeighborUpdate(BlockState state, WorldView world, ScheduledTickView tickView, BlockPos pos, Direction direction, BlockPos neighborPos, BlockState neighborState, Random random) {
-        if (state.get(WATERLOGGED)) {
-            tickView.scheduleFluidTick(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
+    protected BlockState updateShape(BlockState state, LevelReader world, ScheduledTickAccess tickView, BlockPos pos, Direction direction, BlockPos neighborPos, BlockState neighborState, RandomSource random) {
+        if (state.getValue(WATERLOGGED)) {
+            tickView.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(world));
         }
-        if (world.getBlockState(pos.up()).isOf(TCBlocks.KARMIUM_RAILING)) {
-            state = state.with(UP_FENCE,true);
+        if (world.getBlockState(pos.above()).is(TCBlocks.KARMIUM_RAILING)) {
+            state = state.setValue(UP_FENCE,true);
         }
-        return super.getStateForNeighborUpdate(state, world, tickView, pos, direction, neighborPos, neighborState, random);
+        return super.updateShape(state, world, tickView, pos, direction, neighborPos, neighborState, random);
     }
 
     @Override
     public FluidState getFluidState(BlockState state) {
-        return state.get(WATERLOGGED) ? Fluids.WATER.getStill(false) : super.getFluidState(state);
+        return state.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
     }
 
     @Nullable
     @Override
-    public BlockState getPlacementState(ItemPlacementContext ctx) {
-        World world = ctx.getWorld();
-        BlockPos blockPos = ctx.getBlockPos();
-        Direction side = ctx.getHorizontalPlayerFacing().getOpposite();
-        BlockState state = this.getDefaultState();
+    public BlockState getStateForPlacement(BlockPlaceContext ctx) {
+        Level world = ctx.getLevel();
+        BlockPos blockPos = ctx.getClickedPos();
+        Direction side = ctx.getHorizontalDirection().getOpposite();
+        BlockState state = this.defaultBlockState();
         BlockState currentState = world.getBlockState(blockPos);
         int segmentCount = getSegment(currentState);
 
         if (side.getAxis() != Direction.Axis.Y ) {
 
-            if (currentState.isOf(this) && !currentState.get(getFacingProperty(side.getOpposite()))) {
-                if (world.getBlockState(ctx.getBlockPos().up()).getBlock() == TCBlocks.KARMIUM_RAILING) {
-                    return currentState.with(getFacingProperty(side.getOpposite()), true).with(UP_FENCE,true).with(FENCE_SEGMENTS,segmentCount < 4 ? segmentCount + 1 : segmentCount);
+            if (currentState.is(this) && !currentState.getValue(getFacingProperty(side.getOpposite()))) {
+                if (world.getBlockState(ctx.getClickedPos().above()).getBlock() == TCBlocks.KARMIUM_RAILING) {
+                    return currentState.setValue(getFacingProperty(side.getOpposite()), true).setValue(UP_FENCE,true).setValue(FENCE_SEGMENTS,segmentCount < 4 ? segmentCount + 1 : segmentCount);
                 } else {
-                    return currentState.with(getFacingProperty(side.getOpposite()), true).with(FENCE_SEGMENTS,segmentCount < 4 ? segmentCount + 1 : segmentCount);
+                    return currentState.setValue(getFacingProperty(side.getOpposite()), true).setValue(FENCE_SEGMENTS,segmentCount < 4 ? segmentCount + 1 : segmentCount);
                 }
             }
         }
-        if (currentState.isOf(this)) {
-            for (Direction direction : DIRECTIONS) {
-                if (direction.getAxis() != Direction.Axis.Y && !currentState.get(getFacingProperty(direction))) {
-                    return currentState.with(getFacingProperty(direction), true).with(FENCE_SEGMENTS,segmentCount < 4 ? segmentCount + 1 : segmentCount);
+        if (currentState.is(this)) {
+            for (Direction direction : UPDATE_SHAPE_ORDER) {
+                if (direction.getAxis() != Direction.Axis.Y && !currentState.getValue(getFacingProperty(direction))) {
+                    return currentState.setValue(getFacingProperty(direction), true).setValue(FENCE_SEGMENTS,segmentCount < 4 ? segmentCount + 1 : segmentCount);
                 }
             }
         }
         FluidState fluidState = world.getFluidState(blockPos);
-        boolean bl = fluidState.getFluid() == Fluids.WATER;
-        return state.with(getFacingProperty(side.getOpposite()), true).with(WATERLOGGED, bl).with(FENCE_SEGMENTS,segmentCount < 4 ? segmentCount + 1 : segmentCount);
+        boolean bl = fluidState.getType() == Fluids.WATER;
+        return state.setValue(getFacingProperty(side.getOpposite()), true).setValue(WATERLOGGED, bl).setValue(FENCE_SEGMENTS,segmentCount < 4 ? segmentCount + 1 : segmentCount);
     }
 
     private int getSegment(BlockState state) {
-        if (state.isOf(TCBlocks.KARMIUM_RAILING)) {
-            return state.get(FENCE_SEGMENTS);
+        if (state.is(TCBlocks.KARMIUM_RAILING)) {
+            return state.getValue(FENCE_SEGMENTS);
         }
         return 0;
     }
 
     public boolean canAdd(BlockState state) {
-        if (!state.isOf(this)) {
+        if (!state.is(this)) {
             return false;
         }
-        for (Direction direction : DIRECTIONS) {
-            if (direction.getAxis() != Direction.Axis.Y && !state.get(getFacingProperty(direction))) {
+        for (Direction direction : UPDATE_SHAPE_ORDER) {
+            if (direction.getAxis() != Direction.Axis.Y && !state.getValue(getFacingProperty(direction))) {
                 return true;
             }
         }
@@ -176,23 +177,23 @@ public class KarmiumFence extends Block implements Segmented {
     }
 
     @Override
-    public BlockState rotate(BlockState state, BlockRotation rotation) {
+    public BlockState rotate(BlockState state, Rotation rotation) {
         return switch (rotation) {
             case CLOCKWISE_180 ->
-                    state.with(NORTH, state.get(SOUTH)).with(EAST, state.get(WEST)).with(SOUTH, state.get(NORTH)).with(WEST, state.get(EAST));
+                    state.setValue(NORTH, state.getValue(SOUTH)).setValue(EAST, state.getValue(WEST)).setValue(SOUTH, state.getValue(NORTH)).setValue(WEST, state.getValue(EAST));
             case COUNTERCLOCKWISE_90 ->
-                    state.with(NORTH, state.get(EAST)).with(EAST, state.get(SOUTH)).with(SOUTH, state.get(WEST)).with(WEST, state.get(NORTH));
+                    state.setValue(NORTH, state.getValue(EAST)).setValue(EAST, state.getValue(SOUTH)).setValue(SOUTH, state.getValue(WEST)).setValue(WEST, state.getValue(NORTH));
             case CLOCKWISE_90 ->
-                    state.with(NORTH, state.get(WEST)).with(EAST, state.get(NORTH)).with(SOUTH, state.get(EAST)).with(WEST, state.get(SOUTH));
+                    state.setValue(NORTH, state.getValue(WEST)).setValue(EAST, state.getValue(NORTH)).setValue(SOUTH, state.getValue(EAST)).setValue(WEST, state.getValue(SOUTH));
             default -> state;
         };
     }
 
     @Override
-    public BlockState mirror(BlockState state, BlockMirror mirror) {
+    public BlockState mirror(BlockState state, Mirror mirror) {
         return switch (mirror) {
-            case LEFT_RIGHT -> state.with(NORTH, state.get(SOUTH)).with(SOUTH, state.get(NORTH));
-            case FRONT_BACK -> state.with(EAST, state.get(WEST)).with(WEST, state.get(EAST));
+            case LEFT_RIGHT -> state.setValue(NORTH, state.getValue(SOUTH)).setValue(SOUTH, state.getValue(NORTH));
+            case FRONT_BACK -> state.setValue(EAST, state.getValue(WEST)).setValue(WEST, state.getValue(EAST));
             default -> super.mirror(state, mirror);
         };
     }

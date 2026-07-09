@@ -3,36 +3,36 @@ package net.farzad.twisted_and_carved.common.datagen;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider;
 import net.farzad.twisted_and_carved.common.register.TCBlocks;
-import net.minecraft.registry.RegistryWrapper;
-
+import net.minecraft.core.HolderLookup;
 import java.util.concurrent.CompletableFuture;
 
 public class ModLootTableProvider extends FabricBlockLootTableProvider {
-    public ModLootTableProvider(FabricDataOutput dataOutput, CompletableFuture<RegistryWrapper.WrapperLookup> registryLookup) {
+    public ModLootTableProvider(FabricDataOutput dataOutput, CompletableFuture<HolderLookup.Provider> registryLookup) {
         super(dataOutput, registryLookup);
     }
 
     @Override
     public void generate() {
-        addDrop(TCBlocks.TWISTED_LOG);
-        addDrop(TCBlocks.TWISTED_WOOD);
-        addDrop(TCBlocks.STRIPPED_TWISTED_LOG);
-        addDrop(TCBlocks.STRIPPED_TWISTED_WOOD);
-        addDrop(TCBlocks.TWISTED_PLANKS);
-        addDrop(TCBlocks.TWISTED_BUTTON);
-        addDrop(TCBlocks.TWISTED_PRESSURE_PLATE);
-        addDrop(TCBlocks.TWISTED_STAIRS);
-        addDrop(TCBlocks.TWISTED_SLAB);
-        addDrop(TCBlocks.TWISTED_FENCE_GATE);
-        addDrop(TCBlocks.TWISTED_FENCE);
-        addDrop(TCBlocks.TWISTED_DOOR,doorDrops(TCBlocks.TWISTED_DOOR));
-        addDrop(TCBlocks.TWISTED_TRAPDOOR);
+        dropSelf(TCBlocks.TWISTED_LOG);
+        dropSelf(TCBlocks.TWISTED_WOOD);
+        dropSelf(TCBlocks.STRIPPED_TWISTED_LOG);
+        dropSelf(TCBlocks.STRIPPED_TWISTED_WOOD);
+        dropSelf(TCBlocks.TWISTED_PLANKS);
+        dropSelf(TCBlocks.TWISTED_BUTTON);
+        dropSelf(TCBlocks.TWISTED_PRESSURE_PLATE);
+        dropSelf(TCBlocks.TWISTED_STAIRS);
+        dropSelf(TCBlocks.TWISTED_FENCE_GATE);
+        dropSelf(TCBlocks.TWISTED_FENCE);
+        add(TCBlocks.TWISTED_DOOR,createDoorTable(TCBlocks.TWISTED_DOOR));
+        dropSelf(TCBlocks.TWISTED_TRAPDOOR);
         //addDropWithSilkTouch(ModBlocks.TWISTED_VINE);
-        addDrop(TCBlocks.KARMIUM_CHAIN);
-        addDrop(TCBlocks.TWISTED_COFFIN);
-        addDrop(TCBlocks.TWISTED_LEAVES, leavesDrops(TCBlocks.TWISTED_LEAVES, TCBlocks.TWISTED_SAPLING, 0.25f));
-        addDrop(TCBlocks.TWISTED_SAPLING);
-        addDrop(TCBlocks.KARMIUM_BLOCK);
+        dropSelf(TCBlocks.KARMIUM_CHAIN);
+        dropSelf(TCBlocks.TWISTED_COFFIN);
+        add(TCBlocks.TWISTED_LEAVES, createLeavesDrops(TCBlocks.TWISTED_LEAVES, TCBlocks.TWISTED_SAPLING, 0.25f));
+        add(TCBlocks.TWISTED_SLAB,createSlabItemTable(TCBlocks.TWISTED_SLAB));
+        dropSelf(TCBlocks.TWISTED_SAPLING);
+        dropSelf(TCBlocks.KARMIUM_BLOCK);
+        dropPottedContents(TCBlocks.POTTED_TWISTED_SAPLING);
 
     }
 }

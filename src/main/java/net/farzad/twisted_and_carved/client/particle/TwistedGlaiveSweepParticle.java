@@ -1,47 +1,51 @@
 package net.farzad.twisted_and_carved.client.particle;
 
-import net.minecraft.client.particle.*;
-import net.minecraft.client.render.Camera;
-import net.minecraft.client.world.ClientWorld;
-import net.minecraft.particle.SimpleParticleType;
-import net.minecraft.util.math.random.Random;
+import net.minecraft.client.Camera;
+import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.particle.Particle;
+import net.minecraft.client.particle.ParticleProvider;
+import net.minecraft.client.particle.SingleQuadParticle;
+import net.minecraft.client.particle.SpriteSet;
+import net.minecraft.client.renderer.state.QuadParticleRenderState;
+import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.util.RandomSource;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Quaternionf;
 
 
-public class TwistedGlaiveSweepParticle extends BillboardParticle {
+public class TwistedGlaiveSweepParticle extends SingleQuadParticle {
 
     private float rotationAngle = 0;
 
-    public TwistedGlaiveSweepParticle(ClientWorld clientWorld, double x, double y, double z,
-                                      SpriteProvider spriteProvider, double xSpeed, double ySpeed, double zSpeed) {
-        super(clientWorld, x, y, z, xSpeed, ySpeed, zSpeed,spriteProvider.getFirst());
+    public TwistedGlaiveSweepParticle(ClientLevel clientWorld, double x, double y, double z,
+                                      SpriteSet spriteProvider, double xSpeed, double ySpeed, double zSpeed) {
+        super(clientWorld, x, y, z, xSpeed, ySpeed, zSpeed,spriteProvider.first());
 
-        this.velocityMultiplier = 0f;
-        this.scale = 1f;
-        this.maxAge = 15;
-        this.updateSprite(spriteProvider);
-        this.red = 1f;
-        this.green = 1f;
-        this.blue = 1f;
+        this.friction = 0f;
+        this.quadSize = 1f;
+        this.lifetime = 15;
+        this.setSpriteFromAge(spriteProvider);
+        this.rCol = 1f;
+        this.gCol = 1f;
+        this.bCol = 1f;
         this.alpha = 0.005f;
     }
 
     @Override
-    protected void render(BillboardParticleSubmittable submittable, Camera camera, Quaternionf q, float tickProgress) {
+    protected void extractRotatedQuad(QuadParticleRenderState submittable, Camera camera, Quaternionf q, float tickProgress) {
         Quaternionf rotation = new Quaternionf();
 
         rotation.rotateY((float) Math.toRadians(rotationAngle * -1));
         rotation.rotateX((float) Math.toRadians(90));
-        super.render(submittable, camera, rotation, tickProgress);
+        super.extractRotatedQuad(submittable, camera, rotation, tickProgress);
 
         rotation.rotateY((float) Math.toRadians(180));
         rotation.rotateZ((float) Math.toRadians(rotationAngle * -1));
-        super.render(submittable, camera, rotation, tickProgress);
+        super.extractRotatedQuad(submittable, camera, rotation, tickProgress);
     }
 
     private void fadeOut() {
-        this.alpha = (-(1 / (float) maxAge) * age + 1);
+        this.alpha = (-(1 / (float) lifetime) * age + 1);
     }
 
     @Override
@@ -49,28 +53,28 @@ public class TwistedGlaiveSweepParticle extends BillboardParticle {
 
         fadeOut();
         rotationAngle = (rotationAngle + 15) % 360;
-        if (this.age++ >= this.maxAge) {
-            this.markDead();
+        if (this.age++ >= this.lifetime) {
+            this.remove();
         } else {
-            this.scale = this.scale + 0.5f;
+            this.quadSize = this.quadSize + 0.5f;
         }
     }
 
     @Override
-    protected RenderType getRenderType() {
-        return RenderType.PARTICLE_ATLAS_TRANSLUCENT;
+    protected Layer getLayer() {
+        return Layer.TRANSLUCENT;
     }
 
 
-    public static class Factory implements ParticleFactory<SimpleParticleType> {
-        private final SpriteProvider spriteProvider;
+    public static class Factory implements ParticleProvider<SimpleParticleType> {
+        private final SpriteSet spriteProvider;
 
-        public Factory(SpriteProvider spriteProvider) {
+        public Factory(SpriteSet spriteProvider) {
             this.spriteProvider = spriteProvider;
         }
 
         @Override
-        public @Nullable Particle createParticle(SimpleParticleType parameters, ClientWorld world, double x, double y, double z, double velocityX, double velocityY, double velocityZ, Random random) {
+        public @Nullable Particle createParticle(SimpleParticleType parameters, ClientLevel world, double x, double y, double z, double velocityX, double velocityY, double velocityZ, RandomSource random) {
             return new TwistedGlaiveSweepParticle(world, x, y, z, this.spriteProvider, velocityX, velocityY, velocityZ);
         }
     }

@@ -5,10 +5,10 @@ import net.farzad.twisted_and_carved.client.particle.DashEffect;
 import net.farzad.twisted_and_carved.client.particle.FalchionSlashEffect;
 import net.farzad.twisted_and_carved.client.particle.HarvestSlashEffect;
 import net.farzad.twisted_and_carved.common.TwistedAndCarved;
-import net.minecraft.particle.ParticleType;
-import net.minecraft.particle.SimpleParticleType;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
+import net.minecraft.core.Registry;
+import net.minecraft.core.particles.ParticleType;
+import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.core.registries.BuiltInRegistries;
 
 
 public class TCParticles {
@@ -24,15 +24,15 @@ public class TCParticles {
 
 
     public static void init() {
-        Registry.register(Registries.PARTICLE_TYPE, TwistedAndCarved.id("twisted_sweep_attack"), TWISTED_SWEEP_ATTACK);
-        Registry.register(Registries.PARTICLE_TYPE, TwistedAndCarved.id("twisted_glaive_sweep"), TWISTED_GLAIVE_SWEEP);
-        Registry.register(Registries.PARTICLE_TYPE, TwistedAndCarved.id("parry_particle"), PARRY_PARTICLE);
-        Registry.register(Registries.PARTICLE_TYPE, TwistedAndCarved.id("twisted_leaf"), TWISTED_LEAF_PARTICLE);
-        Registry.register(Registries.PARTICLE_TYPE, TwistedAndCarved.id("falchion_slash"), FALCHION_SLASH);
-        Registry.register(Registries.PARTICLE_TYPE, TwistedAndCarved.id("harvest_slash"), HARVEST_SLASH);
-        Registry.register(Registries.PARTICLE_TYPE, TwistedAndCarved.id("coffin_smoke"),COFFIN_SMOKE);
-        Registry.register(Registries.PARTICLE_TYPE, TwistedAndCarved.id("coffin_ash"),COFFIN_ASH);
-        Registry.register(Registries.PARTICLE_TYPE, TwistedAndCarved.id("dash_particle"),DASH_PARTICLE);
+        Registry.register(BuiltInRegistries.PARTICLE_TYPE, TwistedAndCarved.id("twisted_sweep_attack"), TWISTED_SWEEP_ATTACK);
+        Registry.register(BuiltInRegistries.PARTICLE_TYPE, TwistedAndCarved.id("twisted_glaive_sweep"), TWISTED_GLAIVE_SWEEP);
+        Registry.register(BuiltInRegistries.PARTICLE_TYPE, TwistedAndCarved.id("parry_particle"), PARRY_PARTICLE);
+        Registry.register(BuiltInRegistries.PARTICLE_TYPE, TwistedAndCarved.id("twisted_leaf"), TWISTED_LEAF_PARTICLE);
+        Registry.register(BuiltInRegistries.PARTICLE_TYPE, TwistedAndCarved.id("falchion_slash"), FALCHION_SLASH);
+        Registry.register(BuiltInRegistries.PARTICLE_TYPE, TwistedAndCarved.id("harvest_slash"), HARVEST_SLASH);
+        Registry.register(BuiltInRegistries.PARTICLE_TYPE, TwistedAndCarved.id("coffin_smoke"),COFFIN_SMOKE);
+        Registry.register(BuiltInRegistries.PARTICLE_TYPE, TwistedAndCarved.id("coffin_ash"),COFFIN_ASH);
+        Registry.register(BuiltInRegistries.PARTICLE_TYPE, TwistedAndCarved.id("dash_particle"),DASH_PARTICLE);
     }
 
 }

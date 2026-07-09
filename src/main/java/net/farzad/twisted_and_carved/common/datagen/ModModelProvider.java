@@ -4,10 +4,10 @@ import net.fabricmc.fabric.api.client.datagen.v1.provider.FabricModelProvider;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.farzad.twisted_and_carved.common.register.TCBlocks;
 import net.farzad.twisted_and_carved.common.register.TCItems;
-import net.minecraft.client.data.BlockStateModelGenerator;
-import net.minecraft.client.data.ItemModelGenerator;
-import net.minecraft.client.data.Models;
-import net.minecraft.data.family.BlockFamily;
+import net.minecraft.client.data.models.BlockModelGenerators;
+import net.minecraft.client.data.models.ItemModelGenerators;
+import net.minecraft.client.data.models.model.ModelTemplates;
+import net.minecraft.data.BlockFamily;
 
 public class ModModelProvider extends FabricModelProvider {
     public static final BlockFamily TWISTED_FAMILY = new BlockFamily.Builder(TCBlocks.TWISTED_PLANKS)
@@ -19,28 +19,28 @@ public class ModModelProvider extends FabricModelProvider {
             .trapdoor(TCBlocks.TWISTED_TRAPDOOR)
             .pressurePlate(TCBlocks.TWISTED_PRESSURE_PLATE)
             .button(TCBlocks.TWISTED_BUTTON)
-            .build();
+            .getFamily();
 
     public ModModelProvider(FabricDataOutput output) {
         super(output);
     }
 
     @Override
-    public void generateBlockStateModels(BlockStateModelGenerator blockStateModelGenerator) {
-        blockStateModelGenerator.createLogTexturePool(TCBlocks.TWISTED_LOG).log(TCBlocks.TWISTED_LOG).wood(TCBlocks.TWISTED_WOOD);
-        blockStateModelGenerator.createLogTexturePool(TCBlocks.STRIPPED_TWISTED_LOG).log(TCBlocks.STRIPPED_TWISTED_LOG).wood(TCBlocks.STRIPPED_TWISTED_WOOD);
-        blockStateModelGenerator.registerCubeAllModelTexturePool(TCBlocks.TWISTED_PLANKS).family(TWISTED_FAMILY);
-        blockStateModelGenerator.registerSimpleCubeAll(TCBlocks.TWISTED_LEAVES);
-        blockStateModelGenerator.registerTintableCrossBlockState(TCBlocks.TWISTED_SAPLING, BlockStateModelGenerator.CrossType.NOT_TINTED);
-        blockStateModelGenerator.registerSimpleCubeAll(TCBlocks.KARMIUM_BLOCK);
-        //blockStateModelGenerator.registerMultifaceBlockModel(ModBlocks.TWISTED_VINE);
+    public void generateBlockStateModels(BlockModelGenerators blockStateModelGenerator) {
+        blockStateModelGenerator.woodProvider(TCBlocks.TWISTED_LOG).logWithHorizontal(TCBlocks.TWISTED_LOG).wood(TCBlocks.TWISTED_WOOD);
+        blockStateModelGenerator.woodProvider(TCBlocks.STRIPPED_TWISTED_LOG).logWithHorizontal(TCBlocks.STRIPPED_TWISTED_LOG).wood(TCBlocks.STRIPPED_TWISTED_WOOD);
+        blockStateModelGenerator.family(TCBlocks.TWISTED_PLANKS).generateFor(TWISTED_FAMILY);
+        blockStateModelGenerator.createTrivialCube(TCBlocks.TWISTED_LEAVES);
+        blockStateModelGenerator.createCrossBlock(TCBlocks.TWISTED_SAPLING, BlockModelGenerators.PlantType.NOT_TINTED);
+        blockStateModelGenerator.createTrivialCube(TCBlocks.KARMIUM_BLOCK);
+        blockStateModelGenerator.createMultifaceBlockStates(TCBlocks.TWISTED_VINE);
     }
 
     @Override
-    public void generateItemModels(ItemModelGenerator itemModelGenerator) {
-        itemModelGenerator.register(TCBlocks.TWISTED_SAPLING.asItem(), Models.GENERATED);
-        itemModelGenerator.register(TCBlocks.KARMIUM_CHAIN.asItem(),Models.GENERATED);
+    public void generateItemModels(ItemModelGenerators itemModelGenerator) {
+        itemModelGenerator.generateFlatItem(TCBlocks.TWISTED_SAPLING.asItem(), ModelTemplates.FLAT_ITEM);
+        itemModelGenerator.generateFlatItem(TCBlocks.KARMIUM_CHAIN.asItem(),ModelTemplates.FLAT_ITEM);
         //itemModelGenerator.register(ModBlocks.TWISTED_VINE.asItem(),Models.GENERATED);
-        itemModelGenerator.register(TCItems.KARMIUM_NUGGET,Models.GENERATED);
+        itemModelGenerator.generateFlatItem(TCItems.KARMIUM_NUGGET,ModelTemplates.FLAT_ITEM);
     }
 }

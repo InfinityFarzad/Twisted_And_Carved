@@ -1,20 +1,20 @@
 package net.farzad.twisted_and_carved.common.networking;
 
 import net.farzad.twisted_and_carved.common.TwistedAndCarved;
-import net.minecraft.network.RegistryByteBuf;
-import net.minecraft.network.codec.PacketCodec;
-import net.minecraft.network.codec.PacketCodecs;
-import net.minecraft.network.packet.CustomPayload;
-import net.minecraft.util.Identifier;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.resources.Identifier;
 
-public record GreataxeSoundLoopS2CPayload(int entityID) implements CustomPayload {
+public record GreataxeSoundLoopS2CPayload(int entityID) implements CustomPacketPayload {
 
-    public static final Identifier GREATAXE_SOUND_LOOP_PAYLOAD_ID = Identifier.of(TwistedAndCarved.MOD_ID, "play_greataxe_sound");
-    public static final Id<GreataxeSoundLoopS2CPayload> ID = new Id<>(GREATAXE_SOUND_LOOP_PAYLOAD_ID);
-    public static final PacketCodec<RegistryByteBuf, GreataxeSoundLoopS2CPayload> CODEC = PacketCodec.tuple(PacketCodecs.INTEGER, GreataxeSoundLoopS2CPayload::entityID, GreataxeSoundLoopS2CPayload::new);
+    public static final Identifier GREATAXE_SOUND_LOOP_PAYLOAD_ID = Identifier.fromNamespaceAndPath(TwistedAndCarved.MOD_ID, "play_greataxe_sound");
+    public static final Type<GreataxeSoundLoopS2CPayload> ID = new Type<>(GREATAXE_SOUND_LOOP_PAYLOAD_ID);
+    public static final StreamCodec<RegistryFriendlyByteBuf, GreataxeSoundLoopS2CPayload> CODEC = StreamCodec.composite(ByteBufCodecs.INT, GreataxeSoundLoopS2CPayload::entityID, GreataxeSoundLoopS2CPayload::new);
 
     @Override
-    public Id<? extends CustomPayload> getId() {
+    public Type<? extends CustomPacketPayload> type() {
         return ID;
     }
 }

@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "twisted_and_carved:karmium_fence"
+        "recipe": "twisted_and_carved:karmium_railing"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -26,7 +26,7 @@
   ],
   "rewards": {
     "recipes": [
-      "twisted_and_carved:karmium_fence"
+      "twisted_and_carved:karmium_railing"
     ]
   }
 }

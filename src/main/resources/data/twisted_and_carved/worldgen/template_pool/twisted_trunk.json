@@ -2,7 +2,7 @@
   "fallback": "minecraft:empty",
   "elements": [
     {
-      "weight": 2,
+      "weight": 9,
       "element": {
         "element_type": "minecraft:single_pool_element",
         "location": "twisted_and_carved:twisted_trunk",

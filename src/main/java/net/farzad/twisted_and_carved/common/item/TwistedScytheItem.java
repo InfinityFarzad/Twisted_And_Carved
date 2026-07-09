@@ -1,73 +1,64 @@
 package net.farzad.twisted_and_carved.common.item;
 
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Maps;
-import com.mojang.datafixers.util.Pair;
 import net.farzad.twisted_and_carved.client.particle.HarvestSlashEffect;
 import net.farzad.twisted_and_carved.common.TwistedAndCarved;
-import net.farzad.twisted_and_carved.common.register.TCDataComponents;
 import net.farzad.twisted_and_carved.common.component.TwistedSpiritComponent;
 import net.farzad.twisted_and_carved.common.entity.TwistedScytheEntity;
+import net.farzad.twisted_and_carved.common.register.TCDataComponents;
 import net.farzad.twisted_and_carved.common.register.TDTags;
 import net.farzad.twisted_and_carved.common.util.TwistedWeaponUtil;
-import net.farzad.twisted_and_carved.common.util.interfaces.CritInterface;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.component.DataComponentTypes;
-import net.minecraft.component.type.AttributeModifierSlot;
-import net.minecraft.component.type.AttributeModifiersComponent;
-import net.minecraft.component.type.ToolComponent;
-import net.minecraft.component.type.WeaponComponent;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.attribute.EntityAttributeModifier;
-import net.minecraft.entity.attribute.EntityAttributes;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.projectile.ProjectileEntity;
-import net.minecraft.item.*;
-import net.minecraft.item.consume.UseAction;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.RegistryEntryLookup;
-import net.minecraft.registry.entry.RegistryEntry;
-import net.minecraft.registry.entry.RegistryEntryList;
-import net.minecraft.registry.tag.BlockTags;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.text.Text;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Formatting;
-import net.minecraft.util.Hand;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.World;
-import net.minecraft.world.event.GameEvent;
+import net.minecraft.ChatFormatting;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
+import net.minecraft.core.HolderGetter;
+import net.minecraft.core.HolderSet;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.Identifier;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.util.Mth;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.EquipmentSlotGroup;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.Projectile;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemUseAnimation;
+import net.minecraft.world.item.component.ItemAttributeModifiers;
+import net.minecraft.world.item.component.Tool;
+import net.minecraft.world.item.component.Weapon;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.phys.Vec3;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
-import java.util.function.Consumer;
-import java.util.function.Predicate;
 
-public class TwistedScytheItem extends TwistedToolItem implements CritInterface {
+public class TwistedScytheItem extends TwistedToolItem {
 
-    public TwistedScytheItem(float attackDamage, float attackSpeed, double attackRange, Settings settings) {
+    public TwistedScytheItem(float attackDamage, float attackSpeed, double attackRange, Properties settings) {
         super(applyToolSettings(settings, attackDamage, attackSpeed, attackRange));
     }
 
-    public static Settings applyToolSettings(Settings settings, float attackDamage, float attackSpeed, double attackRange) {
-        RegistryEntryLookup<Block> registryEntryLookup = Registries.createEntryLookup(Registries.BLOCK);
-        return settings.component(DataComponentTypes.TOOL, new ToolComponent(List.of(ToolComponent.Rule.ofAlwaysDropping(RegistryEntryList.of(new RegistryEntry[]{Blocks.COBWEB.getRegistryEntry()}), 15.0F), ToolComponent.Rule.of(registryEntryLookup.getOrThrow(BlockTags.SWORD_INSTANTLY_MINES), Float.MAX_VALUE), ToolComponent.Rule.of(registryEntryLookup.getOrThrow(BlockTags.SWORD_EFFICIENT), 1.5F)), 1.0F, 2, false)).attributeModifiers(createAttributeModifiers(attackDamage,attackSpeed,attackRange )).component(DataComponentTypes.WEAPON, new WeaponComponent(1)).repairable(TDTags.Items.TWISTED_TOOL_REPAIR_INGREDIENT).enchantable(15);
+    public static Properties applyToolSettings(Properties settings, float attackDamage, float attackSpeed, double attackRange) {
+        HolderGetter<Block> registryEntryLookup = BuiltInRegistries.acquireBootstrapRegistrationLookup(BuiltInRegistries.BLOCK);
+        return settings.component(DataComponents.TOOL, new Tool(List.of(Tool.Rule.minesAndDrops(HolderSet.direct(new Holder[]{Blocks.COBWEB.builtInRegistryHolder()}), 15.0F), Tool.Rule.overrideSpeed(registryEntryLookup.getOrThrow(BlockTags.SWORD_INSTANTLY_MINES), Float.MAX_VALUE), Tool.Rule.overrideSpeed(registryEntryLookup.getOrThrow(BlockTags.SWORD_EFFICIENT), 1.5F)), 1.0F, 2, false)).attributes(createAttributeModifiers(attackDamage,attackSpeed,attackRange )).component(DataComponents.WEAPON, new Weapon(1)).repairable(TDTags.Items.TWISTED_TOOL_REPAIR_INGREDIENT).enchantable(15);
     }
 
-    public static AttributeModifiersComponent createAttributeModifiers(float attackDamage, float attackSpeed, double attackRange) {
-        return AttributeModifiersComponent.builder()
-                .add(EntityAttributes.ATTACK_DAMAGE, new EntityAttributeModifier(Item.BASE_ATTACK_DAMAGE_MODIFIER_ID, (attackDamage), EntityAttributeModifier.Operation.ADD_VALUE), AttributeModifierSlot.MAINHAND)
-                .add(EntityAttributes.ATTACK_SPEED, new EntityAttributeModifier(Item.BASE_ATTACK_SPEED_MODIFIER_ID, attackSpeed, EntityAttributeModifier.Operation.ADD_VALUE), AttributeModifierSlot.MAINHAND)
-                .add(EntityAttributes.ENTITY_INTERACTION_RANGE, new EntityAttributeModifier(Identifier.of(TwistedAndCarved.MOD_ID, "base_attack_range"), attackRange, EntityAttributeModifier.Operation.ADD_VALUE), AttributeModifierSlot.MAINHAND)
+    public static ItemAttributeModifiers createAttributeModifiers(float attackDamage, float attackSpeed, double attackRange) {
+        return ItemAttributeModifiers.builder()
+                .add(Attributes.ATTACK_DAMAGE, new AttributeModifier(Item.BASE_ATTACK_DAMAGE_ID, (attackDamage), AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND)
+                .add(Attributes.ATTACK_SPEED, new AttributeModifier(Item.BASE_ATTACK_SPEED_ID, attackSpeed, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND)
+                .add(Attributes.ENTITY_INTERACTION_RANGE, new AttributeModifier(Identifier.fromNamespaceAndPath(TwistedAndCarved.MOD_ID, "base_attack_range"), attackRange, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND)
                 .build();
     }
 
@@ -76,16 +67,16 @@ public class TwistedScytheItem extends TwistedToolItem implements CritInterface 
         return stack.getOrDefault(TCDataComponents.TWISTED_SPIRIT_DATA, TwistedSpiritComponent.EMPTY).type().equals("scythe");
     }
 
-    private static void clearField(int range, World world, PlayerEntity user, Hand hand) {
+    private static void clearField(int range, Level world, Player user, InteractionHand hand) {
         List<BlockPos> blocks = new ArrayList<>();
         for (int x = -range; x <= range; x++) {
             for (int z = -range; z <= range; z++) {
                 for (int y = -range; y <= range; y++) {
                     BlockPos pos = new BlockPos((int) user.getX() + x, (int) user.getY() + y, (int) user.getZ() + z);
-                    if (world.getBlockState(pos).getBlock().getDefaultState().isIn(BlockTags.CROPS)) {
-                        world.playSound(null, user.getX(), user.getY(), user.getZ(), SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP, user.getSoundCategory(), 1.0F, 1.0F);
-                        world.breakBlock(pos, true);
-                        user.swingHand(hand);
+                    if (world.getBlockState(pos).getBlock().defaultBlockState().is(BlockTags.CROPS)) {
+                        world.playSound(null, user.getX(), user.getY(), user.getZ(), SoundEvents.PLAYER_ATTACK_SWEEP, user.getSoundSource(), 1.0F, 1.0F);
+                        world.destroyBlock(pos, true);
+                        user.swing(hand);
                         blocks.add(pos);
                     }
 
@@ -94,40 +85,40 @@ public class TwistedScytheItem extends TwistedToolItem implements CritInterface 
         }
 
         if (blocks.isEmpty()) {
-            user.sendMessage(Text.translatable("massage.twisted_and_carved.unable_to_harvest").formatted(Formatting.DARK_RED),true);
-            user.getEntityWorld().playSound(user,user.getBlockPos(),SoundEvents.ENTITY_ITEM_BREAK.value(),user.getSoundCategory(),1,MathHelper.nextBetween(user.getRandom(),0.5f,0.7f));
+            user.displayClientMessage(Component.translatable("massage.twisted_and_carved.unable_to_harvest").withStyle(ChatFormatting.DARK_RED),true);
+            user.level().playSound(user,user.blockPosition(),SoundEvents.ITEM_BREAK.value(),user.getSoundSource(),1,Mth.randomBetween(user.getRandom(),0.5f,0.7f));
         } else {
-            if (world instanceof ServerWorld serverWorld) {
-                serverWorld.spawnParticles(new HarvestSlashEffect(user.getYaw()), user.getX(), user.getY() + 0.5, user.getZ(), 1, 0, 0, 0, 1);
+            if (world instanceof ServerLevel serverWorld) {
+                serverWorld.sendParticles(new HarvestSlashEffect(user.getYRot()), user.getX(), user.getY() + 0.5, user.getZ(), 1, 0, 0, 0, 1);
             }
         }
 
     }
 
     @Override
-    public int getMaxUseTime(ItemStack stack, LivingEntity user) {
+    public int getUseDuration(ItemStack stack, LivingEntity user) {
         return 78000;
     }
 
     @Override
-    public UseAction getUseAction(ItemStack stack) {
-        return UseAction.TRIDENT;
+    public ItemUseAnimation getUseAnimation(ItemStack stack) {
+        return ItemUseAnimation.TRIDENT;
     }
 
     @Override
-    public boolean onStoppedUsing(ItemStack stack, World world, LivingEntity user, int remainingUseTicks) {
-        int useTime = this.getMaxUseTime(stack, user) - remainingUseTicks;
-        if (user instanceof PlayerEntity player) {
+    public boolean releaseUsing(ItemStack stack, Level world, LivingEntity user, int remainingUseTicks) {
+        int useTime = this.getUseDuration(stack, user) - remainingUseTicks;
+        if (user instanceof Player player) {
             if (Objects.equals(TwistedWeaponUtil.getAbilityID(stack), "grappling")) {
                 if (useTime < 10) {
                     return false;
                 } else {
                     stack.set(TCDataComponents.TWISTED_SCYTHE_GRAPPLING,true);
-                    if (world instanceof ServerWorld serverWorld) {
-                        ProjectileEntity.spawnWithVelocity(TwistedScytheEntity::new, serverWorld, stack.copy(), user, 0.0F, (float) remainingUseTicks * 0.00005f, 1.0F);
+                    if (world instanceof ServerLevel serverWorld) {
+                        Projectile.spawnProjectileFromRotation(TwistedScytheEntity::new, serverWorld, stack.copy(), user, 0.0F, (float) remainingUseTicks * 0.00005f, 1.0F);
                     }
-                    if (!player.isInCreativeMode()) {
-                        player.getItemCooldownManager().set(stack,20 * 5);
+                    if (!player.hasInfiniteMaterials()) {
+                        player.getCooldowns().addCooldown(stack,20 * 5);
                     }
                     return true;
                 }
@@ -139,48 +130,49 @@ public class TwistedScytheItem extends TwistedToolItem implements CritInterface 
         }
     }
 
-    public ActionResult use(World world, PlayerEntity user, Hand hand) {
-        ItemStack itemStack = user.getStackInHand(hand);
+    public InteractionResult use(Level world, Player user, InteractionHand hand) {
+        ItemStack itemStack = user.getItemInHand(hand);
         String ability = TwistedWeaponUtil.getAbilityID(itemStack);
 
         if (ability.equals(TwistedSpiritComponent.EMPTY.type())) {
-            return ActionResult.FAIL;
+            return InteractionResult.FAIL;
         }
         else if (ability.equals("harvest")) {
-            if (!user.isSneaking()) {
-                return ActionResult.FAIL;
+            if (!user.isShiftKeyDown()) {
+                return InteractionResult.FAIL;
             } else {
                 clearField(5,world,user,hand);
-                if (!user.isInCreativeMode()) {
-                    user.getItemCooldownManager().set(itemStack, 20);
+                if (!user.hasInfiniteMaterials()) {
+                    user.getCooldowns().addCooldown(itemStack, 20);
                 }
-                return ActionResult.CONSUME;
+                return InteractionResult.CONSUME;
             }
 
         } else {
-            if (ability.equals("grappling") && !user.getStackInHand(hand).getOrDefault(TCDataComponents.TWISTED_SCYTHE_GRAPPLING,true) && user.getInventory().contains(itemStack)) {
-                user.setCurrentHand(hand);
-                return ActionResult.CONSUME;
+            if (ability.equals("grappling") && !user.getItemInHand(hand).getOrDefault(TCDataComponents.TWISTED_SCYTHE_GRAPPLING,true) && user.getInventory().contains(itemStack)) {
+                user.startUsingItem(hand);
+                return InteractionResult.CONSUME;
             }
             else {
-                return ActionResult.FAIL;
+                return InteractionResult.FAIL;
             }
 
         }
     }
 
     @Override
-    public void onCrit(LivingEntity attacker, LivingEntity target, ItemStack stack) {
+    public void onCritAttack(LivingEntity attacker, LivingEntity target, ItemStack stack) {
+
         if (TwistedWeaponUtil.getAbilityID(stack).equals("grappling")) {
-            double boxSize = (target.getBoundingBox().getLengthZ() + target.getBoundingBox().getLengthX() + target.getBoundingBox().getLengthY()) / 3;
-            double dis = target.getEntityPos().distanceTo(attacker.getEntityPos());
+            double boxSize = (target.getBoundingBox().getZsize() + target.getBoundingBox().getXsize() + target.getBoundingBox().getYsize()) / 3;
+            double dis = target.position().distanceTo(attacker.position());
             double f = dis / 3.5;
             f /= boxSize > 1.4 ? boxSize : 1;
             f = boxSize > 1.4 ? dis / 3.5 / boxSize : dis / 3.5;
-            Vec3d velocity = (new Vec3d(target.getX() - attacker.getX(), target.getY() - attacker.getY(), target.getZ() - attacker.getZ()).normalize().multiply(f * -1));
-            target.setVelocity(velocity);
+            Vec3 velocity = (new Vec3(target.getX() - attacker.getX(), target.getY() - attacker.getY(), target.getZ() - attacker.getZ()).normalize().scale(f * -1));
+            target.setDeltaMovement(velocity);
             System.out.println(boxSize);
-            target.velocityDirty=true;
+            target.needsSync=true;
         }
     }
 }

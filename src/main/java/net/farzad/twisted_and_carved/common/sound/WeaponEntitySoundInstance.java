@@ -1,24 +1,24 @@
 package net.farzad.twisted_and_carved.common.sound;
 
 import net.farzad.twisted_and_carved.common.entity.TwistedGreataxeEntity;
-import net.minecraft.client.sound.MovingSoundInstance;
-import net.minecraft.client.sound.SoundInstance;
-import net.minecraft.entity.projectile.ProjectileEntity;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvent;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.client.resources.sounds.AbstractTickableSoundInstance;
+import net.minecraft.client.resources.sounds.SoundInstance;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.Mth;
+import net.minecraft.world.entity.projectile.Projectile;
 
-public class WeaponEntitySoundInstance extends MovingSoundInstance {
-    private final ProjectileEntity entity;
+public class WeaponEntitySoundInstance extends AbstractTickableSoundInstance {
+    private final Projectile entity;
     private final float baseVolume;
 
-    public WeaponEntitySoundInstance(SoundEvent soundEvent, ProjectileEntity entity, SoundCategory soundCategory) {
-        super(soundEvent, soundCategory, SoundInstance.createRandom());
-        this.baseVolume = (float) (2f / entity.getEntityPos().distanceTo(entity.getOwner().getEntityPos()));
+    public WeaponEntitySoundInstance(SoundEvent soundEvent, Projectile entity, SoundSource soundCategory) {
+        super(soundEvent, soundCategory, SoundInstance.createUnseededRandom());
+        this.baseVolume = (float) (2f / entity.position().distanceTo(entity.getOwner().position()));
         this.volume = baseVolume;
 
-        this.pitch = MathHelper.nextBetween(random,0.5f,0.7f);
-        this.repeat = true;
+        this.pitch = Mth.randomBetween(random,0.5f,0.7f);
+        this.looping = true;
         this.setPositionToEntity();
         this.entity = entity;
     }
@@ -26,7 +26,7 @@ public class WeaponEntitySoundInstance extends MovingSoundInstance {
     @Override
     public void tick() {
         if (entity.isRemoved()) {
-            this.setDone();
+            this.stop();
         } else {
             this.setPositionToEntity();
             if (entity instanceof TwistedGreataxeEntity twistedGreataxe) {

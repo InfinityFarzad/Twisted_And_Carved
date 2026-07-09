@@ -3,7 +3,6 @@
   "package": "net.farzad.twisted_and_carved.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
-    "PlayerEntityAttackMixin",
     "spirit_effects.stride.LivingEntityMixin",
     "spirit_effects.stride.RiptideStackAccesor",
     "spirit_effects.tomahawk.PlayerEntityMixin",

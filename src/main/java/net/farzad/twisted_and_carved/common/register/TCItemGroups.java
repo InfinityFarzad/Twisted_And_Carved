@@ -3,65 +3,65 @@ package net.farzad.twisted_and_carved.common.register;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.farzad.twisted_and_carved.common.TwistedAndCarved;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.ItemStack;
 
 public class TCItemGroups {
-    public static final RegistryKey<ItemGroup> TWISTED_AND_CARVED_ITEM_GROUP_KEY = RegistryKey.of(Registries.ITEM_GROUP.getKey(), Identifier.of(TwistedAndCarved.MOD_ID, "twisted_and_carved"));
-    public static final ItemGroup TWISTED_AND_CARVED_ITEM_GROUP = FabricItemGroup.builder()
-            .texture(TwistedAndCarved.id("textures/gui/container/tab_items.png"))
-            .noRenderedName()
-            .noScrollbar()
+    public static final ResourceKey<CreativeModeTab> TWISTED_AND_CARVED_ITEM_GROUP_KEY = ResourceKey.create(BuiltInRegistries.CREATIVE_MODE_TAB.key(), Identifier.fromNamespaceAndPath(TwistedAndCarved.MOD_ID, "twisted_and_carved"));
+    public static final CreativeModeTab TWISTED_AND_CARVED_ITEM_GROUP = FabricItemGroup.builder()
+            .backgroundTexture(TwistedAndCarved.id("textures/gui/container/tab_items.png"))
+            .hideTitle()
+            .noScrollBar()
             .icon(() -> new ItemStack(TCItems.TWISTED_GREATAXE))
-            .displayName(Text.translatable("itemGroup.twisted_and_carved"))
+            .title(Component.translatable("itemGroup.twisted_and_carved"))
             .build();
 
     public static void init() {
-        Registry.register(Registries.ITEM_GROUP, TWISTED_AND_CARVED_ITEM_GROUP_KEY, TWISTED_AND_CARVED_ITEM_GROUP);
+        Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB, TWISTED_AND_CARVED_ITEM_GROUP_KEY, TWISTED_AND_CARVED_ITEM_GROUP);
 
         ItemGroupEvents.modifyEntriesEvent(TWISTED_AND_CARVED_ITEM_GROUP_KEY).register(itemGroup -> {
-            itemGroup.add(TCItems.TWISTED_GREATAXE);
-            itemGroup.add(TCItems.TWISTED_GLAIVE);
-            itemGroup.add(TCItems.TWISTED_FALCHION);
-            itemGroup.add(TCItems.TWISTED_SCYTHE);
-            itemGroup.add(TCItems.TWISTED_UPGRADE_TEMPLATE);
-            itemGroup.add(TCItems.TWISTED_GREATAXE_PIECE);
-            itemGroup.add(TCItems.TWISTED_GLAIVE_PIECE);
-            itemGroup.add(TCItems.TWISTED_FALCHION_PIECE);
-            itemGroup.add(TCItems.TWISTED_SCYTHE_PIECE);
-            itemGroup.add(TCBlocks.TWISTED_LOG);
-            itemGroup.add(TCBlocks.STRIPPED_TWISTED_LOG);
-            itemGroup.add(TCBlocks.TWISTED_WOOD);
-            itemGroup.add(TCBlocks.STRIPPED_TWISTED_WOOD);
-            itemGroup.add(TCBlocks.TWISTED_PLANKS);
-            itemGroup.add(TCBlocks.TWISTED_STAIRS);
-            itemGroup.add(TCBlocks.TWISTED_SLAB);
-            itemGroup.add(TCBlocks.TWISTED_FENCE);
-            itemGroup.add(TCBlocks.TWISTED_FENCE_GATE);
-            itemGroup.add(TCBlocks.TWISTED_DOOR);
-            itemGroup.add(TCBlocks.TWISTED_TRAPDOOR);
-            itemGroup.add(TCBlocks.TWISTED_PRESSURE_PLATE);
-            itemGroup.add(TCBlocks.TWISTED_BUTTON);
-            itemGroup.add(TCBlocks.TWISTED_LEAVES);
-            itemGroup.add(TCBlocks.TWISTED_SAPLING);
-            itemGroup.add(TCBlocks.TWISTED_COFFIN);
-            itemGroup.add(TCBlocks.KARMIUM_RAILING);
-            itemGroup.add(TCBlocks.KARMIUM_CHAIN);
-            itemGroup.add(TCBlocks.KARMIUM_BLOCK);
-            itemGroup.add(TCItems.KARMIUM_INGOT);
-            itemGroup.add(TCItems.RAW_KARMIUM);
-            itemGroup.add(TCItems.KARMIUM_NUGGET);
-            itemGroup.add(TCItems.BLEEDING_SPIRIT);
-            itemGroup.add(TCItems.GRAPPLING_SPIRIT);
-            itemGroup.add(TCItems.HARVEST_SPIRIT);
-            itemGroup.add(TCItems.SWEEPING_SPIRIT);
-            itemGroup.add(TCItems.STRIDE_SPIRIT);
-            itemGroup.add(TCItems.TOMAHAWK_SPIRIT);
+            itemGroup.accept(TCItems.TWISTED_GREATAXE);
+            itemGroup.accept(TCItems.TWISTED_GLAIVE);
+            itemGroup.accept(TCItems.TWISTED_FALCHION);
+            itemGroup.accept(TCItems.TWISTED_SCYTHE);
+            itemGroup.accept(TCItems.TWISTED_UPGRADE_TEMPLATE);
+            itemGroup.accept(TCItems.TWISTED_GREATAXE_PIECE);
+            itemGroup.accept(TCItems.TWISTED_GLAIVE_PIECE);
+            itemGroup.accept(TCItems.TWISTED_FALCHION_PIECE);
+            itemGroup.accept(TCItems.TWISTED_SCYTHE_PIECE);
+            itemGroup.accept(TCBlocks.TWISTED_LOG);
+            itemGroup.accept(TCBlocks.STRIPPED_TWISTED_LOG);
+            itemGroup.accept(TCBlocks.TWISTED_WOOD);
+            itemGroup.accept(TCBlocks.STRIPPED_TWISTED_WOOD);
+            itemGroup.accept(TCBlocks.TWISTED_PLANKS);
+            itemGroup.accept(TCBlocks.TWISTED_STAIRS);
+            itemGroup.accept(TCBlocks.TWISTED_SLAB);
+            itemGroup.accept(TCBlocks.TWISTED_FENCE);
+            itemGroup.accept(TCBlocks.TWISTED_FENCE_GATE);
+            itemGroup.accept(TCBlocks.TWISTED_DOOR);
+            itemGroup.accept(TCBlocks.TWISTED_TRAPDOOR);
+            itemGroup.accept(TCBlocks.TWISTED_PRESSURE_PLATE);
+            itemGroup.accept(TCBlocks.TWISTED_BUTTON);
+            itemGroup.accept(TCBlocks.TWISTED_LEAVES);
+            itemGroup.accept(TCBlocks.TWISTED_SAPLING);
+            itemGroup.accept(TCBlocks.TWISTED_COFFIN);
+            itemGroup.accept(TCBlocks.KARMIUM_RAILING);
+            itemGroup.accept(TCBlocks.KARMIUM_CHAIN);
+            itemGroup.accept(TCBlocks.KARMIUM_BLOCK);
+            itemGroup.accept(TCItems.KARMIUM_INGOT);
+            itemGroup.accept(TCItems.RAW_KARMIUM);
+            itemGroup.accept(TCItems.KARMIUM_NUGGET);
+            itemGroup.accept(TCItems.BLEEDING_SPIRIT);
+            itemGroup.accept(TCItems.GRAPPLING_SPIRIT);
+            itemGroup.accept(TCItems.HARVEST_SPIRIT);
+            itemGroup.accept(TCItems.SWEEPING_SPIRIT);
+            itemGroup.accept(TCItems.STRIDE_SPIRIT);
+            itemGroup.accept(TCItems.TOMAHAWK_SPIRIT);
 
         });
     }

@@ -2,62 +2,61 @@ package net.farzad.twisted_and_carved.common.item;
 
 import net.farzad.twisted_and_carved.client.particle.FalchionSlashEffect;
 import net.farzad.twisted_and_carved.common.TwistedAndCarved;
-import net.farzad.twisted_and_carved.common.register.TCDataComponents;
 import net.farzad.twisted_and_carved.common.component.TwistedSpiritComponent;
-import net.farzad.twisted_and_carved.common.register.TDSounds;
 import net.farzad.twisted_and_carved.common.register.TCDamageTypes;
+import net.farzad.twisted_and_carved.common.register.TCDataComponents;
+import net.farzad.twisted_and_carved.common.register.TDSounds;
 import net.farzad.twisted_and_carved.common.util.TwistedWeaponUtil;
-import net.farzad.twisted_and_carved.common.util.interfaces.AttackChargableItemInterface;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.component.DataComponentTypes;
-import net.minecraft.component.type.AttributeModifierSlot;
-import net.minecraft.component.type.AttributeModifiersComponent;
-import net.minecraft.component.type.ToolComponent;
-import net.minecraft.component.type.WeaponComponent;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.attribute.EntityAttributeModifier;
-import net.minecraft.entity.attribute.EntityAttributes;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.RegistryEntryLookup;
-import net.minecraft.registry.entry.RegistryEntry;
-import net.minecraft.registry.entry.RegistryEntryList;
-import net.minecraft.registry.tag.BlockTags;
-import net.minecraft.registry.tag.TagKey;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Box;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
+import net.minecraft.core.HolderGetter;
+import net.minecraft.core.HolderSet;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.Identifier;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.TagKey;
+import net.minecraft.util.Mth;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EquipmentSlotGroup;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.ItemAttributeModifiers;
+import net.minecraft.world.item.component.Tool;
+import net.minecraft.world.item.component.Weapon;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
 
 import java.util.List;
 
-public class TwistedFalchionItem extends TwistedToolItem implements AttackChargableItemInterface {
+public class TwistedFalchionItem extends TwistedToolItem {
 
-    public TwistedFalchionItem(float attackDamage, float attackSpeed, double attackRange, Settings settings) {
+    public TwistedFalchionItem(float attackDamage, float attackSpeed, double attackRange, Properties settings) {
         super(applyToolSettings(settings, BlockTags.LEAVES, attackDamage, attackSpeed, attackRange));
     }
 
-    public static Settings applyToolSettings(Settings settings, TagKey<Block> effectiveBlocks, float attackDamage, float attackSpeed, double attackRange) {
-        RegistryEntryLookup<Block> registryEntryLookup = Registries.createEntryLookup(Registries.BLOCK);
-        return settings.component(DataComponentTypes.TOOL, new ToolComponent(List.of(ToolComponent.Rule.ofAlwaysDropping(RegistryEntryList.of(new RegistryEntry[]{Blocks.COBWEB.getRegistryEntry()}), 15.0F), ToolComponent.Rule.of(registryEntryLookup.getOrThrow(BlockTags.SWORD_INSTANTLY_MINES), Float.MAX_VALUE), ToolComponent.Rule.of(registryEntryLookup.getOrThrow(BlockTags.SWORD_EFFICIENT), 1.5F), ToolComponent.Rule.of(registryEntryLookup.getOrThrow(effectiveBlocks),1.5f)), 1.0F, 2, false)).attributeModifiers(createAttributeModifiers(attackDamage,attackSpeed,attackRange )).component(DataComponentTypes.WEAPON, new WeaponComponent(1)).enchantable(15);
+    public static Properties applyToolSettings(Properties settings, TagKey<Block> effectiveBlocks, float attackDamage, float attackSpeed, double attackRange) {
+        HolderGetter<Block> registryEntryLookup = BuiltInRegistries.acquireBootstrapRegistrationLookup(BuiltInRegistries.BLOCK);
+        return settings.component(DataComponents.TOOL, new Tool(List.of(Tool.Rule.minesAndDrops(HolderSet.direct(new Holder[]{Blocks.COBWEB.builtInRegistryHolder()}), 15.0F), Tool.Rule.overrideSpeed(registryEntryLookup.getOrThrow(BlockTags.SWORD_INSTANTLY_MINES), Float.MAX_VALUE), Tool.Rule.overrideSpeed(registryEntryLookup.getOrThrow(BlockTags.SWORD_EFFICIENT), 1.5F), Tool.Rule.overrideSpeed(registryEntryLookup.getOrThrow(effectiveBlocks),1.5f)), 1.0F, 2, false)).attributes(createAttributeModifiers(attackDamage,attackSpeed,attackRange )).component(DataComponents.WEAPON, new Weapon(1)).enchantable(15);
     }
 
-    public static AttributeModifiersComponent createAttributeModifiers(float attackDamage, float attackSpeed, double attackRange) {
-        return AttributeModifiersComponent.builder()
-                .add(EntityAttributes.ATTACK_DAMAGE, new EntityAttributeModifier(Item.BASE_ATTACK_DAMAGE_MODIFIER_ID, (attackDamage), EntityAttributeModifier.Operation.ADD_VALUE), AttributeModifierSlot.MAINHAND)
-                .add(EntityAttributes.ATTACK_SPEED, new EntityAttributeModifier(Item.BASE_ATTACK_SPEED_MODIFIER_ID, attackSpeed, EntityAttributeModifier.Operation.ADD_VALUE), AttributeModifierSlot.MAINHAND)
-                .add(EntityAttributes.ENTITY_INTERACTION_RANGE, new EntityAttributeModifier(Identifier.of(TwistedAndCarved.MOD_ID, "base_attack_range"), attackRange, EntityAttributeModifier.Operation.ADD_VALUE), AttributeModifierSlot.MAINHAND)
+    public static ItemAttributeModifiers createAttributeModifiers(float attackDamage, float attackSpeed, double attackRange) {
+        return ItemAttributeModifiers.builder()
+                .add(Attributes.ATTACK_DAMAGE, new AttributeModifier(Item.BASE_ATTACK_DAMAGE_ID, (attackDamage), AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND)
+                .add(Attributes.ATTACK_SPEED, new AttributeModifier(Item.BASE_ATTACK_SPEED_ID, attackSpeed, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND)
+                .add(Attributes.ENTITY_INTERACTION_RANGE, new AttributeModifier(Identifier.fromNamespaceAndPath(TwistedAndCarved.MOD_ID, "base_attack_range"), attackRange, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND)
                 .build();
     }
 
@@ -71,19 +70,19 @@ public class TwistedFalchionItem extends TwistedToolItem implements AttackCharga
     }
 
     @Override
-    public boolean canMine(ItemStack stack, BlockState state, World world, BlockPos pos, LivingEntity user) {
-        return !user.isInCreativeMode();
+    public boolean canDestroyBlock(ItemStack stack, BlockState state, Level world, BlockPos pos, LivingEntity user) {
+        return !user.hasInfiniteMaterials();
     }
 
-    private void applySlashDamage(World world, PlayerEntity user) {
-        if (world instanceof ServerWorld serverWorld) {
-            Vec3d dir = user.raycast(2.5,1,false).getPos();
-            Box box = new Box(dir.x,user.getY(),dir.z,dir.x + 1, dir.y + 1, dir.z + 1).expand(0.5).offset(new Vec3d(-0.5,-0.5,-0.5));
-            List<LivingEntity> entities = serverWorld.getEntitiesByClass(LivingEntity.class,box,livingEntity -> livingEntity != user);
+    private void applySlashDamage(Level world, Player user) {
+        if (world instanceof ServerLevel serverWorld) {
+            Vec3 dir = user.pick(2.5,1,false).getLocation();
+            AABB box = new AABB(dir.x,user.getY(),dir.z,dir.x + 1, dir.y + 1, dir.z + 1).inflate(0.5).move(new Vec3(-0.5,-0.5,-0.5));
+            List<LivingEntity> entities = serverWorld.getEntitiesOfClass(LivingEntity.class,box,livingEntity -> livingEntity != user);
 
             for (Entity entity : entities) {
-                if (entity instanceof LivingEntity livingEntity && user instanceof PlayerEntity player) {
-                    livingEntity.damage(serverWorld, entity.getDamageSources().create(TCDamageTypes.FALCHION_SLASH,user),5f);
+                if (entity instanceof LivingEntity livingEntity && user instanceof Player player) {
+                    livingEntity.hurtServer(serverWorld, entity.damageSources().source(TCDamageTypes.FALCHION_SLASH,user),5f);
                 }
             }
         }
@@ -95,20 +94,20 @@ public class TwistedFalchionItem extends TwistedToolItem implements AttackCharga
     }
 
     @Override
-    public ActionResult use(World world, PlayerEntity user, Hand hand) {
-        ItemStack stack = user.getStackInHand(hand);
+    public InteractionResult use(Level world, Player user, InteractionHand hand) {
+        ItemStack stack = user.getItemInHand(hand);
         if (TwistedWeaponUtil.getAbilityID(stack).equals("bleeding")) {
             if (getBlood(stack) >= (100 / 3)) {
-                if (world instanceof ServerWorld serverWorld) {
-                    serverWorld.spawnParticles(new FalchionSlashEffect(user.getYaw()), user.getX(), user.getY() + 0.5, user.getZ(), 1, 0, 0, 0, 1);
-                    serverWorld.playSound(null, user.getX(), user.getY(), user.getZ(), SoundEvents.BLOCK_MUD_HIT, user.getSoundCategory(), 2.0F, MathHelper.nextBetween(user.getRandom(), 3.8f, 3.5f));
-                    serverWorld.playSound(null, user.getX(), user.getY(), user.getZ(), SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP, user.getSoundCategory(), 2.0F, MathHelper.nextBetween(user.getRandom(), 0.5f, 0.7f));
-                    serverWorld.playSound(null, user.getX(), user.getY(), user.getZ(), TDSounds.SCYTHE_SWEEP_0, user.getSoundCategory(), 1.0F, MathHelper.nextBetween(user.getRandom(), 0.7f, 1f));
+                if (world instanceof ServerLevel serverWorld) {
+                    serverWorld.sendParticles(new FalchionSlashEffect(user.getYRot()), user.getX(), user.getY() + 0.5, user.getZ(), 1, 0, 0, 0, 1);
+                    serverWorld.playSound(null, user.getX(), user.getY(), user.getZ(), SoundEvents.MUD_HIT, user.getSoundSource(), 2.0F, Mth.randomBetween(user.getRandom(), 3.8f, 3.5f));
+                    serverWorld.playSound(null, user.getX(), user.getY(), user.getZ(), SoundEvents.PLAYER_ATTACK_SWEEP, user.getSoundSource(), 2.0F, Mth.randomBetween(user.getRandom(), 0.5f, 0.7f));
+                    serverWorld.playSound(null, user.getX(), user.getY(), user.getZ(), TDSounds.SCYTHE_SWEEP_0, user.getSoundSource(), 1.0F, Mth.randomBetween(user.getRandom(), 0.7f, 1f));
                 }
                 applySlashDamage(world, user);
-                user.swingHand(hand);
+                user.swing(hand);
                 setBlood(stack, getBlood(stack) - 100 / 3);
-                user.getItemCooldownManager().set(stack, 20 * 2);
+                user.getCooldowns().addCooldown(stack, 20 * 2);
 
             }
         }
@@ -118,8 +117,8 @@ public class TwistedFalchionItem extends TwistedToolItem implements AttackCharga
 
     @Override
     public void onFullAttack(LivingEntity attacker, LivingEntity target, ItemStack stack) {
-        if (attacker instanceof PlayerEntity player && TwistedWeaponUtil.getAbilityID(stack) == "bleeding") {
-            int amount = player.getEntityWorld().random.nextBetween(1, 3) * 5;
+        if (attacker instanceof Player player && TwistedWeaponUtil.getAbilityID(stack) == "bleeding") {
+            int amount = player.level().random.nextIntBetweenInclusive(1, 3) * 5;
             if (!(getBlood(stack) + amount >= 100)) {
                 setBlood(stack, getBlood(stack) + amount);
             } else {

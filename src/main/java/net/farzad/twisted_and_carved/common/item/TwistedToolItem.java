@@ -1,46 +1,46 @@
 package net.farzad.twisted_and_carved.common.item;
 
+import net.akws.chiseled_lib.common.interfaces.item.CustomAttackItem;
 import net.akws.chiseled_lib.common.interfaces.item.CustomEffectsItem;
-import net.akws.chiseled_lib.common.interfaces.item.SweepingItem;
-import net.farzad.twisted_and_carved.common.register.TCParticles;
 import net.farzad.twisted_and_carved.common.register.TCDataComponents;
+import net.farzad.twisted_and_carved.common.register.TCParticles;
 import net.farzad.twisted_and_carved.common.register.TDTags;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.StackReference;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.particle.ParticleEffect;
-import net.minecraft.screen.ScreenHandler;
-import net.minecraft.screen.slot.Slot;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.util.ClickType;
+import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.SlotAccess;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.ClickAction;
+import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 
-public class TwistedToolItem extends Item implements SweepingItem, CustomEffectsItem {
+public class TwistedToolItem extends Item implements CustomEffectsItem, CustomAttackItem {
 
-    public TwistedToolItem(Settings settings) {
+    public TwistedToolItem(Properties settings) {
         super(settings);
     }
 
-    public boolean onClicked(ItemStack stack, ItemStack otherStack, Slot slot, ClickType clickType, PlayerEntity player, StackReference cursorStackReference) {
+    public boolean overrideOtherStackedOnMe(ItemStack stack, ItemStack otherStack, Slot slot, ClickAction clickType, Player player, SlotAccess cursorStackReference) {
         ItemStack stored = stack.getOrDefault(TCDataComponents.TWISTED_SPIRIT, ItemStack.EMPTY);
-        if (slot.getStack().get(TCDataComponents.TWISTED_SPIRIT) == null || !slot.canTakePartial(player)) {
+        if (slot.getItem().get(TCDataComponents.TWISTED_SPIRIT) == null || !slot.allowModification(player)) {
             return false;
         }
         else {
-            if (!player.getItemCooldownManager().isCoolingDown(stack) && stored.isEmpty() && !cursorStackReference.get().isEmpty() && clickType.equals(ClickType.LEFT) && hasAura(cursorStackReference.get()) && isValidType(cursorStackReference.get())) {
+            if (!player.getCooldowns().isOnCooldown(stack) && stored.isEmpty() && !cursorStackReference.get().isEmpty() && clickType.equals(ClickAction.PRIMARY) && hasAura(cursorStackReference.get()) && isValidType(cursorStackReference.get())) {
                 stack.set(TCDataComponents.TWISTED_SPIRIT, cursorStackReference.get());
                 cursorStackReference.set(ItemStack.EMPTY);
                 onContentChanged(player);
                 playSpiritCastingSound(player);
-                player.getItemCooldownManager().set(stack, 10);
+                player.getCooldowns().addCooldown(stack, 10);
                 return true;
-            } else if (!player.getItemCooldownManager().isCoolingDown(stack) && !stored.isEmpty() && cursorStackReference.get().isEmpty() && clickType.equals(ClickType.RIGHT)) {
+            } else if (!player.getCooldowns().isOnCooldown(stack) && !stored.isEmpty() && cursorStackReference.get().isEmpty() && clickType.equals(ClickAction.SECONDARY)) {
                 cursorStackReference.set(stored);
                 stack.set(TCDataComponents.TWISTED_SPIRIT, ItemStack.EMPTY);
                 onContentChanged(player);
                 playSpiritUnCastingSound(player);
-                player.getItemCooldownManager().set(stack, 10);
+                player.getCooldowns().addCooldown(stack, 10);
                 return true;
             } else {
                 return false;
@@ -48,15 +48,15 @@ public class TwistedToolItem extends Item implements SweepingItem, CustomEffects
         }
     }
 
-    public boolean onStackClicked(ItemStack stack, Slot slot, ClickType clickType, PlayerEntity player) {
+    public boolean overrideStackedOnOther(ItemStack stack, Slot slot, ClickAction clickType, Player player) {
         ItemStack stored = stack.getOrDefault(TCDataComponents.TWISTED_SPIRIT, ItemStack.EMPTY);
-            if (slot.getStack().get(TCDataComponents.TWISTED_SPIRIT) == null) {
+            if (slot.getItem().get(TCDataComponents.TWISTED_SPIRIT) == null) {
                 return false;
             }
             else {
-                if (stored.isEmpty() && clickType.equals(ClickType.RIGHT)) {
+                if (stored.isEmpty() && clickType.equals(ClickAction.SECONDARY)) {
                     return true;
-                } else if (!stored.isEmpty() && clickType.equals(ClickType.LEFT)) {
+                } else if (!stored.isEmpty() && clickType.equals(ClickAction.PRIMARY)) {
                     return true;
                 } else {
                     return false;
@@ -65,29 +65,29 @@ public class TwistedToolItem extends Item implements SweepingItem, CustomEffects
     }
 
     private static void playSpiritCastingSound(Entity entity) {
-        entity.playSound(SoundEvents.BLOCK_END_PORTAL_FRAME_FILL, 1.0F, 1.0F);
-        entity.playSound(SoundEvents.BLOCK_ENCHANTMENT_TABLE_USE, 1.0F, 1.0F);
+        entity.playSound(SoundEvents.END_PORTAL_FRAME_FILL, 1.0F, 1.0F);
+        entity.playSound(SoundEvents.ENCHANTMENT_TABLE_USE, 1.0F, 1.0F);
     }
 
     private static void playSpiritUnCastingSound(Entity entity) {
-        entity.playSound(SoundEvents.BLOCK_END_PORTAL_FRAME_FILL, 1.0F, -2.0F);
-        entity.playSound(SoundEvents.BLOCK_ENCHANTMENT_TABLE_USE, 1.0F, -2.0F);
+        entity.playSound(SoundEvents.END_PORTAL_FRAME_FILL, 1.0F, -2.0F);
+        entity.playSound(SoundEvents.ENCHANTMENT_TABLE_USE, 1.0F, -2.0F);
     }
 
-    private void onContentChanged(PlayerEntity user) {
-        ScreenHandler screenHandler = user.currentScreenHandler;
+    private void onContentChanged(Player user) {
+        AbstractContainerMenu screenHandler = user.containerMenu;
         if (screenHandler != null) {
-            screenHandler.onContentChanged(user.getInventory());
+            screenHandler.slotsChanged(user.getInventory());
         }
 
     }
 
     public boolean isValidType(ItemStack stack) {
-        return stack.contains(TCDataComponents.TWISTED_SPIRIT_DATA);
+        return stack.has(TCDataComponents.TWISTED_SPIRIT_DATA);
     }
 
     public static boolean hasAura(ItemStack stack) {
-        return stack.isIn(TDTags.Items.TWISTED_SPIRIT);
+        return stack.is(TDTags.Items.TWISTED_SPIRIT);
     }
 
     @Override
@@ -96,7 +96,7 @@ public class TwistedToolItem extends Item implements SweepingItem, CustomEffects
     }
 
     @Override
-    public ParticleEffect sweepParticles() {
+    public ParticleOptions sweepParticles(ItemStack stack) {
         return TCParticles.TWISTED_SWEEP_ATTACK;
     }
 }

@@ -2,33 +2,37 @@ package net.farzad.twisted_and_carved.common.entity;
 
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import net.farzad.twisted_and_carved.common.networking.ScytheSoundLoopS2CPayload;
+import net.farzad.twisted_and_carved.common.register.TCDamageTypes;
 import net.farzad.twisted_and_carved.common.register.TCDataComponents;
 import net.farzad.twisted_and_carved.common.register.TCEntities;
 import net.farzad.twisted_and_carved.common.register.TCItems;
-import net.farzad.twisted_and_carved.common.networking.ScytheSoundLoopS2CPayload;
-import net.farzad.twisted_and_carved.common.register.TCDamageTypes;
-import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.*;
-import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.data.DataTracker;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.entity.projectile.PersistentProjectileEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.sound.SoundEvent;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.storage.ReadView;
-import net.minecraft.storage.WriteView;
-import net.minecraft.util.hit.EntityHitResult;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.World;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.MoverType;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.ProjectileDeflection;
+import net.minecraft.world.entity.projectile.arrow.AbstractArrow;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
+import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
 
-public class TwistedScytheEntity extends PersistentProjectileEntity {
+public class TwistedScytheEntity extends AbstractArrow {
 
     // Variables
     public boolean shouldReturn;
@@ -38,22 +42,22 @@ public class TwistedScytheEntity extends PersistentProjectileEntity {
     public float damageMultiplier;
     public float scytheRot;
 
-    public TwistedScytheEntity(World world, LivingEntity owner, ItemStack stack) {
+    public TwistedScytheEntity(Level world, LivingEntity owner, ItemStack stack) {
         super(TCEntities.TWISTED_SCYTHE_ENTITY, owner, world, stack, null);
         this.isPlayingSound = false;
         this.prevOwner = owner;
     }
 
-    public TwistedScytheEntity(EntityType<? extends TwistedScytheEntity> entityType, World world) {
+    public TwistedScytheEntity(EntityType<? extends TwistedScytheEntity> entityType, Level world) {
         super(entityType, world);
     }
 
     private void playSound() {
         if (!this.isInGround() && !isPlayingSound) {
-            if (!this.getEntityWorld().isClient()) {
+            if (!this.level().isClientSide()) {
 
                 ScytheSoundLoopS2CPayload payload = new ScytheSoundLoopS2CPayload(this.getId());
-                for (ServerPlayerEntity player : PlayerLookup.around((ServerWorld) this.getEntityWorld(), this.getBlockPos(), 20)) {
+                for (ServerPlayer player : PlayerLookup.around((ServerLevel) this.level(), this.blockPosition(), 20)) {
                     ServerPlayNetworking.send(player, payload);
                 }
                 isPlayingSound = true;
@@ -74,36 +78,36 @@ public class TwistedScytheEntity extends PersistentProjectileEntity {
     }
 
     private void pullOwner(Entity owner) {
-        Vec3d dir = this.getEntityPos().subtract(owner.getEntityPos());
-        owner.addVelocity(dir.multiply(0.15));
-        owner.velocityDirty = true;
+        Vec3 dir = this.position().subtract(owner.position());
+        owner.push(dir.scale(0.15));
+        owner.needsSync = true;
         this.shouldReturn = true;
     }
 
     private void pullTarget(Entity owner, LivingEntity target) {
-        Vec3d dir = owner.getEntityPos().subtract(target.getEntityPos());
-        target.addVelocity(dir.multiply(0.15));
-        target.velocityDirty = true;
+        Vec3 dir = owner.position().subtract(target.position());
+        target.push(dir.scale(0.15));
+        target.needsSync = true;
         this.shouldReturn = true;
     }
 
-    public void age() {
-        if (this.pickupType != PickupPermission.ALLOWED) {
-            super.age();
+    public void tickDespawn() {
+        if (this.pickup != Pickup.ALLOWED) {
+            super.tickDespawn();
         }
     }
 
     public void tick() {
         if (this.getOwner() != null && this.getOwner() instanceof LivingEntity owner) {
-            Vec3d targetPos = owner.getEntityPos();
-            double distance = targetPos.distanceTo(this.getEntityPos());
+            Vec3 targetPos = owner.position();
+            double distance = targetPos.distanceTo(this.position());
 
             if (this.isInGround()) {
                 this.isGripped = true;
             }
 
             if ((distance > 57 && !this.isGripped) || this.inGroundTime > 8) {
-                this.playSound(SoundEvents.ITEM_TRIDENT_RETURN, 1.0F, 1.0F);
+                this.playSound(SoundEvents.TRIDENT_RETURN, 1.0F, 1.0F);
                 this.shouldReturn = true;
                 this.isGripped = false;
             }
@@ -114,14 +118,14 @@ public class TwistedScytheEntity extends PersistentProjectileEntity {
             }
 
             if (this.shouldReturn) {
-                Vec3d direction = targetPos.subtract(this.getEntityPos()).normalize();
-                if (owner instanceof PlayerEntity player && this.getScytheStack(player) == null) {
+                Vec3 direction = targetPos.subtract(this.position()).normalize();
+                if (owner instanceof Player player && this.getScytheStack(player) == null) {
                     this.discard();
                 }
 
-                this.setVelocity(direction);
-                this.move(MovementType.SELF, this.getVelocity());
-                this.setNoClip(true);
+                this.setDeltaMovement(direction);
+                this.move(MoverType.SELF, this.getDeltaMovement());
+                this.setNoPhysics(true);
             }
             playSound();
             updateRot();
@@ -132,48 +136,48 @@ public class TwistedScytheEntity extends PersistentProjectileEntity {
     }
 
     @Nullable
-    protected EntityHitResult getEntityCollision(Vec3d currentPosition, Vec3d nextPosition) {
-        return this.shouldReturn ? null : super.getEntityCollision(currentPosition, nextPosition);
+    protected EntityHitResult findHitEntity(Vec3 currentPosition, Vec3 nextPosition) {
+        return this.shouldReturn ? null : super.findHitEntity(currentPosition, nextPosition);
     }
 
     @Override
-    public void onPlayerCollision(PlayerEntity player) {
-        if (this.isOwner(player) && this.getOwner() != null && !player.isSpectator()) {
-            if (!this.getEntityWorld().isClient() && shouldReturn) {
+    public void playerTouch(Player player) {
+        if (this.ownedBy(player) && this.getOwner() != null && !player.isSpectator()) {
+            if (!this.level().isClientSide() && shouldReturn) {
                 getScytheStack(player).set(TCDataComponents.TWISTED_SCYTHE_GRAPPLING, false);
                 this.discard();
             }
         }
     }
 
-    protected void onEntityHit(EntityHitResult entityHitResult) {
+    protected void onHitEntity(EntityHitResult entityHitResult) {
         if (this.getOwner() != null) {
             Entity ownerEntity = this.getOwner();
-            World world = this.getEntityWorld();
+            Level world = this.level();
             Entity entity = entityHitResult.getEntity();
             float f = 5.5F;
             DamageSource damageSource = new DamageSource(
-                    this.getOwner().getEntityWorld().getRegistryManager()
-                            .getOrThrow(RegistryKeys.DAMAGE_TYPE)
-                            .getEntry(TCDamageTypes.TOMAHAWK_DAMAGE.getValue()).get());
+                    this.getOwner().level().registryAccess()
+                            .lookupOrThrow(Registries.DAMAGE_TYPE)
+                            .get(TCDamageTypes.TOMAHAWK_DAMAGE.identifier()).get());
 
-            if (world instanceof ServerWorld serverWorld) {
-                f = EnchantmentHelper.getDamage(serverWorld, this.getWeaponStack(), entity, damageSource, f);
+            if (world instanceof ServerLevel serverWorld) {
+                f = EnchantmentHelper.modifyDamage(serverWorld, this.getWeaponItem(), entity, damageSource, f);
             }
 
-            if (entity.sidedDamage(damageSource, f + damageMultiplier)) {
+            if (entity.hurtOrSimulate(damageSource, f + damageMultiplier)) {
                 if (entity.getType() == EntityType.ENDERMAN) {
                     return;
                 }
 
-                if (world instanceof ServerWorld serverWorld) {
-                    EnchantmentHelper.onTargetDamaged(serverWorld, entity, damageSource, this.getWeaponStack(), (item) -> this.kill(serverWorld));
+                if (world instanceof ServerLevel serverWorld) {
+                    EnchantmentHelper.doPostAttackEffectsWithItemSourceOnBreak(serverWorld, entity, damageSource, this.getWeaponItem(), (item) -> this.kill(serverWorld));
                 }
             }
 
-            if (entity instanceof LivingEntity livingEntity && ownerEntity instanceof PlayerEntity player) {
-                double boxSize = (livingEntity.getBoundingBox().getLengthZ() + livingEntity.getBoundingBox().getLengthX() + livingEntity.getBoundingBox().getLengthY()) / 3;
-                if (boxSize >= 1.5 || (livingEntity instanceof PlayerEntity && player.isSneaking())) {
+            if (entity instanceof LivingEntity livingEntity && ownerEntity instanceof Player player) {
+                double boxSize = (livingEntity.getBoundingBox().getZsize() + livingEntity.getBoundingBox().getXsize() + livingEntity.getBoundingBox().getYsize()) / 3;
+                if (boxSize >= 1.5 || (livingEntity instanceof Player && player.isShiftKeyDown())) {
                     pullOwner(player);
                 } else {
                     pullTarget(player, livingEntity);
@@ -182,64 +186,64 @@ public class TwistedScytheEntity extends PersistentProjectileEntity {
                 getScytheStack(player).set(TCDataComponents.TWISTED_SCYTHE_GRAPPLING, false);
                 this.shouldReturn = true;
                 this.isGripped = true;
-                this.onHit(livingEntity);
+                this.doPostHurtEffects(livingEntity);
             }
             this.shouldReturn = true;
-            this.deflect(ProjectileDeflection.SIMPLE, entity, this.owner, false);
-            this.setVelocity(this.getVelocity().multiply(0.2, 0.02, 0.2));
-            this.playSound(SoundEvents.ITEM_TRIDENT_HIT, 1.0F, 1.0F);
+            this.deflect(ProjectileDeflection.REVERSE, entity, this.owner, false);
+            this.setDeltaMovement(this.getDeltaMovement().multiply(0.2, 0.02, 0.2));
+            this.playSound(SoundEvents.TRIDENT_HIT, 1.0F, 1.0F);
         }
     }
 
     @Override
-    protected double getGravity() {
+    protected double getDefaultGravity() {
         return 0.0002;
     }
 
-    protected float getDragInWater() {
+    protected float getWaterInertia() {
         return 0.99F;
     }
 
-    protected SoundEvent getHitSound() {
-        return SoundEvents.ITEM_TRIDENT_HIT;
+    protected SoundEvent getDefaultHitGroundSoundEvent() {
+        return SoundEvents.TRIDENT_HIT;
     }
 
-    public ItemStack getWeaponStack() {
-        return this.getItemStack();
+    public ItemStack getWeaponItem() {
+        return this.getPickupItemStackOrigin();
     }
 
-    protected ItemStack getDefaultItemStack() {
+    protected ItemStack getDefaultPickupItem() {
         return new ItemStack(TCItems.TWISTED_SCYTHE);
     }
 
-    private ItemStack getScytheStack(PlayerEntity player) {
-        PlayerInventory inv = player.getInventory();
-        if (inv.getSlotWithStack(this.getWeaponStack()) != -1) {
-            return inv.getStack(inv.getSlotWithStack(this.getWeaponStack()));
+    private ItemStack getScytheStack(Player player) {
+        Inventory inv = player.getInventory();
+        if (inv.findSlotMatchingItem(this.getWeaponItem()) != -1) {
+            return inv.getItem(inv.findSlotMatchingItem(this.getWeaponItem()));
         } else {
-            return player.getOffHandStack();
+            return player.getOffhandItem();
         }
     }
 
     // Data Storage
     @Override
-    protected void writeCustomData(WriteView view) {
-        super.writeCustomData(view);
+    protected void addAdditionalSaveData(ValueOutput view) {
+        super.addAdditionalSaveData(view);
         view.putBoolean("shouldReturn", this.shouldReturn);
         view.putBoolean("isPlayingSound", this.isPlayingSound);
         view.putBoolean("isGripped", this.isGripped);
     }
 
     @Override
-    protected void readCustomData(ReadView view) {
-        super.readCustomData(view);
-        this.shouldReturn = view.getBoolean("shouldReturn",false);
-        this.isPlayingSound = view.getBoolean("isPlayingSound",false);
-        this.isGripped = view.getBoolean("isGripped",false);
+    protected void readAdditionalSaveData(ValueInput view) {
+        super.readAdditionalSaveData(view);
+        this.shouldReturn = view.getBooleanOr("shouldReturn",false);
+        this.isPlayingSound = view.getBooleanOr("isPlayingSound",false);
+        this.isGripped = view.getBooleanOr("isGripped",false);
     }
 
-    protected void initDataTracker(DataTracker.Builder builder) {
-        super.initDataTracker(builder);
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        super.defineSynchedData(builder);
     }
 
     public boolean shouldRender(double cameraX, double cameraY, double cameraZ) {

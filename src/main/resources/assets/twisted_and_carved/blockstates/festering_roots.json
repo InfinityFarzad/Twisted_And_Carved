@@ -1,0 +1,24 @@
+{
+  "variants": {
+    "snowy=false": [
+      {
+        "model": "twisted_and_carved:block/festering_roots"
+      },
+      {
+        "model": "twisted_and_carved:block/festering_roots",
+        "y": 90
+      },
+      {
+        "model": "twisted_and_carved:block/festering_roots",
+        "y": 180
+      },
+      {
+        "model": "twisted_and_carved:block/festering_roots",
+        "y": 270
+      }
+    ],
+    "snowy=true": {
+      "model": "minecraft:block/grass_block_snow"
+    }
+  }
+}

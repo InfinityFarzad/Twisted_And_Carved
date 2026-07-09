@@ -1,11 +1,11 @@
 package net.farzad.twisted_and_carved.common.register;
 
 import net.farzad.twisted_and_carved.common.TwistedAndCarved;
-import net.minecraft.item.Item;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.registry.tag.TagKey;
-import net.minecraft.util.Identifier;
-import net.minecraft.world.biome.Biome;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.Identifier;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.biome.Biome;
 
 public class TDTags {
     public static class Items {
@@ -15,7 +15,7 @@ public class TDTags {
         public static final TagKey<Item> KARMIUM = createTag("karmium");
 
         private static TagKey<Item> createTag(String name) {
-            return TagKey.of(RegistryKeys.ITEM, Identifier.of(TwistedAndCarved.MOD_ID, name));
+            return TagKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(TwistedAndCarved.MOD_ID, name));
         }
 
     }
@@ -25,7 +25,7 @@ public class TDTags {
 
 
         private static TagKey<Biome> createTag(String name) {
-            return TagKey.of(RegistryKeys.BIOME, Identifier.of(TwistedAndCarved.MOD_ID, name));
+            return TagKey.create(Registries.BIOME, Identifier.fromNamespaceAndPath(TwistedAndCarved.MOD_ID, name));
         }
 
     }

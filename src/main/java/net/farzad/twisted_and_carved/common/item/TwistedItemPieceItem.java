@@ -1,9 +1,9 @@
 package net.farzad.twisted_and_carved.common.item;
 
-import net.minecraft.item.Item;
+import net.minecraft.world.item.Item;
 
 public class TwistedItemPieceItem extends Item {
-    public TwistedItemPieceItem(Settings settings) {
+    public TwistedItemPieceItem(Properties settings) {
         super(settings);
     }
 }

@@ -18,7 +18,6 @@
   "itemGroup.twisted_and_carved": "Twisted And Carved",
   "entity.twisted_and_carved.twisted_greataxe_entity": "Twisted Greataxe",
 
-
   "item.twisted_and_carved.twisted_upgrade_smithing_template": "Twisted Upgrade",
   "item.twisted_and_carved.smithing_template.twisted_upgrade.additions_slot_description": "Add Netherite Ingot",
   "item.twisted_and_carved.smithing_template.twisted_upgrade.applies_to": "Twisted Tool Piece",
@@ -56,7 +55,8 @@
   "sound.twisted_and_carved.twisted_glaive_sweep": "Twisted Glaive Sweep",
   "sound.twisted_and_carved.parry": "Parry",
   "massage.twisted_and_carved.unable_to_harvest": "there are no crops near by",
-
+  "biome.twisted_and_carved.twisted_forest": "Twisted Forest",
+  "entity.twisted_and_carved.lost_merchant": "Lost Merchant",
   "tooltip.twisted_and_carved.twisted_piece": "A strange aura is emitted from the broken piece",
 
   "tooltip.twisted_and_carved.twisted_tomahawk": "Throw the greataxe similar to a %s ",

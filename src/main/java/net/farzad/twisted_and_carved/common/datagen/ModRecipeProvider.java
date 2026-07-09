@@ -4,73 +4,72 @@ import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
 import net.farzad.twisted_and_carved.common.register.TCBlocks;
 import net.farzad.twisted_and_carved.common.register.TCItems;
-import net.minecraft.data.recipe.RecipeExporter;
-import net.minecraft.data.recipe.RecipeGenerator;
-import net.minecraft.item.Item;
-import net.minecraft.recipe.Ingredient;
-import net.minecraft.recipe.book.RecipeCategory;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.registry.RegistryWrapper;
-
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.data.recipes.RecipeCategory;
+import net.minecraft.data.recipes.RecipeOutput;
+import net.minecraft.data.recipes.RecipeProvider;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.crafting.Ingredient;
 import java.util.concurrent.CompletableFuture;
 
 public class ModRecipeProvider extends FabricRecipeProvider {
-    public ModRecipeProvider(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> registriesFuture) {
+    public ModRecipeProvider(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
         super(output, registriesFuture);
     }
 
     @Override
-    protected RecipeGenerator getRecipeGenerator(RegistryWrapper.WrapperLookup registryLookup, RecipeExporter exporter) {
-        return new RecipeGenerator(registryLookup, exporter) {
+    protected RecipeProvider createRecipeProvider(HolderLookup.Provider registryLookup, RecipeOutput exporter) {
+        return new RecipeProvider(registryLookup, exporter) {
             @Override
-            public void generate() {
-                RegistryWrapper.Impl<Item> itemLookup = registries.getOrThrow(RegistryKeys.ITEM);
+            public void buildRecipes() {
+                HolderLookup.RegistryLookup<Item> itemLookup = registries.lookupOrThrow(Registries.ITEM);
 
-                createDoorRecipe(TCBlocks.TWISTED_DOOR, Ingredient.ofItem(TCBlocks.TWISTED_PLANKS))
-                        .criterion(hasItem(TCBlocks.TWISTED_PLANKS), conditionsFromItem(TCBlocks.TWISTED_PLANKS))
-                        .offerTo(exporter);;
-                createButtonRecipe(TCBlocks.TWISTED_BUTTON,Ingredient.ofItem(TCBlocks.TWISTED_PLANKS))
-                        .criterion(hasItem(TCBlocks.TWISTED_PLANKS), conditionsFromItem(TCBlocks.TWISTED_PLANKS))
-                        .offerTo(exporter);
-                createFenceRecipe(TCBlocks.TWISTED_FENCE,Ingredient.ofItem(TCBlocks.TWISTED_PLANKS))
-                        .criterion(hasItem(TCBlocks.TWISTED_PLANKS), conditionsFromItem(TCBlocks.TWISTED_PLANKS))
-                        .offerTo(exporter);
-                createFenceGateRecipe(TCBlocks.TWISTED_FENCE_GATE,Ingredient.ofItem(TCBlocks.TWISTED_PLANKS))
-                        .criterion(hasItem(TCBlocks.TWISTED_PLANKS), conditionsFromItem(TCBlocks.TWISTED_PLANKS))
-                        .offerTo(exporter);
-                createSlabRecipe(RecipeCategory.BUILDING_BLOCKS, TCBlocks.TWISTED_SLAB,Ingredient.ofItem(TCBlocks.TWISTED_PLANKS))
-                        .criterion(hasItem(TCBlocks.TWISTED_PLANKS), conditionsFromItem(TCBlocks.TWISTED_PLANKS))
-                        .offerTo(exporter);;
-                createStairsRecipe(TCBlocks.TWISTED_STAIRS,Ingredient.ofItem(TCBlocks.TWISTED_PLANKS))
-                        .criterion(hasItem(TCBlocks.TWISTED_PLANKS), conditionsFromItem(TCBlocks.TWISTED_PLANKS))
-                        .offerTo(exporter);;
-                createTrapdoorRecipe(TCBlocks.TWISTED_TRAPDOOR,Ingredient.ofItem(TCBlocks.TWISTED_PLANKS))
-                        .criterion(hasItem(TCBlocks.TWISTED_PLANKS), conditionsFromItem(TCBlocks.TWISTED_PLANKS))
-                        .offerTo(exporter);;
-                createPressurePlateRecipe(RecipeCategory.BUILDING_BLOCKS, TCBlocks.TWISTED_PRESSURE_PLATE,Ingredient.ofItem(TCBlocks.TWISTED_PLANKS))
-                        .criterion(hasItem(TCBlocks.TWISTED_PLANKS), conditionsFromItem(TCBlocks.TWISTED_PLANKS))
-                        .offerTo(exporter);
-                createShaped(RecipeCategory.BUILDING_BLOCKS, TCBlocks.KARMIUM_RAILING,16)
-                        .input('c', Ingredient.ofItem(TCItems.KARMIUM_INGOT))
-                        .input('g', Ingredient.ofItem(TCItems.KARMIUM_NUGGET))
+                doorBuilder(TCBlocks.TWISTED_DOOR, Ingredient.of(TCBlocks.TWISTED_PLANKS))
+                        .unlockedBy(getHasName(TCBlocks.TWISTED_PLANKS), has(TCBlocks.TWISTED_PLANKS))
+                        .save(output);;
+                buttonBuilder(TCBlocks.TWISTED_BUTTON,Ingredient.of(TCBlocks.TWISTED_PLANKS))
+                        .unlockedBy(getHasName(TCBlocks.TWISTED_PLANKS), has(TCBlocks.TWISTED_PLANKS))
+                        .save(output);
+                fenceBuilder(TCBlocks.TWISTED_FENCE,Ingredient.of(TCBlocks.TWISTED_PLANKS))
+                        .unlockedBy(getHasName(TCBlocks.TWISTED_PLANKS), has(TCBlocks.TWISTED_PLANKS))
+                        .save(output);
+                fenceGateBuilder(TCBlocks.TWISTED_FENCE_GATE,Ingredient.of(TCBlocks.TWISTED_PLANKS))
+                        .unlockedBy(getHasName(TCBlocks.TWISTED_PLANKS), has(TCBlocks.TWISTED_PLANKS))
+                        .save(output);
+                slabBuilder(RecipeCategory.BUILDING_BLOCKS, TCBlocks.TWISTED_SLAB,Ingredient.of(TCBlocks.TWISTED_PLANKS))
+                        .unlockedBy(getHasName(TCBlocks.TWISTED_PLANKS), has(TCBlocks.TWISTED_PLANKS))
+                        .save(output);;
+                stairBuilder(TCBlocks.TWISTED_STAIRS,Ingredient.of(TCBlocks.TWISTED_PLANKS))
+                        .unlockedBy(getHasName(TCBlocks.TWISTED_PLANKS), has(TCBlocks.TWISTED_PLANKS))
+                        .save(output);;
+                trapdoorBuilder(TCBlocks.TWISTED_TRAPDOOR,Ingredient.of(TCBlocks.TWISTED_PLANKS))
+                        .unlockedBy(getHasName(TCBlocks.TWISTED_PLANKS), has(TCBlocks.TWISTED_PLANKS))
+                        .save(output);;
+                pressurePlateBuilder(RecipeCategory.BUILDING_BLOCKS, TCBlocks.TWISTED_PRESSURE_PLATE,Ingredient.of(TCBlocks.TWISTED_PLANKS))
+                        .unlockedBy(getHasName(TCBlocks.TWISTED_PLANKS), has(TCBlocks.TWISTED_PLANKS))
+                        .save(output);
+                shaped(RecipeCategory.BUILDING_BLOCKS, TCBlocks.KARMIUM_RAILING,16)
+                        .define('c', Ingredient.of(TCItems.KARMIUM_INGOT))
+                        .define('g', Ingredient.of(TCItems.KARMIUM_NUGGET))
                         .pattern("gcg")
                         .pattern("gcg")
                         .pattern("gcg")
-                        .criterion(hasItem(TCItems.KARMIUM_INGOT), conditionsFromItem(TCItems.KARMIUM_NUGGET))
-                        .offerTo(exporter);
+                        .unlockedBy(getHasName(TCItems.KARMIUM_INGOT), has(TCItems.KARMIUM_NUGGET))
+                        .save(output);
 
-                createShapeless(RecipeCategory.MISC, TCItems.KARMIUM_NUGGET,9)
-                        .input(TCItems.KARMIUM_INGOT)
-                        .criterion(hasItem(TCItems.KARMIUM_INGOT), conditionsFromItem(TCItems.KARMIUM_INGOT))
-                        .offerTo(exporter);
+                shapeless(RecipeCategory.MISC, TCItems.KARMIUM_NUGGET,9)
+                        .requires(TCItems.KARMIUM_INGOT)
+                        .unlockedBy(getHasName(TCItems.KARMIUM_INGOT), has(TCItems.KARMIUM_INGOT))
+                        .save(output);
 
-                createShaped(RecipeCategory.MISC, TCBlocks.KARMIUM_BLOCK,1)
-                        .input('g', TCItems.KARMIUM_INGOT)
+                shaped(RecipeCategory.MISC, TCBlocks.KARMIUM_BLOCK,1)
+                        .define('g', TCItems.KARMIUM_INGOT)
                         .pattern("ggg")
                         .pattern("ggg")
                         .pattern("ggg")
-                        .criterion(hasItem(TCItems.KARMIUM_INGOT), conditionsFromItem(TCItems.KARMIUM_INGOT))
-                        .offerTo(exporter);
+                        .unlockedBy(getHasName(TCItems.KARMIUM_INGOT), has(TCItems.KARMIUM_INGOT))
+                        .save(output);
             }
         };
     }

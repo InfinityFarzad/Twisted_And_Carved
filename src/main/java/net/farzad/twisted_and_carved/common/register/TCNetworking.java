@@ -6,10 +6,10 @@ import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.farzad.twisted_and_carved.common.networking.GreataxeSoundLoopS2CPayload;
 import net.farzad.twisted_and_carved.common.networking.RiptideModificationPayload;
 import net.farzad.twisted_and_carved.common.networking.ScytheSoundLoopS2CPayload;
-import net.minecraft.network.packet.CustomPayload;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.world.World;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.level.Level;
 
 public class TCNetworking {
 
@@ -20,9 +20,9 @@ public class TCNetworking {
 
     }
 
-    public static void sendPacketToAllClients(World world, CustomPayload payload) {
-        if (!world.isClient() && world instanceof ServerWorld serverWorld) {
-            for (ServerPlayerEntity player : PlayerLookup.world(serverWorld)) {
+    public static void sendPacketToAllClients(Level world, CustomPacketPayload payload) {
+        if (!world.isClientSide() && world instanceof ServerLevel serverWorld) {
+            for (ServerPlayer player : PlayerLookup.world(serverWorld)) {
                 ServerPlayNetworking.send(player,payload);
             }
         }

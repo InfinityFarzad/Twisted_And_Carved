@@ -1,55 +1,58 @@
 package net.farzad.twisted_and_carved.client.particle;
 
-import net.minecraft.client.particle.*;
-import net.minecraft.client.world.ClientWorld;
-import net.minecraft.particle.SimpleParticleType;
-import net.minecraft.util.math.random.Random;
+import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.particle.Particle;
+import net.minecraft.client.particle.ParticleProvider;
+import net.minecraft.client.particle.SingleQuadParticle;
+import net.minecraft.client.particle.SpriteSet;
+import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.util.RandomSource;
 import org.jetbrains.annotations.Nullable;
 
-public class ParryParticle extends BillboardParticle {
+public class ParryParticle extends SingleQuadParticle {
 
-    public ParryParticle(ClientWorld clientWorld, double x, double y, double z,
-                         SpriteProvider spriteProvider, double xSpeed, double ySpeed, double zSpeed) {
-        super(clientWorld, x, y, z, xSpeed, ySpeed, zSpeed,spriteProvider.getFirst());
+    public ParryParticle(ClientLevel clientWorld, double x, double y, double z,
+                         SpriteSet spriteProvider, double xSpeed, double ySpeed, double zSpeed) {
+        super(clientWorld, x, y, z, xSpeed, ySpeed, zSpeed,spriteProvider.first());
 
-        this.velocityMultiplier = 0f;
-        this.scale = 0.25f;
-        this.maxAge = 10;
-        this.red = 1f;
-        this.green = 1f;
-        this.blue = 1f;
+        this.friction = 0f;
+        this.quadSize = 0.25f;
+        this.lifetime = 10;
+        this.rCol = 1f;
+        this.gCol = 1f;
+        this.bCol = 1f;
         this.alpha = 0.005f;
-        this.updateSprite(spriteProvider);
+        this.setSpriteFromAge(spriteProvider);
     }
 
     private void fadeOut() {
-        this.alpha = ((1 / (float) maxAge) * age + 1);
+        this.alpha = ((1 / (float) lifetime) * age + 1);
     }
 
     @Override
     public void tick() {
         fadeOut();
-        if (this.age++ >= this.maxAge) {
-            this.markDead();
+        if (this.age++ >= this.lifetime) {
+            this.remove();
         } else {
-            this.scale = this.scale + 0.05f;
+            this.quadSize = this.quadSize + 0.05f;
         }
     }
 
     @Override
-    protected RenderType getRenderType() {
-        return RenderType.PARTICLE_ATLAS_TRANSLUCENT;
+    protected Layer getLayer() {
+        return Layer.TRANSLUCENT;
     }
 
-    public static class Factory implements ParticleFactory<SimpleParticleType> {
-        private final SpriteProvider spriteProvider;
+    public static class Factory implements ParticleProvider<SimpleParticleType> {
+        private final SpriteSet spriteProvider;
 
-        public Factory(SpriteProvider spriteProvider) {
+        public Factory(SpriteSet spriteProvider) {
             this.spriteProvider = spriteProvider;
         }
 
         @Override
-        public @Nullable Particle createParticle(SimpleParticleType parameters, ClientWorld world, double x, double y, double z, double velocityX, double velocityY, double velocityZ, Random random) {
+        public @Nullable Particle createParticle(SimpleParticleType parameters, ClientLevel world, double x, double y, double z, double velocityX, double velocityY, double velocityZ, RandomSource random) {
             return new ParryParticle(world, x, y, z, this.spriteProvider, velocityX, velocityY, velocityZ);
         }
     }

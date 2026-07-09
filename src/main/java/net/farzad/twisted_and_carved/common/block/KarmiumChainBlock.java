@@ -1,14 +1,14 @@
 package net.farzad.twisted_and_carved.common.block;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.ChainBlock;
-import net.minecraft.block.ShapeContext;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.shape.VoxelShape;
-import net.minecraft.util.shape.VoxelShapes;
-import net.minecraft.world.BlockView;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.ChainBlock;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
 
 import java.util.Map;
 
@@ -16,16 +16,16 @@ public class KarmiumChainBlock extends ChainBlock {
 
     private static final Map<Direction.Axis, VoxelShape> SHAPES_BY_AXIS;
 
-    public KarmiumChainBlock(Settings settings) {
+    public KarmiumChainBlock(Properties settings) {
         super(settings);
     }
 
     @Override
-    protected VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
-        return SHAPES_BY_AXIS.get(state.get(AXIS));
+    protected VoxelShape getShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
+        return SHAPES_BY_AXIS.get(state.getValue(AXIS));
     }
 
     static {
-        SHAPES_BY_AXIS = VoxelShapes.createAxisShapeMap(Block.createCuboidShape((double)7.0F, (double)7.0F, (double)16.0F));
+        SHAPES_BY_AXIS = Shapes.rotateAllAxis(Block.cube((double)7.0F, (double)7.0F, (double)16.0F));
     }
 }

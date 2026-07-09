@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:random_selector",
+  "config": {
+    "default": "twisted_and_carved:large_twisted_tree",
+    "features": [
+      {
+        "chance": 0.30,
+        "feature": "twisted_and_carved:twisted_tree"
+      }
+    ]
+  }
+}

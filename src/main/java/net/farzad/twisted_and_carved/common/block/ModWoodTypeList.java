@@ -2,18 +2,18 @@ package net.farzad.twisted_and_carved.common.block;
 
 
 import net.farzad.twisted_and_carved.common.TwistedAndCarved;
-import net.minecraft.block.WoodType;
-import net.minecraft.sound.BlockSoundGroup;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.util.Identifier;
+import net.minecraft.resources.Identifier;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.state.properties.WoodType;
 
 public class ModWoodTypeList {
     public static final WoodType TWISTED = new WoodType(
-            Identifier.of(TwistedAndCarved.MOD_ID, "twisted").toString(),
+            Identifier.fromNamespaceAndPath(TwistedAndCarved.MOD_ID, "twisted").toString(),
             BlockSetTypeList.TWISTED,
-            BlockSoundGroup.WOOD,
-            BlockSoundGroup.HANGING_SIGN,
-            SoundEvents.BLOCK_FENCE_GATE_CLOSE,
-            SoundEvents.BLOCK_FENCE_GATE_OPEN
+            SoundType.WOOD,
+            SoundType.HANGING_SIGN,
+            SoundEvents.FENCE_GATE_CLOSE,
+            SoundEvents.FENCE_GATE_OPEN
     );
 }

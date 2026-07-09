@@ -2,68 +2,67 @@ package net.farzad.twisted_and_carved.client.particle;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.farzad.twisted_and_carved.client.TwistedAndCarvedClient;
-import net.farzad.twisted_and_carved.common.TwistedAndCarved;
-import net.minecraft.client.gl.RenderPipelines;
-import net.minecraft.client.particle.*;
-import net.minecraft.client.texture.Sprite;
-import net.minecraft.client.texture.SpriteAtlasTexture;
-import net.minecraft.client.world.ClientWorld;
-import net.minecraft.particle.SimpleParticleType;
-import net.minecraft.util.math.random.Random;
+import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.particle.Particle;
+import net.minecraft.client.particle.ParticleProvider;
+import net.minecraft.client.particle.SingleQuadParticle;
+import net.minecraft.client.particle.SpriteSet;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.util.RandomSource;
 import org.jspecify.annotations.Nullable;
 
-public class CoffinSmokeParticle extends BillboardParticle {
-    private final SpriteProvider spriteProvider;
+public class CoffinSmokeParticle extends SingleQuadParticle {
+    private final SpriteSet spriteProvider;
     private final int rotAngle;
 
-    public CoffinSmokeParticle(ClientWorld world, double x, double y, double z, SpriteProvider spriteProvider, Sprite sprite) {
+    public CoffinSmokeParticle(ClientLevel world, double x, double y, double z, SpriteSet spriteProvider, TextureAtlasSprite sprite) {
         super(world,x,y,z,sprite);
         this.spriteProvider = spriteProvider;
-        this.maxAge = 20 * 5;
+        this.lifetime = 20 * 5;
         this.scale(4F);
-        this.collidesWithWorld = true;
-        this.setBoundingBoxSpacing(0.05f,0.05f);
-        this.velocityMultiplier = 1;
+        this.hasPhysics = true;
+        this.setSize(0.05f,0.05f);
+        this.friction = 1;
         this.rotAngle = this.random.nextBoolean() ? 1 : -1;
-        this.gravityStrength = 0;
-        this.ascending = true;
-        this.velocityY = 0.05;
-        this.velocityZ = 0.08 * (this.random.nextBoolean() ? 1 : -1);
-        this.velocityX = 0.08 * (this.random.nextBoolean() ? 1 : -1);
+        this.gravity = 0;
+        this.speedUpWhenYMotionIsBlocked = true;
+        this.yd = 0.05;
+        this.zd = 0.08 * (this.random.nextBoolean() ? 1 : -1);
+        this.xd = 0.08 * (this.random.nextBoolean() ? 1 : -1);
     }
 
     public void tick() {
-        if (this.age++ >= this.maxAge || this.alpha <= 0) {
-            this.markDead();
+        if (this.age++ >= this.lifetime || this.alpha <= 0) {
+            this.remove();
         } else {
-            this.zRotation += (float) (0.4 + this.random.nextFloat() / 500) / this.age * rotAngle;
-            this.lastZRotation = this.zRotation;
+            this.roll += (float) (0.4 + this.random.nextFloat() / 500) / this.age * rotAngle;
+            this.oRoll = this.roll;
             this.alpha -= 0.15f;
-            this.updateSprite(spriteProvider);
+            this.setSpriteFromAge(spriteProvider);
         }
         super.tick();
     }
 
     @Override
-    protected RenderType getRenderType() {
-        return RenderType.PARTICLE_ATLAS_TRANSLUCENT;
+    protected Layer getLayer() {
+        return Layer.TRANSLUCENT;
     }
 
     @Environment(EnvType.CLIENT)
-    public static class CoffinSmokeParticleFactory implements ParticleFactory<SimpleParticleType> {
-        private final SpriteProvider spriteProvider;
+    public static class CoffinSmokeParticleFactory implements ParticleProvider<SimpleParticleType> {
+        private final SpriteSet spriteProvider;
 
-        public CoffinSmokeParticleFactory(SpriteProvider spriteProvider) {
+        public CoffinSmokeParticleFactory(SpriteSet spriteProvider) {
             this.spriteProvider = spriteProvider;
         }
 
 
         @Override
-        public @Nullable Particle createParticle(SimpleParticleType parameters, ClientWorld world, double x, double y, double z, double velocityX, double velocityY, double velocityZ, Random random) {
-            CoffinSmokeParticle smoke = new CoffinSmokeParticle(world, x, y, z, this.spriteProvider, spriteProvider.getFirst());
+        public @Nullable Particle createParticle(SimpleParticleType parameters, ClientLevel world, double x, double y, double z, double velocityX, double velocityY, double velocityZ, RandomSource random) {
+            CoffinSmokeParticle smoke = new CoffinSmokeParticle(world, x, y, z, this.spriteProvider, spriteProvider.first());
             smoke.setAlpha(0.9F);
-            smoke.setSprite(spriteProvider.getFirst());
+            smoke.setSprite(spriteProvider.first());
             return smoke;
         }
     }

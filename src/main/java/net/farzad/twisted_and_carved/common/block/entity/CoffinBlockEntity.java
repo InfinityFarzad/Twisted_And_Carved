@@ -1,32 +1,32 @@
 package net.farzad.twisted_and_carved.common.block.entity;
 
 import net.farzad.twisted_and_carved.common.register.TCBlockEntities;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.component.ComponentMap;
-import net.minecraft.component.ComponentsAccess;
-import net.minecraft.component.DataComponentTypes;
-import net.minecraft.component.type.ContainerComponent;
-import net.minecraft.inventory.LootableInventory;
-import net.minecraft.inventory.SingleStackInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.loot.LootTable;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.RegistryWrapper;
-import net.minecraft.storage.ReadView;
-import net.minecraft.storage.WriteView;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.component.DataComponentGetter;
+import net.minecraft.core.component.DataComponentMap;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.RandomizableContainer;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.ItemContainerContents;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
+import net.minecraft.world.level.storage.loot.LootTable;
+import net.minecraft.world.ticks.ContainerSingleItem;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class CoffinBlockEntity extends BlockEntity implements LootableInventory, SingleStackInventory.SingleStackBlockEntityInventory {
+public class CoffinBlockEntity extends BlockEntity implements RandomizableContainer, ContainerSingleItem.BlockContainerSingleItem {
 
     private ItemStack stack;
     @Nullable
-    protected RegistryKey<LootTable> lootTableId;
+    protected ResourceKey<LootTable> lootTableId;
     protected long lootTableSeed;
 
     public CoffinBlockEntity(BlockPos pos, BlockState state) {
@@ -34,48 +34,48 @@ public class CoffinBlockEntity extends BlockEntity implements LootableInventory,
         this.stack = ItemStack.EMPTY;
     }
 
-    protected void addComponents(ComponentMap.Builder builder) {
-        super.addComponents(builder);
-        builder.add(DataComponentTypes.CONTAINER, ContainerComponent.fromStacks(List.of(this.stack)));
+    protected void collectImplicitComponents(DataComponentMap.Builder builder) {
+        super.collectImplicitComponents(builder);
+        builder.set(DataComponents.CONTAINER, ItemContainerContents.fromItems(List.of(this.stack)));
     }
 
-    protected void readComponents(ComponentsAccess components) {
-        super.readComponents(components);
-        this.stack = ((ContainerComponent)components.getOrDefault(DataComponentTypes.CONTAINER, ContainerComponent.DEFAULT)).copyFirstStack();
+    protected void applyImplicitComponents(DataComponentGetter components) {
+        super.applyImplicitComponents(components);
+        this.stack = ((ItemContainerContents)components.getOrDefault(DataComponents.CONTAINER, ItemContainerContents.EMPTY)).copyOne();
     }
 
     @Override
-    protected void writeData(WriteView view) {
-        if (!this.writeLootTable(view) && !this.stack.isEmpty()) {
-            view.put("item", ItemStack.CODEC, this.stack);
+    protected void saveAdditional(ValueOutput view) {
+        if (!this.trySaveLootTable(view) && !this.stack.isEmpty()) {
+            view.store("item", ItemStack.CODEC, this.stack);
         }
-        super.writeData(view);
+        super.saveAdditional(view);
     }
 
     @Override
-    protected void readData(ReadView view) {
-        super.readData(view);
-        if (!this.readLootTable(view)) {
+    protected void loadAdditional(ValueInput view) {
+        super.loadAdditional(view);
+        if (!this.tryLoadLootTable(view)) {
             this.stack = view.read("storedCoffinItem", ItemStack.CODEC).orElse(ItemStack.EMPTY);
         } else {
             this.stack = ItemStack.EMPTY;
         }
     }
 
-    public BlockEntityUpdateS2CPacket toUpdatePacket() {
-        return BlockEntityUpdateS2CPacket.create(this);
+    public ClientboundBlockEntityDataPacket getUpdatePacket() {
+        return ClientboundBlockEntityDataPacket.create(this);
     }
 
-    public NbtCompound toInitialChunkDataNbt(RegistryWrapper.WrapperLookup registries) {
-        return this.createComponentlessNbt(registries);
+    public CompoundTag getUpdateTag(HolderLookup.Provider registries) {
+        return this.saveCustomOnly(registries);
     }
 
     @Override
-    public @Nullable RegistryKey<LootTable> getLootTable() {
+    public @Nullable ResourceKey<LootTable> getLootTable() {
         return this.lootTableId;
     }
 
-    public void setLootTable(@Nullable RegistryKey<LootTable> lootTable) {
+    public void setLootTable(@Nullable ResourceKey<LootTable> lootTable) {
         this.lootTableId = lootTable;
     }
 
@@ -88,19 +88,19 @@ public class CoffinBlockEntity extends BlockEntity implements LootableInventory,
     }
 
     @Override
-    public BlockEntity asBlockEntity() {
+    public BlockEntity getContainerBlockEntity() {
         return this;
     }
 
     @Override
-    public ItemStack getStack() {
-        this.generateLoot(null);
+    public ItemStack getTheItem() {
+        this.unpackLootTable(null);
         return this.stack;
     }
 
     @Override
-    public void setStack(ItemStack stack) {
-        this.generateLoot(null);
+    public void setTheItem(ItemStack stack) {
+        this.unpackLootTable(null);
         this.stack = stack;
     }
 }

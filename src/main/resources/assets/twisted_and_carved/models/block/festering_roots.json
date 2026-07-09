@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "bottom": "minecraft:block/dirt",
+    "side": "twisted_and_carved:block/festering_roots_side",
+    "top": "twisted_and_carved:block/festering_roots_top"
+  }
+}

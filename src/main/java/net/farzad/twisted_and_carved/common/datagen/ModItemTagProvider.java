@@ -5,18 +5,17 @@ import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
 import net.farzad.twisted_and_carved.common.register.TCBlocks;
 import net.farzad.twisted_and_carved.common.register.TCItems;
 import net.farzad.twisted_and_carved.common.register.TDTags;
-import net.minecraft.registry.RegistryWrapper;
-import net.minecraft.registry.tag.ItemTags;
-
+import net.minecraft.core.HolderLookup;
+import net.minecraft.tags.ItemTags;
 import java.util.concurrent.CompletableFuture;
 
 public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
-    public ModItemTagProvider(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> registriesFuture) {
+    public ModItemTagProvider(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
         super(output, registriesFuture);
     }
 
     @Override
-    protected void configure(RegistryWrapper.WrapperLookup wrapperLookup) {
+    protected void addTags(HolderLookup.Provider wrapperLookup) {
         valueLookupBuilder(ItemTags.AXES).add(TCItems.TWISTED_GREATAXE);
         valueLookupBuilder(ItemTags.HOES).add(TCItems.TWISTED_SCYTHE);
         valueLookupBuilder(TDTags.Items.TWISTED_TOOL_REPAIR_INGREDIENT).add(TCItems.KARMIUM_INGOT);
@@ -29,6 +28,8 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
                 .add(TCBlocks.STRIPPED_TWISTED_LOG.asItem())
                 .add(TCBlocks.STRIPPED_TWISTED_WOOD.asItem())
                 .add(TCBlocks.TWISTED_WOOD.asItem());
+
+        valueLookupBuilder(ItemTags.DIRT).add(TCBlocks.FESTERING_ROOTS.asItem());
 
         valueLookupBuilder(ItemTags.SAPLINGS)
                 .add(TCBlocks.TWISTED_SAPLING.asItem());

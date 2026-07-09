@@ -73,8 +73,7 @@
       "minecraft:spring_lava"
     ],
     [
-      "twisted_and_carved:twisted_tree_small",
-      "twisted_and_carved:twisted_tree_big",
+      "twisted_and_carved:trees_twisted_forest",
       "minecraft:patch_grass_forest",
       "minecraft:patch_grass_normal",
       "minecraft:patch_dead_bush",

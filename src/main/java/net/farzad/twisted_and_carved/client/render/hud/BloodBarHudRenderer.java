@@ -5,15 +5,14 @@ import net.farzad.twisted_and_carved.common.TwistedAndCarved;
 import net.farzad.twisted_and_carved.common.register.TCDataComponents;
 import net.farzad.twisted_and_carved.common.register.TCItems;
 import net.farzad.twisted_and_carved.common.util.TwistedWeaponUtil;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gl.RenderPipelines;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.render.RenderTickCounter;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.ColorHelper;
-import net.minecraft.util.math.MathHelper;
-
+import net.minecraft.client.DeltaTracker;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.renderer.RenderPipelines;
+import net.minecraft.util.ARGB;
+import net.minecraft.util.Mth;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import java.util.Objects;
 
 public class BloodBarHudRenderer implements HudElement {
@@ -25,11 +24,11 @@ public class BloodBarHudRenderer implements HudElement {
     private int y_offset = 0;
 
     public void tick() {
-        MinecraftClient client = MinecraftClient.getInstance();
+        Minecraft client = Minecraft.getInstance();
         if (client != null && client.player != null) {
-            currentVal = client.player.getMainHandStack().getOrDefault(TCDataComponents.BLOOD_CHARGE,0);
+            currentVal = client.player.getMainHandItem().getOrDefault(TCDataComponents.BLOOD_CHARGE,0);
 
-            if (!getStack(client.player).contains(TCDataComponents.BLOOD_CHARGE)) {
+            if (!getStack(client.player).has(TCDataComponents.BLOOD_CHARGE)) {
                 this.opacity = 3;
                 this.oldVal = 0;
                 this.currentVal = 0;
@@ -45,9 +44,9 @@ public class BloodBarHudRenderer implements HudElement {
             }
 
             if (currentVal >= 100) {
-                opacity = (int) (99 -(Math.sin(client.getRenderTickCounter().getTickProgress(true) * 4) * 5));
-                y_offset = MathHelper.nextBetween(client.player.getRandom(), -1,1);
-                x_offset = MathHelper.nextBetween(client.player.getRandom(), -1,1);
+                opacity = (int) (99 -(Math.sin(client.getDeltaTracker().getGameTimeDeltaPartialTick(true) * 4) * 5));
+                y_offset = Mth.randomBetweenInclusive(client.player.getRandom(), -1,1);
+                x_offset = Mth.randomBetweenInclusive(client.player.getRandom(), -1,1);
             } else {
                 x_offset = 0;
                 y_offset = 0;
@@ -56,34 +55,34 @@ public class BloodBarHudRenderer implements HudElement {
 
     }
 
-    private ItemStack getStack(PlayerEntity player) {
-        if (player.getOffHandStack().isOf(TCItems.TWISTED_FALCHION)) {
-            return player.getOffHandStack();
-        } else if (player.getMainHandStack().isOf(TCItems.TWISTED_FALCHION)) {
-            return player.getMainHandStack();
+    private ItemStack getStack(Player player) {
+        if (player.getOffhandItem().is(TCItems.TWISTED_FALCHION)) {
+            return player.getOffhandItem();
+        } else if (player.getMainHandItem().is(TCItems.TWISTED_FALCHION)) {
+            return player.getMainHandItem();
         } else {
-            return player.getMainHandStack();
+            return player.getMainHandItem();
         }
 
     }
 
     @Override
-    public void render(DrawContext context, RenderTickCounter tickCounter) {
-        MinecraftClient client = MinecraftClient.getInstance();
+    public void render(GuiGraphics context, DeltaTracker tickCounter) {
+        Minecraft client = Minecraft.getInstance();
 
         assert client.player != null;
         ItemStack stack = getStack(client.player);
 
-        if (stack.isOf(TCItems.TWISTED_FALCHION) && Objects.equals(TwistedWeaponUtil.getAbilityID(stack), "bleeding")) {
+        if (stack.is(TCItems.TWISTED_FALCHION) && Objects.equals(TwistedWeaponUtil.getAbilityID(stack), "bleeding")) {
             float s = stack.getOrDefault(TCDataComponents.BLOOD_CHARGE, 0) / 100F;
 
-            int xCord = client.getWindow().getScaledWidth() / 2 + 120;
-            int yCord = client.getWindow().getScaledHeight() - 28;
-            context.drawGuiTexture(RenderPipelines.GUI_TEXTURED, TwistedAndCarved.id("blood_bar/blood_bar"), xCord, yCord, 64, 32);
-            context.drawGuiTexture(RenderPipelines.GUI_TEXTURED, TwistedAndCarved.id("blood_bar/blood_bar_slice"), xCord + 39 - (int) (s * 26), yCord + 14, (int) (s * 26), 4);
-            context.drawGuiTexture(RenderPipelines.GUI_TEXTURED, TwistedAndCarved.id("blood_bar/blood_bar_overlay"), xCord, yCord, 64, 32);
+            int xCord = client.getWindow().getGuiScaledWidth() / 2 + 120;
+            int yCord = client.getWindow().getGuiScaledHeight() - 28;
+            context.blitSprite(RenderPipelines.GUI_TEXTURED, TwistedAndCarved.id("blood_bar/blood_bar"), xCord, yCord, 64, 32);
+            context.blitSprite(RenderPipelines.GUI_TEXTURED, TwistedAndCarved.id("blood_bar/blood_bar_slice"), xCord + 39 - (int) (s * 26), yCord + 14, (int) (s * 26), 4);
+            context.blitSprite(RenderPipelines.GUI_TEXTURED, TwistedAndCarved.id("blood_bar/blood_bar_overlay"), xCord, yCord, 64, 32);
 
-            context.drawText(client.textRenderer,"%" + stack.getOrDefault(TCDataComponents.BLOOD_CHARGE,0).toString(),client.getWindow().getScaledWidth() / 2 + 130 + x_offset, client.getWindow().getScaledHeight() - 16 + y_offset, ColorHelper.withAlpha(opacity* 255 / 20,16777215),true);
+            context.drawString(client.font,"%" + stack.getOrDefault(TCDataComponents.BLOOD_CHARGE,0).toString(),client.getWindow().getGuiScaledWidth() / 2 + 130 + x_offset, client.getWindow().getGuiScaledHeight() - 16 + y_offset, ARGB.color(opacity* 255 / 20,16777215),true);
         }
     }
 }
