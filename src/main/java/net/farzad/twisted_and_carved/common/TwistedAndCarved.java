@@ -50,14 +50,16 @@ public class TwistedAndCarved implements ModInitializer, TerraBlenderApi {
         TCBiomes.init();
         TCConfiguredFeatures.init();
 
-        ServerLivingEntityEvents.AFTER_DEATH.register((entity, damageSource) -> {
+        // will be used later on, do not delete
+
+/*        ServerLivingEntityEvents.AFTER_DEATH.register((entity, damageSource) -> {
             ItemStack weaponStack = damageSource.getWeaponItem();
             Entity attacker = damageSource.getEntity();
             Level world = entity.level();
             if (entity instanceof EnderMan && attacker instanceof Player && !weaponStack.isEmpty() && weaponStack.getItem() instanceof TwistedToolItem) {
                 Containers.dropItemStack(world,entity.getX(),entity.getY(),entity.getZ(),new ItemStack(TCItems.TWISTED_FALCHION));
             }
-        });
+        });*/
 
         FlattenableBlockRegistry.register(TCBlocks.FESTERING_ROOTS,Blocks.DIRT_PATH.defaultBlockState());
         TillableBlockRegistry.register(TCBlocks.FESTERING_ROOTS, HoeItem::onlyIfAirAbove, Blocks.FARMLAND.defaultBlockState().setValue(FarmlandBlock.MOISTURE,7));

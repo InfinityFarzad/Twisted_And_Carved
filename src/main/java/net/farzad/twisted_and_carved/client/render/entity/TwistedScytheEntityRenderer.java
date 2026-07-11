@@ -16,7 +16,7 @@ import net.minecraft.client.renderer.item.ItemModelResolver;
 import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Matrix4f;
@@ -43,17 +43,18 @@ public class TwistedScytheEntityRenderer extends EntityRenderer<TwistedScytheEnt
     public void submit(TwistedScytheEntityRenderstate renderState, PoseStack matrixStack, SubmitNodeCollector queue, CameraRenderState cameraState) {
         matrixStack.pushPose();
         matrixStack.scale(this.scale, this.scale, this.scale);
-        matrixStack.mulPose(Axis.YP.rotationDegrees(renderState.entity.getYRot(renderState.tickDelta)));
-        if (!renderState.entity.onGround()) {
+        matrixStack.mulPose(Axis.YP.rotationDegrees(renderState.yRot));
+        if (!renderState.grounded) {
             matrixStack.mulPose(new Quaternionf().rotateX((float) Math.toRadians(-renderState.scytheRot) * 15));
         }
         renderState.itemRenderState.submit(matrixStack, queue, renderState.lightCoords, OverlayTexture.NO_OVERLAY,renderState.outlineColor);
         matrixStack.popPose();
-        matrixStack.pushPose();
-        queue.submitCustomGeometry(matrixStack, RenderTypes.entityCutoutCull(TwistedAndCarved.id("textures/entity/scythe_chain.png")),(matricesEntry, vertexConsumer) -> renderChain(renderState,matricesEntry,vertexConsumer,renderState.lightCoords));
-        matrixStack.popPose();
 
+        matrixStack.pushPose();
+        queue.submitCustomGeometry(matrixStack, RenderTypes.entityCutout(TwistedAndCarved.id("textures/entity/scythe_chain.png")),(matricesEntry, vertexConsumer) -> renderChain(renderState,matricesEntry,vertexConsumer,renderState.lightCoords));
+        matrixStack.popPose();
         super.submit(renderState, matrixStack, queue, cameraState);
+
     }
 
     @Override
@@ -65,25 +66,31 @@ public class TwistedScytheEntityRenderer extends EntityRenderer<TwistedScytheEnt
     public void extractRenderState(TwistedScytheEntity entity, TwistedScytheEntityRenderstate state, float tickDelta) {
         itemModelManager.updateForNonLiving(state.itemRenderState, TCItems.TWISTED_SCYTHE.getDefaultInstance(), ItemDisplayContext.THIRD_PERSON_RIGHT_HAND, entity);
         state.scytheRot = entity.getRot();
-        state.entity = entity;
+        state.grounded = entity.onGround();
         state.stack = entity.getWeaponItem();
         state.tickDelta = tickDelta;
+        state.xRot = entity.getXRot();
+        state.yRot = entity.getYRot();
+
+        Entity owner = entity.getOwner();
+        state.ownerPos = owner.position();
+        state.ownerLiving = owner.isAlive();
+        state.ownerEyeHeight = owner.getEyeHeight(owner.getPose());
+
         super.extractRenderState(entity, state, tickDelta);
     }
 
-    public static void renderChain(TwistedScytheEntityRenderstate scytheEntityRenderstate, PoseStack.Pose stackEntry, VertexConsumer vertexConsumer, int i) {
-        TwistedScytheEntity scytheEntity = scytheEntityRenderstate.entity;
+    public static void renderChain(TwistedScytheEntityRenderstate state, PoseStack.Pose stackEntry, VertexConsumer vertexConsumer, int i) {
         PoseStack.Pose entry = stackEntry.copy();
         Matrix4f clientWorldPos = stackEntry.pose();
-        float r = 0.68f;
 
-        if (scytheEntity.getOwner() instanceof LivingEntity livingOwner && livingOwner.isAlive()) {
-            double dx = livingOwner.getX() - (scytheEntity.getX());
-            double dy = livingOwner.getY() - scytheEntity.getY() + (livingOwner.getEyeHeight(livingOwner.getPose()) - 0.5);
-            double dz = livingOwner.getZ() - (scytheEntity.getZ());
+        if (state.ownerLiving) {
+            double dx = state.ownerPos.x - (state.x);
+            double dy = state.ownerPos.y - state.y + (state.ownerEyeHeight - 0.5);
+            double dz = state.ownerPos.z - (state.z);
 
             float length = (float) Math.sqrt(dx * dx + dy * dy + dz * dz);
-            float v = length / r;
+            float v = length / 0.68f;
 
             Vec3 dir = new Vec3(dx, dy, dz).normalize();
             Vec3 renderFace = dir.cross(new Vec3(0, 1, 0)).normalize().scale(0.32);
@@ -101,7 +108,7 @@ public class TwistedScytheEntityRenderer extends EntityRenderer<TwistedScytheEnt
     }
 
     private static void vertex(VertexConsumer vertexConsumer,Matrix4f mat4, PoseStack.Pose entry ,float x, float y, float z, float u, float v, int i) {
-        vertexConsumer.addVertex(mat4, x, y, z).setUv(u, v).setLight(i).setColor(255, 255, 255, 255).setNormal(entry, 0, 1, 0).setOverlay(OverlayTexture.NO_OVERLAY);
+        vertexConsumer.addVertex(mat4, x, y, z).setUv(u, v).setColor(255, 255, 255, 255).setNormal(entry, 0, 1, 0).setOverlay(OverlayTexture.NO_OVERLAY).setLight(i);
     }
 
 }
