@@ -57,7 +57,7 @@ public class TwistedAndCarvedClient implements ClientModInitializer {
         EntityRendererRegistryImpl.register(TCEntities.LOST_MERCHANT_ENTITY, LostMerchentRenderer::new);
         EntityRendererRegistryImpl.register(TCEntities.TWISTED_GREATAXE_ENTITY, TwistedGreataxeEntityRenderer::new);
         EntityRendererRegistryImpl.register(TCEntities.TWISTED_SCYTHE_ENTITY, TwistedScytheEntityRenderer::new);
-        ConditionalItemModelProperties.ID_MAPPER.put(Identifier.fromNamespaceAndPath(TwistedAndCarved.MOD_ID,"twisted_scythe_grappling"),TwistedScytheGrapplingProperty.CODEC);
+        ConditionalItemModelProperties.ID_MAPPER.put(TwistedAndCarved.id("twisted_scythe_grappling"),TwistedScytheGrapplingProperty.CODEC);
 
         applyItemTooltips();
 

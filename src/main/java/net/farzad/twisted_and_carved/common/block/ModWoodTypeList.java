@@ -9,7 +9,7 @@ import net.minecraft.world.level.block.state.properties.WoodType;
 
 public class ModWoodTypeList {
     public static final WoodType TWISTED = new WoodType(
-            Identifier.fromNamespaceAndPath(TwistedAndCarved.MOD_ID, "twisted").toString(),
+            TwistedAndCarved.id("twisted").toString(),
             BlockSetTypeList.TWISTED,
             SoundType.WOOD,
             SoundType.HANGING_SIGN,

@@ -22,7 +22,6 @@ import net.minecraft.world.phys.Vec3;
 import org.joml.Matrix4f;
 import org.joml.Quaternionf;
 
-
 @Environment(EnvType.CLIENT)
 public class TwistedScytheEntityRenderer extends EntityRenderer<TwistedScytheEntity, TwistedScytheEntityRenderstate> {
     private final ItemModelResolver itemModelManager;
@@ -51,7 +50,7 @@ public class TwistedScytheEntityRenderer extends EntityRenderer<TwistedScytheEnt
         matrixStack.popPose();
 
         matrixStack.pushPose();
-        queue.submitCustomGeometry(matrixStack, RenderTypes.entityCutout(TwistedAndCarved.id("textures/entity/scythe_chain.png")),(matricesEntry, vertexConsumer) -> renderChain(renderState,matricesEntry,vertexConsumer,renderState.lightCoords));
+        queue.submitCustomGeometry(matrixStack, RenderTypes.entityCutoutCull(TwistedAndCarved.id("textures/entity/scythe_chain.png")),(matricesEntry, vertexConsumer) -> renderChain(renderState,matricesEntry,vertexConsumer,renderState.lightCoords));
         matrixStack.popPose();
         super.submit(renderState, matrixStack, queue, cameraState);
 
@@ -95,15 +94,15 @@ public class TwistedScytheEntityRenderer extends EntityRenderer<TwistedScytheEnt
             Vec3 dir = new Vec3(dx, dy, dz).normalize();
             Vec3 renderFace = dir.cross(new Vec3(0, 1, 0)).normalize().scale(0.32);
 
-            vertex(vertexConsumer,clientWorldPos,entry, (float) renderFace.x,0.0f, (float) renderFace.z,0,0,i);
-            vertex(vertexConsumer,clientWorldPos,entry, (float) -renderFace.x,0.0f, (float) -renderFace.z,1,0,i);
-            vertex(vertexConsumer,clientWorldPos,entry, (float) (dx - renderFace.x), (float)dy, (float) (dz - renderFace.z),1,v,i);
-            vertex(vertexConsumer,clientWorldPos,entry, (float) (dx + renderFace.x), (float)dy, (float) (dz + renderFace.z),0,v,i);
+            vertex(vertexConsumer, clientWorldPos, entry, (float) (dx + renderFace.x), (float) dy, (float) (dz + renderFace.z), 0, v, i);
+            vertex(vertexConsumer, clientWorldPos, entry, (float) (dx - renderFace.x), (float) dy, (float) (dz - renderFace.z), 1, v, i);
+            vertex(vertexConsumer, clientWorldPos, entry, (float) -renderFace.x,0.0f, (float) -renderFace.z, 1, 0, i);
+            vertex(vertexConsumer, clientWorldPos, entry, (float) renderFace.x,0.0f, (float) renderFace.z, 0, 0, i);
 
-            vertex(vertexConsumer,clientWorldPos,entry, (float) 0, (float) renderFace.y, (float) 0,0, 0,i);
-            vertex(vertexConsumer,clientWorldPos,entry, (float) 0, (float) -renderFace.y, (float) 0,1, 0,i);
-            vertex(vertexConsumer,clientWorldPos,entry, (float) 0, (float) (dy - renderFace.y), (float) 0,1, v,i);
-            vertex(vertexConsumer,clientWorldPos,entry, (float) 0, (float) (dy + renderFace.y), (float) 0,0, v,i);
+            vertex(vertexConsumer, clientWorldPos, entry, 0, (float) (dy + renderFace.y), 0, 0, v, i);
+            vertex(vertexConsumer, clientWorldPos, entry, 0, (float) (dy - renderFace.y), 0, 1, v, i);
+            vertex(vertexConsumer, clientWorldPos, entry, 0, (float) -renderFace.y, 0, 1, 0, i);
+            vertex(vertexConsumer, clientWorldPos, entry, 0, (float) renderFace.y, 0, 0, 0, i);
         }
     }
 
@@ -111,5 +110,8 @@ public class TwistedScytheEntityRenderer extends EntityRenderer<TwistedScytheEnt
         vertexConsumer.addVertex(mat4, x, y, z).setUv(u, v).setColor(255, 255, 255, 255).setNormal(entry, 0, 1, 0).setOverlay(OverlayTexture.NO_OVERLAY).setLight(i);
     }
 
+    @Override
+    protected boolean affectedByCulling(TwistedScytheEntity entity) {
+        return false;
+    }
 }
-

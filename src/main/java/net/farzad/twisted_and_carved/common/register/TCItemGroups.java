@@ -12,7 +12,7 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 
 public class TCItemGroups {
-    public static final ResourceKey<CreativeModeTab> TWISTED_AND_CARVED_ITEM_GROUP_KEY = ResourceKey.create(BuiltInRegistries.CREATIVE_MODE_TAB.key(), Identifier.fromNamespaceAndPath(TwistedAndCarved.MOD_ID, "twisted_and_carved"));
+    public static final ResourceKey<CreativeModeTab> TWISTED_AND_CARVED_ITEM_GROUP_KEY = ResourceKey.create(BuiltInRegistries.CREATIVE_MODE_TAB.key(), TwistedAndCarved.id("twisted_and_carved"));
     public static final CreativeModeTab TWISTED_AND_CARVED_ITEM_GROUP = FabricCreativeModeTab.builder()
             .backgroundTexture(TwistedAndCarved.id("textures/gui/container/tab_items.png"))
             .hideTitle()

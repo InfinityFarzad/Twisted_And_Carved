@@ -11,7 +11,7 @@ public class TCConfiguredFeatures {
 
 
     public static ResourceKey<ConfiguredFeature<?, ?>> registerKey(String name) {
-        return ResourceKey.create(Registries.CONFIGURED_FEATURE, Identifier.fromNamespaceAndPath(TwistedAndCarved.MOD_ID, name));
+        return ResourceKey.create(Registries.CONFIGURED_FEATURE, TwistedAndCarved.id(name));
     }
 
     public static void init() {}

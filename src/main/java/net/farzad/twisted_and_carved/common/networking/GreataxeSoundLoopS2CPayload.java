@@ -9,7 +9,7 @@ import net.minecraft.resources.Identifier;
 
 public record GreataxeSoundLoopS2CPayload(int entityID) implements CustomPacketPayload {
 
-    public static final Identifier GREATAXE_SOUND_LOOP_PAYLOAD_ID = Identifier.fromNamespaceAndPath(TwistedAndCarved.MOD_ID, "play_greataxe_sound");
+    public static final Identifier GREATAXE_SOUND_LOOP_PAYLOAD_ID = TwistedAndCarved.id("play_greataxe_sound");
     public static final Type<GreataxeSoundLoopS2CPayload> ID = new Type<>(GREATAXE_SOUND_LOOP_PAYLOAD_ID);
     public static final StreamCodec<RegistryFriendlyByteBuf, GreataxeSoundLoopS2CPayload> CODEC = StreamCodec.composite(ByteBufCodecs.INT, GreataxeSoundLoopS2CPayload::entityID, GreataxeSoundLoopS2CPayload::new);
 

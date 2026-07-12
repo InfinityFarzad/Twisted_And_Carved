@@ -5,9 +5,8 @@ import net.farzad.twisted_and_carved.common.component.TwistedSpiritComponent;
 import net.farzad.twisted_and_carved.common.register.TCDamageTypes;
 import net.farzad.twisted_and_carved.common.register.TCDataComponents;
 import net.farzad.twisted_and_carved.common.register.TCParticles;
-import net.farzad.twisted_and_carved.common.register.TDSounds;
+import net.farzad.twisted_and_carved.common.register.TCSounds;
 import net.farzad.twisted_and_carved.common.util.TwistedWeaponUtil;
-import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -35,7 +34,7 @@ public class TwistedGlaiveItem extends TwistedToolItem {
         return ItemAttributeModifiers.builder()
                 .add(Attributes.ATTACK_DAMAGE, new AttributeModifier(Item.BASE_ATTACK_DAMAGE_ID, attackDamage, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND)
                 .add(Attributes.ATTACK_SPEED, new AttributeModifier(Item.BASE_ATTACK_SPEED_ID, attackSpeed, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND)
-                .add(Attributes.ENTITY_INTERACTION_RANGE, new AttributeModifier(Identifier.fromNamespaceAndPath(TwistedAndCarved.MOD_ID, "base_attack_range"), attackRange, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND)
+                .add(Attributes.ENTITY_INTERACTION_RANGE, new AttributeModifier(TwistedAndCarved.id("base_attack_range"), attackRange, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND)
                 .build();
     }
 
@@ -57,7 +56,7 @@ public class TwistedGlaiveItem extends TwistedToolItem {
                     }
                 }
                 serverWorld.sendParticles(TCParticles.TWISTED_GLAIVE_SWEEP, user.getX(), user.getY() + 1.0, user.getZ(), 1, 0, 0, 0, 1);
-                serverWorld.playSound(null, user.getX(), user.getY(), user.getZ(), TDSounds.TWISTED_GLAIVE_SWEEP, user.getSoundSource(), 8.0F, 1.0F);
+                serverWorld.playSound(null, user.getX(), user.getY(), user.getZ(), TCSounds.TWISTED_GLAIVE_SWEEP, user.getSoundSource(), 8.0F, 1.0F);
 
             }
             user.swing(hand);

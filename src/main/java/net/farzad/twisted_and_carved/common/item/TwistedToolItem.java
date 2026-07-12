@@ -4,7 +4,7 @@ import net.akws.chiseled_lib.common.interfaces.item.CustomAttackItem;
 import net.akws.chiseled_lib.common.interfaces.item.CustomEffectsItem;
 import net.farzad.twisted_and_carved.common.register.TCDataComponents;
 import net.farzad.twisted_and_carved.common.register.TCParticles;
-import net.farzad.twisted_and_carved.common.register.TDTags;
+import net.farzad.twisted_and_carved.common.register.TCTags;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.Entity;
@@ -87,7 +87,7 @@ public class TwistedToolItem extends Item implements CustomEffectsItem, CustomAt
     }
 
     public static boolean hasAura(ItemStack stack) {
-        return stack.is(TDTags.Items.TWISTED_SPIRIT);
+        return stack.is(TCTags.Items.TWISTED_SPIRIT);
     }
 
     @Override

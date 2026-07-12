@@ -72,16 +72,13 @@ public class TwistedGreataxeItem extends TwistedToolItem {
         user.setDeltaMovement(dashDir.x * 4.8, dashDir.y * 1.5, dashDir.z * 4.8);
         user.needsSync = true;
         user.startAutoSpinAttack(20 , 5, stack);
-        if (user.level() instanceof ServerLevel serverWorld) {
-            TCNetworking.sendPacketToAllClients(serverWorld,new RiptideModificationPayload(user.getId(),stack));
-        }
     }
 
     public static ItemAttributeModifiers createAttributeModifiers(float attackDamage, float attackSpeed, double attackRange) {
         return ItemAttributeModifiers.builder()
                 .add(Attributes.ATTACK_DAMAGE, new AttributeModifier(Item.BASE_ATTACK_DAMAGE_ID, (attackDamage), AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND)
                 .add(Attributes.ATTACK_SPEED, new AttributeModifier(Item.BASE_ATTACK_SPEED_ID, attackSpeed, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND)
-                .add(Attributes.ENTITY_INTERACTION_RANGE, new AttributeModifier(Identifier.fromNamespaceAndPath(TwistedAndCarved.MOD_ID, "base_attack_range"), attackRange, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND)
+                .add(Attributes.ENTITY_INTERACTION_RANGE, new AttributeModifier(TwistedAndCarved.id("base_attack_range"), attackRange, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND)
                 .build();
     }
 

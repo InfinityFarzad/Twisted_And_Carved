@@ -5,7 +5,7 @@ import net.farzad.twisted_and_carved.common.TwistedAndCarved;
 import net.farzad.twisted_and_carved.common.component.TwistedSpiritComponent;
 import net.farzad.twisted_and_carved.common.register.TCDamageTypes;
 import net.farzad.twisted_and_carved.common.register.TCDataComponents;
-import net.farzad.twisted_and_carved.common.register.TDSounds;
+import net.farzad.twisted_and_carved.common.register.TCSounds;
 import net.farzad.twisted_and_carved.common.util.TwistedWeaponUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
@@ -13,7 +13,6 @@ import net.minecraft.core.HolderGetter;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.BlockTags;
@@ -56,7 +55,7 @@ public class TwistedFalchionItem extends TwistedToolItem {
         return ItemAttributeModifiers.builder()
                 .add(Attributes.ATTACK_DAMAGE, new AttributeModifier(Item.BASE_ATTACK_DAMAGE_ID, (attackDamage), AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND)
                 .add(Attributes.ATTACK_SPEED, new AttributeModifier(Item.BASE_ATTACK_SPEED_ID, attackSpeed, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND)
-                .add(Attributes.ENTITY_INTERACTION_RANGE, new AttributeModifier(Identifier.fromNamespaceAndPath(TwistedAndCarved.MOD_ID, "base_attack_range"), attackRange, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND)
+                .add(Attributes.ENTITY_INTERACTION_RANGE, new AttributeModifier(TwistedAndCarved.id("base_attack_range"), attackRange, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND)
                 .build();
     }
 
@@ -102,7 +101,7 @@ public class TwistedFalchionItem extends TwistedToolItem {
                     serverWorld.sendParticles(new FalchionSlashEffect(user.getYRot()), user.getX(), user.getY() + 0.5, user.getZ(), 1, 0, 0, 0, 1);
                     serverWorld.playSound(null, user.getX(), user.getY(), user.getZ(), SoundEvents.MUD_HIT, user.getSoundSource(), 2.0F, Mth.randomBetween(user.getRandom(), 3.8f, 3.5f));
                     serverWorld.playSound(null, user.getX(), user.getY(), user.getZ(), SoundEvents.PLAYER_ATTACK_SWEEP, user.getSoundSource(), 2.0F, Mth.randomBetween(user.getRandom(), 0.5f, 0.7f));
-                    serverWorld.playSound(null, user.getX(), user.getY(), user.getZ(), TDSounds.SCYTHE_SWEEP_0, user.getSoundSource(), 1.0F, Mth.randomBetween(user.getRandom(), 0.7f, 1f));
+                    serverWorld.playSound(null, user.getX(), user.getY(), user.getZ(), TCSounds.SCYTHE_SWEEP_0, user.getSoundSource(), 1.0F, Mth.randomBetween(user.getRandom(), 0.7f, 1f));
                 }
                 applySlashDamage(world, user);
                 user.swing(hand);

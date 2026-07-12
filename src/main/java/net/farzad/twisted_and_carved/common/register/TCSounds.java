@@ -6,7 +6,7 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.sounds.SoundEvent;
 
-public class TDSounds {
+public class TCSounds {
 
     public static final SoundEvent SCYTHE_SWEEP_0 = registerSound("scythe_sweep_0");
     public static final SoundEvent SCYTHE_SWEEP_1 = registerSound("scythe_sweep_1");
@@ -17,7 +17,7 @@ public class TDSounds {
     public static final SoundEvent SCYTHE_FLYING_SOUND = registerSound("scythe_flying_sound");
 
     private static SoundEvent registerSound(String id) {
-        Identifier identifier = Identifier.fromNamespaceAndPath(TwistedAndCarved.MOD_ID, id);
+        Identifier identifier = TwistedAndCarved.id(id);
         return Registry.register(BuiltInRegistries.SOUND_EVENT, identifier, SoundEvent.createVariableRangeEvent(identifier));
     }
 

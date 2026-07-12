@@ -3,7 +3,8 @@ package net.farzad.twisted_and_carved.mixin.spirit_effects.stride;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.farzad.twisted_and_carved.common.TwistedAndCarved;
 import net.farzad.twisted_and_carved.common.register.TCItems;
-import net.farzad.twisted_and_carved.common.util.interfaces.TwistedRiptideRenderState;
+import net.farzad.twisted_and_carved.common.register.TCTags;
+import net.farzad.twisted_and_carved.common.util.interfaces.StrideRenderStateAddon;
 import net.minecraft.client.model.effects.SpinAttackEffectModel;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.layers.SpinAttackEffectLayer;
@@ -24,19 +25,25 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class TwistedRiptideRendererMixin {
 
     @Unique
-    Identifier TEXTURE2 = Identifier.fromNamespaceAndPath(TwistedAndCarved.MOD_ID, "textures/entity/twisted_riptide.png");
+    private static Identifier twisted_and_carved$STRIDE_DASH_TEXTURE = TwistedAndCarved.id("textures/entity/twisted_riptide.png");
 
     @Shadow
     @Final
     private SpinAttackEffectModel model;
 
-    @Inject(method = "submit(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector;ILnet/minecraft/client/renderer/entity/state/AvatarRenderState;FF)V", at = @At("TAIL"))
-    private void twisted_and_carved$causeTwistedRiptide(PoseStack matrixStack, SubmitNodeCollector orderedRenderCommandQueue, int i, AvatarRenderState playerEntityRenderState, float f, float g, CallbackInfo ci) throws NoSuchFieldException {
-        ItemStack stack = ((TwistedRiptideRenderState)playerEntityRenderState).twistedAndCarved$getRiptideStack();
-        boolean shouldIUseThisCustomRiptide = stack != null && stack.is(TCItems.TWISTED_GREATAXE);
-        if (playerEntityRenderState.isAutoSpinAttack && shouldIUseThisCustomRiptide) {
-            this.model.setupAnim(playerEntityRenderState);
-            orderedRenderCommandQueue.submitModel(this.model, playerEntityRenderState, matrixStack, this.model.renderType(TEXTURE2), i, OverlayTexture.NO_OVERLAY, playerEntityRenderState.outlineColor, (ModelFeatureRenderer.CrumblingOverlay)null);
+    @Inject(method = "submit(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector;ILnet/minecraft/client/renderer/entity/state/AvatarRenderState;FF)V", at = @At("HEAD"), cancellable = true)
+    private void twisted_and_carved$causeTwistedRiptide(PoseStack poseStack, SubmitNodeCollector queue, int i, AvatarRenderState state, float f, float g, CallbackInfo ci) {
+        ItemStack stack;
+
+        if (state instanceof StrideRenderStateAddon renderStateAddon) {
+            stack = renderStateAddon.twistedAndCarved$getRiptideStack();
+            boolean strideDash = stack.is(TCTags.Items.TWISTED_TOOL);
+
+            if (state.isAutoSpinAttack && strideDash) {
+                this.model.setupAnim(state);
+                queue.submitModel(this.model, state, poseStack, twisted_and_carved$STRIDE_DASH_TEXTURE, i, OverlayTexture.NO_OVERLAY, state.outlineColor, null);
+                ci.cancel();
+            }
         }
     }
 

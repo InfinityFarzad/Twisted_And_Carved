@@ -1,24 +1,16 @@
 package net.farzad.twisted_and_carved.common;
 
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents;
 import net.fabricmc.fabric.api.registry.FlattenableBlockRegistry;
 import net.fabricmc.fabric.api.registry.StrippableBlockRegistry;
 import net.fabricmc.fabric.api.registry.TillableBlockRegistry;
-import net.farzad.twisted_and_carved.common.item.TwistedToolItem;
 import net.farzad.twisted_and_carved.common.register.*;
 import net.farzad.twisted_and_carved.common.util.TwistedToolPiecePlacer;
 import net.farzad.twisted_and_carved.common.world.TCBiomes;
 import net.farzad.twisted_and_carved.common.world.TCSurfaceRules;
 import net.farzad.twisted_and_carved.common.world.TwistedForestRegions;
 import net.minecraft.resources.Identifier;
-import net.minecraft.world.Containers;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.monster.EnderMan;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.HoeItem;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.FarmlandBlock;
 import org.slf4j.Logger;
@@ -42,7 +34,7 @@ public class TwistedAndCarved implements ModInitializer, TerraBlenderApi {
         TCBlocks.init();
         TCParticles.init();
         TCItemGroups.init();
-        TDSounds.init();
+        TCSounds.init();
         TCEntities.init();
         TCNetworking.init();
         TCBlockEntities.init();

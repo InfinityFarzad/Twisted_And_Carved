@@ -8,7 +8,9 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
@@ -27,34 +29,43 @@ public abstract class LivingEntityMixin implements TwistedRiptideSetterInterface
     @Nullable
     protected ItemStack autoSpinAttackItemStack;
 
-    @Shadow
-    @Final
-    private static Logger LOGGER;
     @Unique
     private int timerForDash = 1;
 
     @Override
     public void twistedAndCarved$setRiptideStack(ItemStack stack) {
-        autoSpinAttackItemStack = stack;
+        this.autoSpinAttackItemStack = stack;
     }
 
     @Inject(method = "tick", at = @At("HEAD"))
     private void twisted_and_carved$updateStrideStack(CallbackInfo ci) {
         LivingEntity entity = (LivingEntity) (Object) this;
+        Level level = entity.level();
+
         if (entity instanceof Player playerEntity && autoSpinAttackItemStack != null) {
-            if (autoSpinAttackItemStack.is(TCItems.TWISTED_GREATAXE) && playerEntity.isAutoSpinAttack() && playerEntity.level() instanceof  ServerLevel world) {
-                world.sendParticles(TCParticles.TWISTED_LEAF_PARTICLE,playerEntity.getX(),playerEntity.getY(),playerEntity.getZ(),5, Mth.randomBetweenInclusive(world.getRandom(),-2,2),Mth.randomBetweenInclusive(world.getRandom(),-2,2),Mth.randomBetweenInclusive(world.getRandom(),-2,2),Mth.randomBetweenInclusive(world.getRandom(),1,2));
+            if (autoSpinAttackItemStack.is(TCItems.TWISTED_GREATAXE) && playerEntity.isAutoSpinAttack()) {
+                double ox = Mth.randomBetweenInclusive(level.getRandom(),-2,2);
+                double oy = Mth.randomBetweenInclusive(level.getRandom(),-2,2);
+                double oz = Mth.randomBetweenInclusive(level.getRandom(),-2,2);
+
                 if (timerForDash <= 0) {
-                    timerForDash =1;
+                    timerForDash = 1;
                     Vec3 vel = playerEntity.getDeltaMovement();
                     float dpi = (float) (Math.atan2(vel.y,Math.sqrt(vel.x * vel.x + vel.z * vel.z)));
                     float dya = (float) Math.atan2(vel.x,vel.z);
-
-                    world.sendParticles(new DashEffect(dya, dpi), playerEntity.getX(), playerEntity.getY() + 0.5, playerEntity.getZ(),1,0,0,0,0);
+                    level.addParticle(new DashEffect(dya, dpi), playerEntity.getX(), playerEntity.getY() + 0.5, playerEntity.getZ(),0,0,0);
                 } else {
                     timerForDash--;
                 }
 
+                level.addParticle(TCParticles.TWISTED_LEAF_PARTICLE
+                        ,playerEntity.getX() - ox
+                        ,playerEntity.getY() - oy
+                        ,playerEntity.getZ() - oz,
+                        ox,
+                        oy,
+                        oz
+                );
             }
         }
     }

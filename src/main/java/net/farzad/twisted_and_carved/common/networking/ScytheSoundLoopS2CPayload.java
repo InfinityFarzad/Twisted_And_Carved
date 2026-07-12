@@ -9,7 +9,7 @@ import net.minecraft.resources.Identifier;
 
 public record ScytheSoundLoopS2CPayload(int entityID) implements CustomPacketPayload {
 
-    public static final Identifier SCYTHE_SOUND_LOOP_PAYLOAD_ID = Identifier.fromNamespaceAndPath(TwistedAndCarved.MOD_ID, "play_scythe_sound");
+    public static final Identifier SCYTHE_SOUND_LOOP_PAYLOAD_ID = TwistedAndCarved.id("play_scythe_sound");
     public static final Type<ScytheSoundLoopS2CPayload> ID = new Type<>(SCYTHE_SOUND_LOOP_PAYLOAD_ID);
     public static final StreamCodec<RegistryFriendlyByteBuf, ScytheSoundLoopS2CPayload> CODEC = StreamCodec.composite(ByteBufCodecs.INT, ScytheSoundLoopS2CPayload::entityID, ScytheSoundLoopS2CPayload::new);
 

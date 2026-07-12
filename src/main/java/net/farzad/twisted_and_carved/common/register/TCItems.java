@@ -142,7 +142,7 @@ public class TCItems {
 
     public static Item register(String name, Function<Item.Properties, Item> itemFactory, Item.Properties settings) {
 
-        ResourceKey<Item> itemKey = ResourceKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(TwistedAndCarved.MOD_ID, name));
+        ResourceKey<Item> itemKey = ResourceKey.create(Registries.ITEM, TwistedAndCarved.id(name));
         Item item = itemFactory.apply(settings.setId(itemKey));
         Registry.register(BuiltInRegistries.ITEM, itemKey, item);
 

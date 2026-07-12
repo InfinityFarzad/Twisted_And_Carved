@@ -1,6 +1,7 @@
 package net.farzad.twisted_and_carved.mixin.spirit_effects.stride;
 
-import net.farzad.twisted_and_carved.common.util.interfaces.TwistedRiptideRenderState;
+import net.akws.chiseled_lib.common.util.EnchantmentUtil;
+import net.farzad.twisted_and_carved.common.util.interfaces.StrideRenderStateAddon;
 import net.minecraft.client.entity.ClientAvatarEntity;
 import net.minecraft.client.renderer.entity.player.AvatarRenderer;
 import net.minecraft.client.renderer.entity.state.AvatarRenderState;
@@ -16,8 +17,10 @@ public class PlayerEntityRendererMixin <AvatarlikeEntity extends Avatar & Client
 
     @Inject(method = "extractRenderState(Lnet/minecraft/world/entity/Avatar;Lnet/minecraft/client/renderer/entity/state/AvatarRenderState;F)V", at = @At("TAIL"))
     private void twisted_and_carved$updatePlayerRiptideState(AvatarlikeEntity playerLikeEntity, AvatarRenderState playerEntityRenderState, float f, CallbackInfo ci) {
-        if (playerLikeEntity instanceof Player) {
-            ((TwistedRiptideRenderState) playerEntityRenderState).twistedAndCarved$setRiptideStack(((RiptideStackAccesor)playerLikeEntity).riptideStack());
+        if (playerEntityRenderState instanceof StrideRenderStateAddon renderStateAddon) {
+            if (playerLikeEntity instanceof Player player) {
+                renderStateAddon.twistedAndCarved$setRiptideStack(EnchantmentUtil.getRiptideStack(player));
+            }
         }
     }
 

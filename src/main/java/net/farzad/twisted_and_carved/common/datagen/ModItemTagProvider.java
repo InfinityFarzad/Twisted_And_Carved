@@ -4,7 +4,7 @@ import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagsProvider;
 import net.farzad.twisted_and_carved.common.register.TCBlocks;
 import net.farzad.twisted_and_carved.common.register.TCItems;
-import net.farzad.twisted_and_carved.common.register.TDTags;
+import net.farzad.twisted_and_carved.common.register.TCTags;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.tags.ItemTags;
 import java.util.concurrent.CompletableFuture;
@@ -18,11 +18,11 @@ public class ModItemTagProvider extends FabricTagsProvider.ItemTagsProvider {
     protected void addTags(HolderLookup.Provider wrapperLookup) {
         valueLookupBuilder(ItemTags.AXES).add(TCItems.TWISTED_GREATAXE);
         valueLookupBuilder(ItemTags.HOES).add(TCItems.TWISTED_SCYTHE);
-        valueLookupBuilder(TDTags.Items.TWISTED_TOOL_REPAIR_INGREDIENT).add(TCItems.KARMIUM_INGOT);
+        valueLookupBuilder(TCTags.Items.TWISTED_TOOL_REPAIR_INGREDIENT).add(TCItems.KARMIUM_INGOT);
         valueLookupBuilder(ItemTags.SHARP_WEAPON_ENCHANTABLE).add(TCItems.TWISTED_FALCHION).add(TCItems.TWISTED_GLAIVE);
         valueLookupBuilder(ItemTags.HOES).add(TCItems.TWISTED_SCYTHE);
         valueLookupBuilder(ItemTags.PLANKS).add(TCBlocks.TWISTED_PLANKS.asItem());
-        valueLookupBuilder(ItemTags.SHARP_WEAPON_ENCHANTABLE).addOptionalTag(TDTags.Items.TWISTED_TOOL);
+        valueLookupBuilder(ItemTags.SHARP_WEAPON_ENCHANTABLE).addOptionalTag(TCTags.Items.TWISTED_TOOL);
         valueLookupBuilder(ItemTags.LOGS_THAT_BURN)
                 .add(TCBlocks.TWISTED_LOG.asItem())
                 .add(TCBlocks.STRIPPED_TWISTED_LOG.asItem())
@@ -35,7 +35,7 @@ public class ModItemTagProvider extends FabricTagsProvider.ItemTagsProvider {
                 .add(TCBlocks.TWISTED_SAPLING.asItem());
 
         valueLookupBuilder(ItemTags.LEAVES).add(TCBlocks.TWISTED_LEAVES.asItem());
-        valueLookupBuilder(TDTags.Items.KARMIUM)
+        valueLookupBuilder(TCTags.Items.KARMIUM)
                 .add(TCItems.KARMIUM_INGOT)
                 .add(TCItems.RAW_KARMIUM)
                 .add(TCItems.KARMIUM_BLOCK);
@@ -48,11 +48,11 @@ public class ModItemTagProvider extends FabricTagsProvider.ItemTagsProvider {
         valueLookupBuilder(ItemTags.WOODEN_DOORS).add(TCBlocks.TWISTED_DOOR.asItem());
         valueLookupBuilder(ItemTags.FENCE_GATES).add(TCBlocks.TWISTED_FENCE_GATE.asItem());
         valueLookupBuilder(ItemTags.WOODEN_FENCES).add(TCBlocks.TWISTED_FENCE.asItem());
-        valueLookupBuilder(TDTags.Items.TWISTED_SPIRIT).add(TCItems.BLEEDING_SPIRIT);
-        valueLookupBuilder(TDTags.Items.TWISTED_SPIRIT).add(TCItems.HARVEST_SPIRIT);
-        valueLookupBuilder(TDTags.Items.TWISTED_SPIRIT).add(TCItems.GRAPPLING_SPIRIT);
-        valueLookupBuilder(TDTags.Items.TWISTED_SPIRIT).add(TCItems.STRIDE_SPIRIT);
-        valueLookupBuilder(TDTags.Items.TWISTED_SPIRIT).add(TCItems.SWEEPING_SPIRIT);
-        valueLookupBuilder(TDTags.Items.TWISTED_SPIRIT).add(TCItems.TOMAHAWK_SPIRIT);
+        valueLookupBuilder(TCTags.Items.TWISTED_SPIRIT).add(TCItems.BLEEDING_SPIRIT);
+        valueLookupBuilder(TCTags.Items.TWISTED_SPIRIT).add(TCItems.HARVEST_SPIRIT);
+        valueLookupBuilder(TCTags.Items.TWISTED_SPIRIT).add(TCItems.GRAPPLING_SPIRIT);
+        valueLookupBuilder(TCTags.Items.TWISTED_SPIRIT).add(TCItems.STRIDE_SPIRIT);
+        valueLookupBuilder(TCTags.Items.TWISTED_SPIRIT).add(TCItems.SWEEPING_SPIRIT);
+        valueLookupBuilder(TCTags.Items.TWISTED_SPIRIT).add(TCItems.TOMAHAWK_SPIRIT);
     }
 }

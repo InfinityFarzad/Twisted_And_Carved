@@ -14,31 +14,31 @@ public class TCDataComponents {
 
     public static final DataComponentType<Integer> STRIDE_CHARGE = Registry.register(
             BuiltInRegistries.DATA_COMPONENT_TYPE,
-            Identifier.fromNamespaceAndPath(TwistedAndCarved.MOD_ID, "stride_charge"),
+            TwistedAndCarved.id("stride_charge"),
             DataComponentType.<Integer>builder().persistent(Codec.INT).networkSynchronized(ByteBufCodecs.INT).build()
     );
 
     public static final DataComponentType<Integer> BLOOD_CHARGE = Registry.register(
             BuiltInRegistries.DATA_COMPONENT_TYPE,
-            Identifier.fromNamespaceAndPath(TwistedAndCarved.MOD_ID, "blood_charge"),
+            TwistedAndCarved.id("blood_charge"),
             DataComponentType.<Integer>builder().persistent(Codec.INT).networkSynchronized(ByteBufCodecs.INT).build()
     );
 
     public static final DataComponentType<Boolean> TWISTED_SCYTHE_GRAPPLING = Registry.register(
             BuiltInRegistries.DATA_COMPONENT_TYPE,
-            Identifier.fromNamespaceAndPath(TwistedAndCarved.MOD_ID,"twisted_scythe_grappling"),
+            TwistedAndCarved.id("twisted_scythe_grappling"),
             DataComponentType.<Boolean>builder().persistent(Codec.BOOL).networkSynchronized(ByteBufCodecs.BOOL).build()
     );
 
     public static final DataComponentType<TwistedSpiritComponent> TWISTED_SPIRIT_DATA  = Registry.register(
             BuiltInRegistries.DATA_COMPONENT_TYPE,
-            Identifier.fromNamespaceAndPath(TwistedAndCarved.MOD_ID,"twisted_spirit_data"),
+            TwistedAndCarved.id("twisted_spirit_data"),
             DataComponentType.<TwistedSpiritComponent>builder().persistent(TwistedSpiritComponent.CODEC).networkSynchronized(TwistedSpiritComponent.PACKET_CODEC).build()
     );
 
     public static final DataComponentType<ItemStack> TWISTED_SPIRIT = Registry.register(
             BuiltInRegistries.DATA_COMPONENT_TYPE,
-            Identifier.fromNamespaceAndPath(TwistedAndCarved.MOD_ID,"twisted_spirit"),
+            TwistedAndCarved.id("twisted_spirit"),
             DataComponentType.<ItemStack>builder().persistent(ItemStack.CODEC).networkSynchronized(ItemStack.STREAM_CODEC).build()
     );
 

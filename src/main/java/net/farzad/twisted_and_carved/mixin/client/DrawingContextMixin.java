@@ -3,7 +3,7 @@ package net.farzad.twisted_and_carved.mixin.client;
 import net.farzad.twisted_and_carved.common.item.TwistedToolItem;
 import net.farzad.twisted_and_carved.common.register.TCDataComponents;
 import net.farzad.twisted_and_carved.common.register.TCItems;
-import net.farzad.twisted_and_carved.common.register.TDTags;
+import net.farzad.twisted_and_carved.common.register.TCTags;
 import net.farzad.twisted_and_carved.common.util.interfaces.TwistedGlintInterface;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
@@ -46,15 +46,15 @@ public class DrawingContextMixin implements TwistedGlintInterface {
     public void twistedAndCarved$drawItemGlint(ItemStack item, int x, int y) {
         if (!item.isEmpty()) {
             GuiGraphicsExtractor drawContext = (GuiGraphicsExtractor) (Object) this;
-            if (item.is(TDTags.Items.TWISTED_SPIRIT)) {
+            if (item.is(TCTags.Items.TWISTED_SPIRIT)) {
                 drawContext.fillGradient(x,y,x + 16,y + 8,ARGB.color(2,16770653),ARGB.color(45,12811848));
                 drawContext.fillGradient(x,y + 8,x +16, y + 16,ARGB.color(45,12811848),  ARGB.color(2,16770653));
             }
-            if (item.is(TDTags.Items.TWISTED_TOOL) && TwistedToolItem.hasAura(item.getOrDefault(TCDataComponents.TWISTED_SPIRIT, ItemStack.EMPTY))) {
+            if (item.is(TCTags.Items.TWISTED_TOOL) && TwistedToolItem.hasAura(item.getOrDefault(TCDataComponents.TWISTED_SPIRIT, ItemStack.EMPTY))) {
                 drawContext.fillGradient(x,y,x +16, y + 8,ARGB.color(2,16711693),  ARGB.color(45,12779591));
                 drawContext.fillGradient(x,y + 8,x +16, y + 16,ARGB.color(45,12779591),  ARGB.color(2,16711693));
             }
-            if (item.is(TDTags.Items.KARMIUM)) {
+            if (item.is(TCTags.Items.KARMIUM)) {
                 drawContext.fillGradient(x,y,x +16, y + 8,ARGB.color(2,11578541),  ARGB.color(45,14869218));
                 drawContext.fillGradient(x,y + 8,x +16, y + 16,ARGB.color(45,14869218),  ARGB.color(2,11578541));
             }

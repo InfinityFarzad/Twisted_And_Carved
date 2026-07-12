@@ -145,7 +145,7 @@ public class TCBlocks {
 
 
     private static Block registerBlock(String name, Function<BlockBehaviour.Properties, Block> function, boolean registerItem) {
-        Block toRegister = function.apply(BlockBehaviour.Properties.of().setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath(TwistedAndCarved.MOD_ID, name))));
+        Block toRegister = function.apply(BlockBehaviour.Properties.of().setId(ResourceKey.create(Registries.BLOCK, TwistedAndCarved.id(name))));
         if (registerItem) {
             registerBlockItem(name, toRegister);
         }
@@ -154,12 +154,11 @@ public class TCBlocks {
     }
 
     private static void registerBlockItem(String name, Block block) {
-        Registry.register(BuiltInRegistries.ITEM, Identifier.fromNamespaceAndPath(TwistedAndCarved.MOD_ID, name),
+        Registry.register(BuiltInRegistries.ITEM, TwistedAndCarved.id(name),
                 new BlockItem(block, new Item.Properties().component(DataComponents.TOOLTIP_STYLE, Identifier.withDefaultNamespace("twisted")).useBlockDescriptionPrefix()
-                        .setId(ResourceKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(TwistedAndCarved.MOD_ID, name)))));
+                        .setId(ResourceKey.create(Registries.ITEM, TwistedAndCarved.id(name)))));
 
     }
 
-    public static void init() {
-    }
+    public static void init() {}
 }

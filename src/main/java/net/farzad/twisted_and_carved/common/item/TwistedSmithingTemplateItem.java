@@ -23,14 +23,14 @@ public class TwistedSmithingTemplateItem extends SmithingTemplateItem {
 
     static {
         DESCRIPTION_FORMATTING = ChatFormatting.BLUE;
-        TWISTED_UPGRADE_APPLIES_TO_TEXT = Component.translatable(Util.makeDescriptionId("item", Identifier.fromNamespaceAndPath(TwistedAndCarved.MOD_ID, "smithing_template.twisted_upgrade.applies_to"))).withStyle(DESCRIPTION_FORMATTING);
-        TWISTED_UPGRADE_INGREDIENTS_TEXT = Component.translatable(Util.makeDescriptionId("item", Identifier.fromNamespaceAndPath(TwistedAndCarved.MOD_ID, "smithing_template.twisted_upgrade.ingredients"))).withStyle(DESCRIPTION_FORMATTING);
-        TWISTED_UPGRADE_BASE_SLOT_DESCRIPTION_TEXT = Component.translatable(Util.makeDescriptionId("item", Identifier.fromNamespaceAndPath(TwistedAndCarved.MOD_ID, "smithing_template.twisted_upgrade.base_slot_description")));
-        TWISTED_UPGRADE_ADDITIONS_SLOT_DESCRIPTION_TEXT = Component.translatable(Util.makeDescriptionId("item", Identifier.fromNamespaceAndPath(TwistedAndCarved.MOD_ID, "smithing_template.twisted_upgrade.additions_slot_description")));
-        EMPTY_SLOT_GREATAXE_TEXTURE = Identifier.fromNamespaceAndPath(TwistedAndCarved.MOD_ID, "container/slot/greataxe");
-        EMPTY_SLOT_GLAIVE_TEXTURE = Identifier.fromNamespaceAndPath(TwistedAndCarved.MOD_ID, "container/slot/glaive");
-        EMPTY_SLOT_FALCHION_TEXTURE = Identifier.fromNamespaceAndPath(TwistedAndCarved.MOD_ID, "container/slot/falchion");
-        EMPTY_SLOT_SCYTHE_TEXTURE = Identifier.fromNamespaceAndPath(TwistedAndCarved.MOD_ID, "container/slot/scythe");
+        TWISTED_UPGRADE_APPLIES_TO_TEXT = Component.translatable(Util.makeDescriptionId("item", TwistedAndCarved.id("smithing_template.twisted_upgrade.applies_to"))).withStyle(DESCRIPTION_FORMATTING);
+        TWISTED_UPGRADE_INGREDIENTS_TEXT = Component.translatable(Util.makeDescriptionId("item", TwistedAndCarved.id("smithing_template.twisted_upgrade.ingredients"))).withStyle(DESCRIPTION_FORMATTING);
+        TWISTED_UPGRADE_BASE_SLOT_DESCRIPTION_TEXT = Component.translatable(Util.makeDescriptionId("item", TwistedAndCarved.id("smithing_template.twisted_upgrade.base_slot_description")));
+        TWISTED_UPGRADE_ADDITIONS_SLOT_DESCRIPTION_TEXT = Component.translatable(Util.makeDescriptionId("item", TwistedAndCarved.id("smithing_template.twisted_upgrade.additions_slot_description")));
+        EMPTY_SLOT_GREATAXE_TEXTURE = TwistedAndCarved.id("container/slot/greataxe");
+        EMPTY_SLOT_GLAIVE_TEXTURE = TwistedAndCarved.id("container/slot/glaive");
+        EMPTY_SLOT_FALCHION_TEXTURE = TwistedAndCarved.id("container/slot/falchion");
+        EMPTY_SLOT_SCYTHE_TEXTURE = TwistedAndCarved.id("container/slot/scythe");
         EMPTY_SLOT_INGOT_TEXTURE = Identifier.withDefaultNamespace("container/slot/ingot");
     }
 
