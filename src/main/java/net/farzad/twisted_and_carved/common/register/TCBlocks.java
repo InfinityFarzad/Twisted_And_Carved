@@ -143,6 +143,7 @@ public class TCBlocks {
 
     public static final Block POTTED_TWISTED_SAPLING = registerBlock("potted_twisted_sappling", properties -> new FlowerPotBlock(TWISTED_SAPLING,properties.instabreak().noOcclusion().pushReaction(PushReaction.DESTROY)),false);
 
+    public static final Block SPIRIT_FORGE = registerBlock("spirit_forge", SpiritForgingTable::new, true);
 
     private static Block registerBlock(String name, Function<BlockBehaviour.Properties, Block> function, boolean registerItem) {
         Block toRegister = function.apply(BlockBehaviour.Properties.of().setId(ResourceKey.create(Registries.BLOCK, TwistedAndCarved.id(name))));

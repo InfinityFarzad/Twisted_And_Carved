@@ -6,12 +6,11 @@ import net.farzad.twisted_and_carved.common.TwistedAndCarved;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 
-public class TCItemGroups {
+public class TCCreativeGroupTabs {
     public static final ResourceKey<CreativeModeTab> TWISTED_AND_CARVED_ITEM_GROUP_KEY = ResourceKey.create(BuiltInRegistries.CREATIVE_MODE_TAB.key(), TwistedAndCarved.id("twisted_and_carved"));
     public static final CreativeModeTab TWISTED_AND_CARVED_ITEM_GROUP = FabricCreativeModeTab.builder()
             .backgroundTexture(TwistedAndCarved.id("textures/gui/container/tab_items.png"))
@@ -50,6 +49,7 @@ public class TCItemGroups {
             itemGroup.accept(TCBlocks.TWISTED_LEAVES);
             itemGroup.accept(TCBlocks.TWISTED_SAPLING);
             itemGroup.accept(TCBlocks.TWISTED_COFFIN);
+            itemGroup.accept(TCBlocks.SPIRIT_FORGE);
             itemGroup.accept(TCBlocks.KARMIUM_RAILING);
             itemGroup.accept(TCBlocks.KARMIUM_CHAIN);
             itemGroup.accept(TCBlocks.KARMIUM_BLOCK);

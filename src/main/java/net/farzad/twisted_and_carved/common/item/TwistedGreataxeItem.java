@@ -6,13 +6,16 @@ import net.farzad.twisted_and_carved.common.entity.TwistedGreataxeEntity;
 import net.farzad.twisted_and_carved.common.networking.RiptideModificationPayload;
 import net.farzad.twisted_and_carved.common.register.TCDataComponents;
 import net.farzad.twisted_and_carved.common.register.TCNetworking;
+import net.farzad.twisted_and_carved.common.register.TCSounds;
 import net.farzad.twisted_and_carved.common.util.TwistedWeaponUtil;
+import net.farzad.twisted_and_carved.common.util.interfaces.CustomAttackSoundInterface;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
@@ -40,12 +43,17 @@ import net.minecraft.world.phys.Vec3;
 import java.util.List;
 import java.util.Objects;
 
-public class TwistedGreataxeItem extends TwistedToolItem {
+public class TwistedGreataxeItem extends TwistedToolItem implements CustomAttackSoundInterface {
 
     final private int maxCharge = 14;
 
     public TwistedGreataxeItem(float attackDamage, float attackSpeed, double attackRange, Properties settings) {
         super(applyToolSettings(settings, BlockTags.MINEABLE_WITH_AXE, attackDamage, attackSpeed, attackRange));
+    }
+
+    @Override
+    public SoundEvent getExtraAttackSound(ItemStack stack) {
+        return TCSounds.GREATAXE_SLASH;
     }
 
     public static Properties applyToolSettings(Properties settings, TagKey<Block> effectiveBlocks, float attackDamage, float attackSpeed, double attackRange) {
@@ -171,7 +179,16 @@ public class TwistedGreataxeItem extends TwistedToolItem {
     @Override
     public void onFullAttack(LivingEntity attacker, LivingEntity target, ItemStack stack) {
         if (getCharge(stack) < maxCharge && Objects.equals(TwistedWeaponUtil.getAbilityID(stack), "stride")) {
-            setCharge(stack, getCharge(stack) + 1);
+            int val = Math.min(getCharge(stack) + 1, maxCharge);
+            setCharge(stack, val);
+        }
+    }
+
+    @Override
+    public void onCritAttack(LivingEntity attacker, LivingEntity target, ItemStack stack) {
+        if (getCharge(stack) < maxCharge && Objects.equals(TwistedWeaponUtil.getAbilityID(stack), "stride")) {
+            int val = Math.min(getCharge(stack) + 2, maxCharge);
+            setCharge(stack, val);
         }
     }
 }

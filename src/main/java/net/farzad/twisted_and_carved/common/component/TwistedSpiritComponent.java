@@ -8,12 +8,11 @@ import net.minecraft.network.codec.StreamCodec;
 
 public record TwistedSpiritComponent(String type, String id) {
     public static TwistedSpiritComponent EMPTY = new TwistedSpiritComponent("default","default_id");
-    public static final Codec<TwistedSpiritComponent> CODEC = RecordCodecBuilder.create(builder -> {
-        return builder.group(
+    public static final Codec<TwistedSpiritComponent> CODEC = RecordCodecBuilder.create(builder -> builder.group(
                 Codec.STRING.fieldOf("type").forGetter(TwistedSpiritComponent::type),
                 Codec.STRING.fieldOf("id").forGetter(TwistedSpiritComponent::id)
-        ).apply(builder, TwistedSpiritComponent::new);
-    });
+        ).apply(builder, TwistedSpiritComponent::new));
+
     public static final StreamCodec<RegistryFriendlyByteBuf, TwistedSpiritComponent> PACKET_CODEC = StreamCodec.composite(
             ByteBufCodecs.STRING_UTF8, TwistedSpiritComponent::type,
             ByteBufCodecs.STRING_UTF8, TwistedSpiritComponent::id,

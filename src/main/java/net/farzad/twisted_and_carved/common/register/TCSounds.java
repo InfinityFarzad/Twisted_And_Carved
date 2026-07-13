@@ -12,6 +12,8 @@ public class TCSounds {
     public static final SoundEvent SCYTHE_SWEEP_1 = registerSound("scythe_sweep_1");
     public static final SoundEvent SCYTHE_SWEEP_2 = registerSound("scythe_sweep_2");
     public static final SoundEvent TWISTED_GLAIVE_SWEEP = registerSound("twisted_glaive_sweep");
+    public static final SoundEvent GREATAXE_SLASH = registerSound("greataxe_slash");
+    public static final SoundEvent GLAIVE_SLASH = registerSound("glaive_slash");
     public static final SoundEvent PARRY = registerSound("parry");
     public static final SoundEvent GREATAXE_FLYING_SOUND = registerSound("greataxe_flying_sound");
     public static final SoundEvent SCYTHE_FLYING_SOUND = registerSound("scythe_flying_sound");

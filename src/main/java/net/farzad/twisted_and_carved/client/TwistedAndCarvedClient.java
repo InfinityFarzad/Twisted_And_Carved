@@ -7,11 +7,13 @@ import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.particle.v1.ParticleProviderRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.hud.VanillaHudElements;
+import net.fabricmc.fabric.impl.client.rendering.BlockEntityRendererRegistryImpl;
 import net.fabricmc.fabric.impl.client.rendering.EntityRendererRegistryImpl;
 import net.fabricmc.fabric.impl.client.rendering.hud.HudElementRegistryImpl;
 import net.farzad.twisted_and_carved.client.particle.*;
 import net.farzad.twisted_and_carved.client.properties.TwistedScytheGrapplingProperty;
 import net.farzad.twisted_and_carved.client.render.entity.LostMerchentRenderer;
+import net.farzad.twisted_and_carved.client.render.entity.SpiritForgeEntityRenderer;
 import net.farzad.twisted_and_carved.client.render.entity.TwistedGreataxeEntityRenderer;
 import net.farzad.twisted_and_carved.client.render.entity.TwistedScytheEntityRenderer;
 import net.farzad.twisted_and_carved.client.render.hud.BloodBarHudRenderer;
@@ -57,6 +59,7 @@ public class TwistedAndCarvedClient implements ClientModInitializer {
         EntityRendererRegistryImpl.register(TCEntities.LOST_MERCHANT_ENTITY, LostMerchentRenderer::new);
         EntityRendererRegistryImpl.register(TCEntities.TWISTED_GREATAXE_ENTITY, TwistedGreataxeEntityRenderer::new);
         EntityRendererRegistryImpl.register(TCEntities.TWISTED_SCYTHE_ENTITY, TwistedScytheEntityRenderer::new);
+        BlockEntityRendererRegistryImpl.register(TCBlockEntities.SPIRIT_FORGE_ENTITY, SpiritForgeEntityRenderer::new);
         ConditionalItemModelProperties.ID_MAPPER.put(TwistedAndCarved.id("twisted_scythe_grappling"),TwistedScytheGrapplingProperty.CODEC);
 
         applyItemTooltips();

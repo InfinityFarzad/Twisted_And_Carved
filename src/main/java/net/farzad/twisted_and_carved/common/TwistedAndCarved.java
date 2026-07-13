@@ -33,7 +33,7 @@ public class TwistedAndCarved implements ModInitializer, TerraBlenderApi {
         TCDataComponents.init();
         TCBlocks.init();
         TCParticles.init();
-        TCItemGroups.init();
+        TCCreativeGroupTabs.init();
         TCSounds.init();
         TCEntities.init();
         TCNetworking.init();

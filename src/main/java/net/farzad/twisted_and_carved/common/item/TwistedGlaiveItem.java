@@ -7,7 +7,9 @@ import net.farzad.twisted_and_carved.common.register.TCDataComponents;
 import net.farzad.twisted_and_carved.common.register.TCParticles;
 import net.farzad.twisted_and_carved.common.register.TCSounds;
 import net.farzad.twisted_and_carved.common.util.TwistedWeaponUtil;
+import net.farzad.twisted_and_carved.common.util.interfaces.CustomAttackSoundInterface;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
@@ -24,7 +26,7 @@ import net.minecraft.world.phys.AABB;
 
 import java.util.List;
 
-public class TwistedGlaiveItem extends TwistedToolItem {
+public class TwistedGlaiveItem extends TwistedToolItem implements CustomAttackSoundInterface {
 
     public TwistedGlaiveItem(Properties settings) {
         super(settings);
@@ -36,6 +38,11 @@ public class TwistedGlaiveItem extends TwistedToolItem {
                 .add(Attributes.ATTACK_SPEED, new AttributeModifier(Item.BASE_ATTACK_SPEED_ID, attackSpeed, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND)
                 .add(Attributes.ENTITY_INTERACTION_RANGE, new AttributeModifier(TwistedAndCarved.id("base_attack_range"), attackRange, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND)
                 .build();
+    }
+
+    @Override
+    public SoundEvent getExtraAttackSound(ItemStack stack) {
+        return TCSounds.GLAIVE_SLASH;
     }
 
     @Override

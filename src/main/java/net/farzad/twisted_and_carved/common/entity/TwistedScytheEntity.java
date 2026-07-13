@@ -34,7 +34,6 @@ import org.jetbrains.annotations.Nullable;
 
 public class TwistedScytheEntity extends AbstractArrow {
 
-    // Variables
     public boolean shouldReturn;
     public boolean isGripped;
     public boolean isPlayingSound;

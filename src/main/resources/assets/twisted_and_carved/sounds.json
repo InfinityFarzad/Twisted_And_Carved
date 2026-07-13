@@ -28,5 +28,17 @@
     "sounds": [
       "twisted_and_carved:parry"
     ]
+  },
+  "greataxe_slash": {
+    "subtitle": "sound.twisted_and_carved.greataxe_slash",
+    "sounds": [
+      "twisted_and_carved:greataxe_slash"
+    ]
+  },
+  "glaive_slash": {
+    "subtitle": "sound.twisted_and_carved.glaive_slash",
+    "sounds": [
+      "twisted_and_carved:glaive_slash"
+    ]
   }
 }

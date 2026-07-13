@@ -4,7 +4,7 @@
 	"texture_size": [64, 64],
 	"textures": {
 		"0": "twisted_and_carved:block/twisted_coffin",
-		"particle": "twisted_and_carved:block/twisted_coffin"
+		"particle": "twisted_and_carved:block/twisted_log"
 	},
 	"elements": [
 		{
