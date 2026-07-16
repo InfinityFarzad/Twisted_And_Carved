@@ -26,7 +26,7 @@ import net.minecraft.world.phys.AABB;
 
 import java.util.List;
 
-public class TwistedGlaiveItem extends TwistedToolItem implements CustomAttackSoundInterface {
+public class TwistedGlaiveItem extends TwistedToolItem {
 
     public TwistedGlaiveItem(Properties settings) {
         super(settings);
@@ -41,12 +41,7 @@ public class TwistedGlaiveItem extends TwistedToolItem implements CustomAttackSo
     }
 
     @Override
-    public SoundEvent getExtraAttackSound(ItemStack stack) {
-        return TCSounds.GLAIVE_SLASH;
-    }
-
-    @Override
-    public InteractionResult use(Level world, Player user, InteractionHand hand) {
+    public InteractionResult use(Level level, Player user, InteractionHand hand) {
         if (!user.getCooldowns().isOnCooldown(user.getMainHandItem()) && TwistedWeaponUtil.getAbilityID(user.getItemInHand(hand)) == "sweeping") {
             if (user.level() instanceof ServerLevel serverWorld) {
 
@@ -58,20 +53,22 @@ public class TwistedGlaiveItem extends TwistedToolItem implements CustomAttackSo
                 for (Entity entity : entities) {
                     if (entity instanceof LivingEntity livingEntity) {
                         double distance = entity.position().distanceTo(user.position());
-                        livingEntity.hurtServer(serverWorld, user.damageSources().source(TCDamageTypes.SWEEPING_SLASH,user), (float) (4 / distance * 2.5f));
+                        float g = (float)Math.clamp(4 / distance * 2.5,1,8);
+                        livingEntity.hurtServer(serverWorld, user.damageSources().source(TCDamageTypes.SWEEPING_SLASH,user),g );
                         livingEntity.knockback(0.05 * distance,user.getX(), user.getY());
                     }
                 }
-                serverWorld.sendParticles(TCParticles.TWISTED_GLAIVE_SWEEP, user.getX(), user.getY() + 1.0, user.getZ(), 1, 0, 0, 0, 1);
-                serverWorld.playSound(null, user.getX(), user.getY(), user.getZ(), TCSounds.TWISTED_GLAIVE_SWEEP, user.getSoundSource(), 8.0F, 1.0F);
+                serverWorld.sendParticles(TCParticles.TWISTED_GLAIVE_SWEEP, user.getX(), user.getY() + 1.0, user.getZ(),1, 0, 0, 0,2);
 
             }
+
+            level.playSound(null, user.getX(), user.getY(), user.getZ(), TCSounds.TWISTED_GLAIVE_SWEEP, user.getSoundSource(), 1.0F, 1.0F);
             user.swing(hand);
-            if (user.isCreative()) {
+            if (!user.isCreative()) {
                 user.getCooldowns().addCooldown(user.getItemInHand(hand), 20 * 4);
             }
         }
-        return super.use(world, user, hand);
+        return super.use(level, user, hand);
     }
     @Override
     public boolean isValidType(ItemStack stack) {

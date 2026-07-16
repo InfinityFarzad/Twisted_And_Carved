@@ -87,16 +87,17 @@ public class TCItems {
 
     public static final Item TWISTED_FALCHION =
             register("twisted_falchion", (settings) -> {
-                return new TwistedFalchionItem(6, -2.4f, -0.15, settings);
+                return new TwistedFalchionItem(6.5f, -2.4f, -0.15, settings);
             }, new Item.Properties()
                     .component(DataComponents.TOOLTIP_STYLE, Identifier.withDefaultNamespace("twisted"))
                     .component(TCDataComponents.TWISTED_SPIRIT, ItemStack.EMPTY)
+                    .component(TCDataComponents.TWISTED_SCYTHE_UUID,0)
                     .component(TCDataComponents.BLOOD_CHARGE, 0)
                     .rarity(Rarity.UNCOMMON)
                     .stacksTo(1));
 
     public static final Item TWISTED_SCYTHE = register("twisted_scythe", (settings) -> {
-        return new TwistedScytheItem(8, -3.2f, 0.25, settings);
+        return new TwistedScytheItem(8, -3.0f, 0.25, settings);
     }, new Item.Properties()
             .component(DataComponents.TOOLTIP_STYLE, Identifier.withDefaultNamespace("twisted"))
             .component(TCDataComponents.TWISTED_SCYTHE_GRAPPLING, false)

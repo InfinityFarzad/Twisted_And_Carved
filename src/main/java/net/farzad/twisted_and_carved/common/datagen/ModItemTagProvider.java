@@ -18,6 +18,7 @@ public class ModItemTagProvider extends FabricTagsProvider.ItemTagsProvider {
     protected void addTags(HolderLookup.Provider wrapperLookup) {
         valueLookupBuilder(ItemTags.AXES).add(TCItems.TWISTED_GREATAXE);
         valueLookupBuilder(ItemTags.HOES).add(TCItems.TWISTED_SCYTHE);
+        valueLookupBuilder(ItemTags.SWORDS).add(TCItems.TWISTED_FALCHION).add(TCItems.TWISTED_GLAIVE);
         valueLookupBuilder(TCTags.Items.TWISTED_TOOL_REPAIR_INGREDIENT).add(TCItems.KARMIUM_INGOT);
         valueLookupBuilder(ItemTags.SHARP_WEAPON_ENCHANTABLE).add(TCItems.TWISTED_FALCHION).add(TCItems.TWISTED_GLAIVE);
         valueLookupBuilder(ItemTags.HOES).add(TCItems.TWISTED_SCYTHE);

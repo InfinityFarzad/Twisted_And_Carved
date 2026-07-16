@@ -16,7 +16,9 @@ public class ModDamageTypeTagProvider extends FabricTagsProvider<DamageType> {
 
     @Override
     protected void addTags(HolderLookup.Provider wrapperLookup) {
-        this.builder(DamageTypeTags.BYPASSES_ARMOR).addOptional(TCDamageTypes.FALCHION_SLASH);
+        this.builder(DamageTypeTags.BYPASSES_ARMOR).addOptional(TCDamageTypes.FALCHION_SLASH).addOptional(TCDamageTypes.TOMAHAWK_DAMAGE);
+        this.builder(DamageTypeTags.BYPASSES_COOLDOWN).addOptional(TCDamageTypes.FALCHION_SLASH);
         this.builder(DamageTypeTags.IS_PROJECTILE).addOptional(TCDamageTypes.TOMAHAWK_DAMAGE);
+
     }
 }

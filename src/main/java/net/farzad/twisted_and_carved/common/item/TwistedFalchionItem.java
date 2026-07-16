@@ -48,7 +48,16 @@ public class TwistedFalchionItem extends TwistedToolItem {
 
     public static Properties applyToolSettings(Properties settings, TagKey<Block> effectiveBlocks, float attackDamage, float attackSpeed, double attackRange) {
         HolderGetter<Block> registryEntryLookup = BuiltInRegistries.acquireBootstrapRegistrationLookup(BuiltInRegistries.BLOCK);
-        return settings.component(DataComponents.TOOL, new Tool(List.of(Tool.Rule.minesAndDrops(HolderSet.direct(new Holder[]{Blocks.COBWEB.builtInRegistryHolder()}), 15.0F), Tool.Rule.overrideSpeed(registryEntryLookup.getOrThrow(BlockTags.SWORD_INSTANTLY_MINES), Float.MAX_VALUE), Tool.Rule.overrideSpeed(registryEntryLookup.getOrThrow(BlockTags.SWORD_EFFICIENT), 1.5F), Tool.Rule.overrideSpeed(registryEntryLookup.getOrThrow(effectiveBlocks),1.5f)), 1.0F, 2, false)).attributes(createAttributeModifiers(attackDamage,attackSpeed,attackRange )).component(DataComponents.WEAPON, new Weapon(1)).enchantable(15);
+        return settings
+                .component(DataComponents.TOOL,
+                        new Tool(List.of(Tool.Rule.minesAndDrops(
+                                HolderSet.direct(new Holder[]{
+                                        Blocks.COBWEB.builtInRegistryHolder()}), 15.0F),
+                                Tool.Rule.overrideSpeed(registryEntryLookup.getOrThrow(BlockTags.SWORD_INSTANTLY_MINES), Float.MAX_VALUE),
+                                Tool.Rule.overrideSpeed(registryEntryLookup.getOrThrow(BlockTags.LEAVES), Float.MAX_VALUE),
+                                Tool.Rule.overrideSpeed(registryEntryLookup.getOrThrow(BlockTags.SWORD_EFFICIENT), 1.5F),
+                                Tool.Rule.overrideSpeed(registryEntryLookup.getOrThrow(effectiveBlocks),1.5f)
+                        ), 1.0F, 2, false)).attributes(createAttributeModifiers(attackDamage,attackSpeed,attackRange )).component(DataComponents.WEAPON, new Weapon(1)).enchantable(15);
     }
 
     public static ItemAttributeModifiers createAttributeModifiers(float attackDamage, float attackSpeed, double attackRange) {
@@ -61,7 +70,6 @@ public class TwistedFalchionItem extends TwistedToolItem {
 
     private void setBlood(ItemStack stack, int value) {
         stack.set(TCDataComponents.BLOOD_CHARGE, value);
-        System.out.println("used" + value);
     }
 
     private int getBlood(ItemStack stack) {
@@ -75,13 +83,13 @@ public class TwistedFalchionItem extends TwistedToolItem {
 
     private void applySlashDamage(Level world, Player user) {
         if (world instanceof ServerLevel serverWorld) {
-            Vec3 dir = user.pick(2.5,1,false).getLocation();
-            AABB box = new AABB(dir.x,user.getY(),dir.z,dir.x + 1, dir.y + 1, dir.z + 1).inflate(0.5).move(new Vec3(-0.5,-0.5,-0.5));
+            Vec3 dir = user.pick(3.5,1,false).getLocation();
+            AABB box = new AABB(user.getX(),user.getY(),user.getZ(),dir.x, dir.y, dir.z).inflate(0.5);
             List<LivingEntity> entities = serverWorld.getEntitiesOfClass(LivingEntity.class,box,livingEntity -> livingEntity != user);
 
             for (Entity entity : entities) {
                 if (entity instanceof LivingEntity livingEntity && user instanceof Player player) {
-                    livingEntity.hurtServer(serverWorld, entity.damageSources().source(TCDamageTypes.FALCHION_SLASH,user),5f);
+                    livingEntity.hurtServer(serverWorld, entity.damageSources().source(TCDamageTypes.FALCHION_SLASH,user),3f);
                 }
             }
         }
@@ -103,10 +111,13 @@ public class TwistedFalchionItem extends TwistedToolItem {
                     serverWorld.playSound(null, user.getX(), user.getY(), user.getZ(), SoundEvents.PLAYER_ATTACK_SWEEP, user.getSoundSource(), 2.0F, Mth.randomBetween(user.getRandom(), 0.5f, 0.7f));
                     serverWorld.playSound(null, user.getX(), user.getY(), user.getZ(), TCSounds.SCYTHE_SWEEP_0, user.getSoundSource(), 1.0F, Mth.randomBetween(user.getRandom(), 0.7f, 1f));
                 }
+
+                if (!user.isCreative()) {
+                    setBlood(stack, getBlood(stack) - 100 / 3);
+                    user.getCooldowns().addCooldown(stack, 20 * 2);
+                }
                 applySlashDamage(world, user);
                 user.swing(hand);
-                setBlood(stack, getBlood(stack) - 100 / 3);
-                user.getCooldowns().addCooldown(stack, 20 * 2);
 
             }
         }
@@ -116,14 +127,18 @@ public class TwistedFalchionItem extends TwistedToolItem {
 
     @Override
     public void onFullAttack(LivingEntity attacker, LivingEntity target, ItemStack stack) {
-        if (attacker instanceof Player player && TwistedWeaponUtil.getAbilityID(stack) == "bleeding") {
-            int amount = player.level().getRandom().nextIntBetweenInclusive(1, 3) * 5;
-            if (!(getBlood(stack) + amount >= 100)) {
-                setBlood(stack, getBlood(stack) + amount);
-            } else {
-                setBlood(stack, 100);
-            }
+        if (attacker.canAttack(target) && !attacker.level().isClientSide()) {
+            if (attacker instanceof Player player && TwistedWeaponUtil.getAbilityID(stack) == "bleeding") {
+                int amount = player.level().getRandom().nextIntBetweenInclusive(1, 3) * 5;
+                if (!(getBlood(stack) + amount >= 100)) {
+                    setBlood(stack, getBlood(stack) + amount);
+                    setBlood(stack, getBlood(stack) + amount);
+                } else {
+                    setBlood(stack, 100);
+                }
+                System.out.println('f');
 
+            }
         }
     }
 }

@@ -43,17 +43,12 @@ import net.minecraft.world.phys.Vec3;
 import java.util.List;
 import java.util.Objects;
 
-public class TwistedGreataxeItem extends TwistedToolItem implements CustomAttackSoundInterface {
+public class TwistedGreataxeItem extends TwistedToolItem {
 
     final private int maxCharge = 14;
 
     public TwistedGreataxeItem(float attackDamage, float attackSpeed, double attackRange, Properties settings) {
         super(applyToolSettings(settings, BlockTags.MINEABLE_WITH_AXE, attackDamage, attackSpeed, attackRange));
-    }
-
-    @Override
-    public SoundEvent getExtraAttackSound(ItemStack stack) {
-        return TCSounds.GREATAXE_SLASH;
     }
 
     public static Properties applyToolSettings(Properties settings, TagKey<Block> effectiveBlocks, float attackDamage, float attackSpeed, double attackRange) {
@@ -137,7 +132,7 @@ public class TwistedGreataxeItem extends TwistedToolItem implements CustomAttack
                 player.playSound(SoundEvents.TRIDENT_RIPTIDE_2.value(),1f,Mth.randomBetween(player.getRandom(),0.6f,0.7f));
                 player.level().playSound(player,player.blockPosition(),SoundEvents.TRIDENT_RIPTIDE_3.value(),player.getSoundSource(),10f,Mth.randomBetween(player.getRandom(),1f,2f));
 
-                if (!user.hasInfiniteMaterials()) {
+                if (!player.isCreative()) {
                     setCharge(stack, getCharge(stack) - (maxCharge / 2));
                     player.getCooldowns().addCooldown(stack,20);
                 }
@@ -148,13 +143,11 @@ public class TwistedGreataxeItem extends TwistedToolItem implements CustomAttack
                     return false;
                 } else {
                     player.playSound(SoundEvents.TRIDENT_THROW.value(),1f,Mth.randomBetween(player.getRandom(),0.9f,1f));
+                    player.getCooldowns().addCooldown(stack,20 * 5);
                     if (world instanceof ServerLevel serverWorld) {
-                        TwistedGreataxeEntity.spawnTwistedGreataxeWithVelocity(TwistedGreataxeEntity::new, player.getInventory().findSlotMatchingItem(stack), serverWorld, stack, user, 0.0F, 3f, 0.0F);
+                        TwistedGreataxeEntity.spawnTwistedGreataxeWithVelocity(TwistedGreataxeEntity::new, player.getInventory().findSlotMatchingItem(stack), serverWorld, stack.copy(), user, 0.0F, 3f, 0.0F);
                     }
-                    if (!user.hasInfiniteMaterials()) {
-                        stack.shrink(1);
-                        player.getCooldowns().addCooldown(stack,20 * 5);
-                    }
+                    stack.shrink(player.isCreative() ? 0 : 1);
                     return true;
                 }
             } else {
@@ -178,17 +171,22 @@ public class TwistedGreataxeItem extends TwistedToolItem implements CustomAttack
 
     @Override
     public void onFullAttack(LivingEntity attacker, LivingEntity target, ItemStack stack) {
-        if (getCharge(stack) < maxCharge && Objects.equals(TwistedWeaponUtil.getAbilityID(stack), "stride")) {
-            int val = Math.min(getCharge(stack) + 1, maxCharge);
-            setCharge(stack, val);
+        if (attacker.canAttack(target) && !target.level().isClientSide()) {
+            if (getCharge(stack) < maxCharge && Objects.equals(TwistedWeaponUtil.getAbilityID(stack), "stride")) {
+                int val = Math.min(getCharge(stack) + 1, maxCharge);
+                setCharge(stack, val);
+                System.out.println("1");
+            }
         }
     }
 
     @Override
     public void onCritAttack(LivingEntity attacker, LivingEntity target, ItemStack stack) {
-        if (getCharge(stack) < maxCharge && Objects.equals(TwistedWeaponUtil.getAbilityID(stack), "stride")) {
-            int val = Math.min(getCharge(stack) + 2, maxCharge);
-            setCharge(stack, val);
+        if (attacker.canAttack(target) && !attacker.level().isClientSide()) {
+            if (getCharge(stack) < maxCharge && Objects.equals(TwistedWeaponUtil.getAbilityID(stack), "stride")) {
+                int val = Math.min(getCharge(stack) + 2, maxCharge);
+                setCharge(stack, val);
+            }
         }
     }
 }

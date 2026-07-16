@@ -4,10 +4,12 @@ import net.farzad.twisted_and_carved.client.particle.HarvestSlashEffect;
 import net.farzad.twisted_and_carved.common.TwistedAndCarved;
 import net.farzad.twisted_and_carved.common.component.TwistedSpiritComponent;
 import net.farzad.twisted_and_carved.common.entity.TwistedScytheEntity;
+import net.farzad.twisted_and_carved.common.register.TCBlocks;
 import net.farzad.twisted_and_carved.common.register.TCDataComponents;
 import net.farzad.twisted_and_carved.common.register.TCTags;
 import net.farzad.twisted_and_carved.common.util.TwistedWeaponUtil;
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.multiplayer.chat.report.ReportEnvironment;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderGetter;
@@ -15,12 +17,16 @@ import net.minecraft.core.HolderSet;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -37,7 +43,9 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.Vec3;
+import org.jspecify.annotations.Nullable;
 
+import javax.xml.crypto.Data;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -96,7 +104,7 @@ public class TwistedScytheItem extends TwistedToolItem {
 
     @Override
     public int getUseDuration(ItemStack stack, LivingEntity user) {
-        return 78000;
+        return 74000;
     }
 
     @Override
@@ -107,16 +115,24 @@ public class TwistedScytheItem extends TwistedToolItem {
     @Override
     public boolean releaseUsing(ItemStack stack, Level world, LivingEntity user, int remainingUseTicks) {
         int useTime = this.getUseDuration(stack, user) - remainingUseTicks;
+
         if (user instanceof Player player) {
+            if (remainingUseTicks <= 1) {
+                world.playSound(null,user.blockPosition(),SoundEvents.EXPERIENCE_ORB_PICKUP,user.getSoundSource(),1.0f,1.0f);
+            }
+
             if (Objects.equals(TwistedWeaponUtil.getAbilityID(stack), "grappling")) {
                 if (useTime < 10) {
                     return false;
                 } else {
                     stack.set(TCDataComponents.TWISTED_SCYTHE_GRAPPLING,true);
                     if (world instanceof ServerLevel serverWorld) {
-                        Projectile.spawnProjectileFromRotation(TwistedScytheEntity::new, serverWorld, stack.copy(), user, 0.0F, (float) remainingUseTicks * 0.00005f, 1.0F);
+                        TwistedScytheEntity entity = new TwistedScytheEntity(serverWorld,user,stack.copy());
+                        stack.set(TCDataComponents.TWISTED_SCYTHE_UUID,entity.getId());
+                        entity.shootFromRotation(player,player.getXRot(),player.getYRot(),0,2,0);
+                        serverWorld.addFreshEntity(entity);
                     }
-                    if (!player.hasInfiniteMaterials()) {
+                    if (!player.isCreative()) {
                         player.getCooldowns().addCooldown(stack,20 * 5);
                     }
                     return true;
@@ -141,7 +157,7 @@ public class TwistedScytheItem extends TwistedToolItem {
                 return InteractionResult.FAIL;
             } else {
                 clearField(5,world,user,hand);
-                if (!user.hasInfiniteMaterials()) {
+                if (!user.isCreative()) {
                     user.getCooldowns().addCooldown(itemStack, 20);
                 }
                 return InteractionResult.CONSUME;
@@ -160,18 +176,35 @@ public class TwistedScytheItem extends TwistedToolItem {
     }
 
     @Override
+    public void inventoryTick(ItemStack itemStack, ServerLevel level, Entity owner, @Nullable EquipmentSlot slot) {
+        super.inventoryTick(itemStack, level, owner, slot);
+        int i = itemStack.getOrDefault(TCDataComponents.TWISTED_SCYTHE_UUID,0);
+        if (i != 0 && level.getEntity(i) == null) {
+            itemStack.set(TCDataComponents.TWISTED_SCYTHE_GRAPPLING,false);
+        }
+    }
+
+    @Override
     public void onCritAttack(LivingEntity attacker, LivingEntity target, ItemStack stack) {
 
-        if (TwistedWeaponUtil.getAbilityID(stack).equals("grappling")) {
-            double boxSize = (target.getBoundingBox().getZsize() + target.getBoundingBox().getXsize() + target.getBoundingBox().getYsize()) / 3;
-            double dis = target.position().distanceTo(attacker.position());
-            double f = dis / 3.5;
-            f /= boxSize > 1.4 ? boxSize : 1;
-            f = boxSize > 1.4 ? dis / 3.5 / boxSize : dis / 3.5;
-            Vec3 velocity = (new Vec3(target.getX() - attacker.getX(), target.getY() - attacker.getY(), target.getZ() - attacker.getZ()).normalize().scale(f * -1));
-            target.setDeltaMovement(velocity);
-            System.out.println(boxSize);
-            target.needsSync=true;
+        if (!attacker.level().isClientSide()) {
+            if (TwistedWeaponUtil.getAbilityID(stack).equals("grappling")) {
+                double boxSize = target.getBoundingBox().getZsize() * target.getBoundingBox().getXsize() * target.getBoundingBox().getYsize();
+                double dis = target.position().distanceTo(attacker.position());
+                double f = boxSize > 1.3 ? dis / 3.5 / boxSize : dis / 3.5;
+                Vec3 velocity = (new Vec3(target.getX() - attacker.getX(), target.getY() - attacker.getY(), target.getZ() - attacker.getZ()).normalize().scale(f * -1)).scale(boxSize >= 1.4 ? 0.5 : 2);
+                target.setDeltaMovement(velocity);
+                target.needsSync=true;
+
+                if (target instanceof  Player player) {
+                    player.setDeltaMovement(velocity);
+                    target.needsSync=true;
+                    if (player instanceof ServerPlayer serverPlayer) {
+                        serverPlayer.connection.send(new ClientboundSetEntityMotionPacket(serverPlayer));
+                    }
+                }
+                System.out.println(boxSize);
+            }
         }
     }
 }

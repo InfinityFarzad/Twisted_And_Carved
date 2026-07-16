@@ -3,10 +3,6 @@
     {
       "id": "twisted_and_carved:falchion_slash",
       "required": false
-    },
-    {
-      "id": "twisted_and_carved:tomahawk",
-      "required": false
     }
   ]
 }

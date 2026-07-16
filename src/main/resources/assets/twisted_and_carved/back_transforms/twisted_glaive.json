@@ -1,6 +1,6 @@
 {
   "scale": [2.55, 2.55, 1.7],
-  "position": [-0.15, 0.05, 0.0],
+  "position": [-0.15, 0.05, 0.04],
   "rotation": [0.0, 0.0, 7.0],
   "body_part": "body",
   "backslot_model": "",

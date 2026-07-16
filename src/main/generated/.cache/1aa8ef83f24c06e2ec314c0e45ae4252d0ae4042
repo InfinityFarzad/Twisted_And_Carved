@@ -1,3 +1,4 @@
-// 1.21.11	-999999999-01-01T00:00:00	Twisted And Carved/Tags for minecraft:damage_type
-e901b723a4ea4d010319801367f902c8e3201cc1 data/minecraft/tags/damage_type/bypasses_armor.json
+// 26.1	-999999999-01-01T00:00:00	Twisted And Carved/Tags for minecraft:damage_type
+af4146eb914eac7378ab6152fc5c8040b6d8520e data/minecraft/tags/damage_type/bypasses_armor.json
+e901b723a4ea4d010319801367f902c8e3201cc1 data/minecraft/tags/damage_type/bypasses_cooldown.json
 1b16d0af5692d5a443874479aa3d0b515763e852 data/minecraft/tags/damage_type/is_projectile.json

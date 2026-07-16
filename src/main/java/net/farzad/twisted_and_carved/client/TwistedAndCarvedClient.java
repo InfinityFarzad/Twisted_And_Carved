@@ -18,9 +18,11 @@ import net.farzad.twisted_and_carved.client.render.entity.TwistedGreataxeEntityR
 import net.farzad.twisted_and_carved.client.render.entity.TwistedScytheEntityRenderer;
 import net.farzad.twisted_and_carved.client.render.hud.BloodBarHudRenderer;
 import net.farzad.twisted_and_carved.common.TwistedAndCarved;
+import net.farzad.twisted_and_carved.common.component.TwistedSpiritComponent;
 import net.farzad.twisted_and_carved.common.entity.TwistedGreataxeEntity;
 import net.farzad.twisted_and_carved.common.entity.TwistedScytheEntity;
 import net.farzad.twisted_and_carved.common.item.TwistedItemPieceItem;
+import net.farzad.twisted_and_carved.common.item.TwistedSpiritItem;
 import net.farzad.twisted_and_carved.common.networking.GreataxeSoundLoopS2CPayload;
 import net.farzad.twisted_and_carved.common.networking.RiptideModificationPayload;
 import net.farzad.twisted_and_carved.common.networking.ScytheSoundLoopS2CPayload;
@@ -220,6 +222,8 @@ public class TwistedAndCarvedClient implements ClientModInitializer {
                                 Component.literal("Shift").withStyle(ChatFormatting.GOLD)
                         ).withStyle(ChatFormatting.DARK_GRAY));
                     }
+                } else if (itemStack.getItem() instanceof TwistedSpiritItem) {
+                    list.add(Component.translatable(itemStack.getOrDefault(TCDataComponents.TWISTED_SPIRIT_DATA, TwistedSpiritComponent.EMPTY).type()).withStyle(ChatFormatting.GOLD));
                 }
             });
         }

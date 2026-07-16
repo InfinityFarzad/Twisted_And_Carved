@@ -39,6 +39,10 @@ public class TCBlocks {
                     .sound(SoundType.WOOD)
                     .ignitedByLava()), true);
 
+    public static final Block TWISTED_SHELF = registerBlock("twisted_shelf",
+            properties ->
+                    new ShelfBlock(properties.instrument(NoteBlockInstrument.BASS).sound(SoundType.SHELF).ignitedByLava().strength(2.0f, 3.0f)),true);
+
     public static final Block STRIPPED_TWISTED_WOOD = registerBlock("stripped_twisted_wood",
             properties -> new RotatedPillarBlock(properties.instrument(NoteBlockInstrument.BASS)
                     .strength(2.0F)

@@ -1,4 +1,4 @@
-// 1.21.11	-999999999-01-01T00:00:00	Twisted And Carved/Block Loot Tables
+// 26.1	-999999999-01-01T00:00:00	Twisted And Carved/Block Loot Tables
 7467dc9dda4f04cdb86a0d86695cd168a39ed39f data/twisted_and_carved/loot_table/blocks/karmium_block.json
 b19344ac3c75225edee2fc2bcb6f9457797ff07a data/twisted_and_carved/loot_table/blocks/karmium_chain.json
 b6bf7bddb3b0467e235b5990cd4743e93d0257a6 data/twisted_and_carved/loot_table/blocks/potted_twisted_sappling.json
@@ -14,6 +14,7 @@ c173bf149c7a347f6e445fda8df542a061bead6b data/twisted_and_carved/loot_table/bloc
 a0b5f7cd2333809252c4c9c6f420858f3c1080eb data/twisted_and_carved/loot_table/blocks/twisted_planks.json
 f29e71e42d36e86341576e7edea3c2ef9b3226aa data/twisted_and_carved/loot_table/blocks/twisted_pressure_plate.json
 a523e1558440389c8e1089e103caacb9830566f6 data/twisted_and_carved/loot_table/blocks/twisted_sapling.json
+10ec4241deefddc3d1b65753a19763ea8b7e4189 data/twisted_and_carved/loot_table/blocks/twisted_shelf.json
 f0ea25fda89c3f75e418b2e4acf61ed1ba559592 data/twisted_and_carved/loot_table/blocks/twisted_slab.json
 ea751a07b9ccb2a179a78facb2282761b90fa6a8 data/twisted_and_carved/loot_table/blocks/twisted_stairs.json
 fc4b2e003ac68cadeca2320775d57cdfda240b96 data/twisted_and_carved/loot_table/blocks/twisted_trapdoor.json

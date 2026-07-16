@@ -37,12 +37,12 @@ public class TCEntities {
     public static final EntityType<TwistedGreataxeEntity> TWISTED_GREATAXE_ENTITY = Registry.register(BuiltInRegistries.ENTITY_TYPE,
             TwistedAndCarved.id("twisted_greataxe_entity"),
             EntityType.Builder.<TwistedGreataxeEntity>of(TwistedGreataxeEntity::new, MobCategory.MISC)
-                    .sized(0.5f, 0.5f).build(TWISTED_GREATAXE_ENTITY_KEY));
+                    .sized(0.8f, 0.8f).build(TWISTED_GREATAXE_ENTITY_KEY));
 
     public static final EntityType<TwistedScytheEntity> TWISTED_SCYTHE_ENTITY = Registry.register(BuiltInRegistries.ENTITY_TYPE,
             TwistedAndCarved.id("twisted_scythe_entity"),
             EntityType.Builder.<TwistedScytheEntity>of(TwistedScytheEntity::new, MobCategory.MISC)
-                    .sized(0.5f, 0.5f).build( TWISTED_SCYTHE_ENTITY_KEY));
+                    .sized(1.0f, 1.0f).build( TWISTED_SCYTHE_ENTITY_KEY));
 
     public static void initAttributes() {
         FabricDefaultAttributeRegistry.register(LOST_MERCHANT_ENTITY,LostMerchantEntity.createDefaultAttributes());

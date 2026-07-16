@@ -31,6 +31,7 @@ public class ModLootTableProvider extends FabricBlockLootSubProvider {
         add(TCBlocks.TWISTED_LEAVES, createLeavesDrops(TCBlocks.TWISTED_LEAVES, TCBlocks.TWISTED_SAPLING, 0.25f));
         add(TCBlocks.TWISTED_SLAB,createSlabItemTable(TCBlocks.TWISTED_SLAB));
         dropSelf(TCBlocks.TWISTED_SAPLING);
+        dropSelf(TCBlocks.TWISTED_SHELF);
         dropSelf(TCBlocks.KARMIUM_BLOCK);
         dropPottedContents(TCBlocks.POTTED_TWISTED_SAPLING);
 

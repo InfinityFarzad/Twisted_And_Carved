@@ -130,7 +130,7 @@ public class TwistedScytheEntity extends AbstractArrow {
             updateRot();
             super.tick();
         } else {
-            this.discard();
+            //this.discard();
         }
     }
 
@@ -246,6 +246,6 @@ public class TwistedScytheEntity extends AbstractArrow {
     }
 
     public boolean shouldRender(double cameraX, double cameraY, double cameraZ) {
-        return true;
+        return this.getOwner() != null;
     }
 }

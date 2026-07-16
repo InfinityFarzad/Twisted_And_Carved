@@ -91,7 +91,7 @@ public class TwistedGreataxeEntity extends AbstractArrow {
     public void playerTouch(Player player) {
         if (this.isOwnerAlive() && shouldReturn) {
             if (!this.level().isClientSide() && this.shakeTime <= 0) {
-                if (this.tryPickup(player)) {
+                if (this.tryPickup(player) && this.getOwner() == player) {
                     PlayerInventoryUtil.returnToSlot(player, this.slot, this.getPickupItem());
                     this.discard();
                 }
@@ -149,7 +149,7 @@ public class TwistedGreataxeEntity extends AbstractArrow {
         switch (this.pickup.ordinal()) {
             case 0 -> canItPickUp1 = false;
             case 1 -> canItPickUp1 = PlayerInventoryUtil.hasEmptySlot(player, slot);
-            case 2 -> canItPickUp1 = player.hasInfiniteMaterials();
+            case 2 -> canItPickUp1 = player.isCreative();
             default -> throw new MatchException(null, null);
         }
 

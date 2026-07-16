@@ -30,6 +30,12 @@ public class TCDataComponents {
             DataComponentType.<Boolean>builder().persistent(Codec.BOOL).networkSynchronized(ByteBufCodecs.BOOL).build()
     );
 
+    public static final DataComponentType<Integer> TWISTED_SCYTHE_UUID = Registry.register(
+            BuiltInRegistries.DATA_COMPONENT_TYPE,
+            TwistedAndCarved.id("twisted_scythe_uuid"),
+            DataComponentType.<Integer>builder().persistent(Codec.INT).networkSynchronized(ByteBufCodecs.INT).build()
+    );
+
     public static final DataComponentType<TwistedSpiritComponent> TWISTED_SPIRIT_DATA  = Registry.register(
             BuiltInRegistries.DATA_COMPONENT_TYPE,
             TwistedAndCarved.id("twisted_spirit_data"),
