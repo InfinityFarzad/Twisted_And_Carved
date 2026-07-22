@@ -2,7 +2,7 @@
   "structures": [
     {
       "structure": "twisted_and_carved:lost_well",
-      "weight": 3
+      "weight": 1
     }
   ],
   "placement": {
@@ -14,7 +14,7 @@
     },
     "frequency": 1,
     "salt": 165345296,
-    "separation": 2,
-    "spacing": 4
+    "separation": 3,
+    "spacing": 8
   }
 }
