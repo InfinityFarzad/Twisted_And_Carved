@@ -1,7 +1,7 @@
 package net.farzad.twisted_and_carved.mixin.spirit_effects.stride;
 
 import net.farzad.twisted_and_carved.common.networking.RiptideModificationPayload;
-import net.farzad.twisted_and_carved.common.register.TCNetworking;
+import net.farzad.twisted_and_carved.common.init.TCNetworking;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;

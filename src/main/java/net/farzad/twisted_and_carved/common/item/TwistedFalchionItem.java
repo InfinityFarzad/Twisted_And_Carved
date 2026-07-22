@@ -3,9 +3,9 @@ package net.farzad.twisted_and_carved.common.item;
 import net.farzad.twisted_and_carved.client.particle.FalchionSlashEffect;
 import net.farzad.twisted_and_carved.common.TwistedAndCarved;
 import net.farzad.twisted_and_carved.common.component.TwistedSpiritComponent;
-import net.farzad.twisted_and_carved.common.register.TCDamageTypes;
-import net.farzad.twisted_and_carved.common.register.TCDataComponents;
-import net.farzad.twisted_and_carved.common.register.TCSounds;
+import net.farzad.twisted_and_carved.common.init.TCDamageTypes;
+import net.farzad.twisted_and_carved.common.init.TCDataComponents;
+import net.farzad.twisted_and_carved.common.init.TCSounds;
 import net.farzad.twisted_and_carved.common.util.TwistedWeaponUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
@@ -130,14 +130,7 @@ public class TwistedFalchionItem extends TwistedToolItem {
         if (attacker.canAttack(target) && !attacker.level().isClientSide()) {
             if (attacker instanceof Player player && TwistedWeaponUtil.getAbilityID(stack) == "bleeding") {
                 int amount = player.level().getRandom().nextIntBetweenInclusive(1, 3) * 5;
-                if (!(getBlood(stack) + amount >= 100)) {
-                    setBlood(stack, getBlood(stack) + amount);
-                    setBlood(stack, getBlood(stack) + amount);
-                } else {
-                    setBlood(stack, 100);
-                }
-                System.out.println('f');
-
+                setBlood(stack,Math.min(getBlood(stack) + amount, 100));
             }
         }
     }

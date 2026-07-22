@@ -1,11 +1,8 @@
 package net.farzad.twisted_and_carved.common.entity;
 
-import com.google.common.collect.ImmutableList;
-import net.farzad.twisted_and_carved.common.register.TCBlocks;
-import net.farzad.twisted_and_carved.common.register.TCEntities;
+import net.farzad.twisted_and_carved.common.init.TCEntities;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.*;
@@ -14,14 +11,9 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.npc.villager.AbstractVillager;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.item.trading.*;
 import net.minecraft.world.level.Level;
-import org.apache.commons.lang3.tuple.Pair;
 import org.jspecify.annotations.Nullable;
-
-import java.util.List;
 
 public class LostMerchantEntity extends AbstractVillager {
 

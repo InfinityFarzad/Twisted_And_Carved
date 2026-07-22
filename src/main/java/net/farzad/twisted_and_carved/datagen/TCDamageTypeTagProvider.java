@@ -1,16 +1,16 @@
-package net.farzad.twisted_and_carved.common.datagen;
+package net.farzad.twisted_and_carved.datagen;
 
 import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagsProvider;
-import net.farzad.twisted_and_carved.common.register.TCDamageTypes;
+import net.farzad.twisted_and_carved.common.init.TCDamageTypes;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.damagesource.DamageType;
 import java.util.concurrent.CompletableFuture;
 
-public class ModDamageTypeTagProvider extends FabricTagsProvider<DamageType> {
-    public ModDamageTypeTagProvider(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
+public class TCDamageTypeTagProvider extends FabricTagsProvider<DamageType> {
+    public TCDamageTypeTagProvider(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
         super(output, Registries.DAMAGE_TYPE, registriesFuture);
     }
 

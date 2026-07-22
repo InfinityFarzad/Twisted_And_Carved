@@ -1,4 +1,4 @@
-package net.farzad.twisted_and_carved.common.register;
+package net.farzad.twisted_and_carved.common.init;
 
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;

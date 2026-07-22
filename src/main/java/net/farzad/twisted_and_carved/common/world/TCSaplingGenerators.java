@@ -1,7 +1,7 @@
 package net.farzad.twisted_and_carved.common.world;
 
 import net.farzad.twisted_and_carved.common.TwistedAndCarved;
-import net.farzad.twisted_and_carved.common.register.TCConfiguredFeatures;
+import net.farzad.twisted_and_carved.common.init.TCConfiguredFeatures;
 import net.minecraft.world.level.block.grower.TreeGrower;
 import java.util.Optional;
 

@@ -4,7 +4,7 @@ import net.farzad.twisted_and_carved.client.render.entity.feature.LostMerchantEy
 import net.farzad.twisted_and_carved.client.render.entity.model.LostMerchantModel;
 import net.farzad.twisted_and_carved.common.TwistedAndCarved;
 import net.farzad.twisted_and_carved.common.entity.LostMerchantEntity;
-import net.farzad.twisted_and_carved.common.register.TCModelLayers;
+import net.farzad.twisted_and_carved.common.init.client.TCModelLayers;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.entity.state.LivingEntityRenderState;

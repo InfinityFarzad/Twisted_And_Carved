@@ -2,14 +2,12 @@ package net.farzad.twisted_and_carved.mixin.spirit_effects.stride;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.farzad.twisted_and_carved.common.TwistedAndCarved;
-import net.farzad.twisted_and_carved.common.register.TCItems;
-import net.farzad.twisted_and_carved.common.register.TCTags;
+import net.farzad.twisted_and_carved.common.init.TCTags;
 import net.farzad.twisted_and_carved.common.util.interfaces.StrideRenderStateAddon;
 import net.minecraft.client.model.effects.SpinAttackEffectModel;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.layers.SpinAttackEffectLayer;
 import net.minecraft.client.renderer.entity.state.AvatarRenderState;
-import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;

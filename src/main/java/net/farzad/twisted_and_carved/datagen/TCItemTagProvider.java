@@ -1,16 +1,16 @@
-package net.farzad.twisted_and_carved.common.datagen;
+package net.farzad.twisted_and_carved.datagen;
 
 import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagsProvider;
-import net.farzad.twisted_and_carved.common.register.TCBlocks;
-import net.farzad.twisted_and_carved.common.register.TCItems;
-import net.farzad.twisted_and_carved.common.register.TCTags;
+import net.farzad.twisted_and_carved.common.init.TCBlocks;
+import net.farzad.twisted_and_carved.common.init.TCItems;
+import net.farzad.twisted_and_carved.common.init.TCTags;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.tags.ItemTags;
 import java.util.concurrent.CompletableFuture;
 
-public class ModItemTagProvider extends FabricTagsProvider.ItemTagsProvider {
-    public ModItemTagProvider(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
+public class TCItemTagProvider extends FabricTagsProvider.ItemTagsProvider {
+    public TCItemTagProvider(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
         super(output, registriesFuture);
     }
 

@@ -2,7 +2,7 @@ package net.farzad.twisted_and_carved.common.block;
 
 import com.mojang.serialization.MapCodec;
 import net.farzad.twisted_and_carved.common.block.entity.CoffinBlockEntity;
-import net.farzad.twisted_and_carved.common.register.TCParticles;
+import net.farzad.twisted_and_carved.common.init.client.TCParticles;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;

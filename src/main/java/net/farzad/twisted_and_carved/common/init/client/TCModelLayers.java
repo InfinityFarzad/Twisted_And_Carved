@@ -1,4 +1,4 @@
-package net.farzad.twisted_and_carved.common.register;
+package net.farzad.twisted_and_carved.common.init.client;
 
 import net.fabricmc.fabric.api.client.rendering.v1.ModelLayerRegistry;
 import net.farzad.twisted_and_carved.client.render.entity.model.LostMerchantModel;

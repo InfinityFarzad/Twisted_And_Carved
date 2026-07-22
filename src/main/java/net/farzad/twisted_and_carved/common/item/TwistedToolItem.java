@@ -2,9 +2,9 @@ package net.farzad.twisted_and_carved.common.item;
 
 import net.akws.chiseled_lib.common.interfaces.item.CustomAttackItem;
 import net.akws.chiseled_lib.common.interfaces.item.CustomEffectsItem;
-import net.farzad.twisted_and_carved.common.register.TCDataComponents;
-import net.farzad.twisted_and_carved.common.register.TCParticles;
-import net.farzad.twisted_and_carved.common.register.TCTags;
+import net.farzad.twisted_and_carved.common.init.TCDataComponents;
+import net.farzad.twisted_and_carved.common.init.client.TCParticles;
+import net.farzad.twisted_and_carved.common.init.TCTags;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.Entity;

@@ -1,7 +1,8 @@
-package net.farzad.twisted_and_carved.common.register;
+package net.farzad.twisted_and_carved.common.init;
 
 import net.farzad.twisted_and_carved.common.TwistedAndCarved;
 import net.farzad.twisted_and_carved.common.block.*;
+import net.farzad.twisted_and_carved.common.init.client.TCParticles;
 import net.farzad.twisted_and_carved.common.world.TCSaplingGenerators;
 import net.minecraft.core.Registry;
 import net.minecraft.core.component.DataComponents;

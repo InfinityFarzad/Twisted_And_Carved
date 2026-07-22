@@ -1,7 +1,7 @@
 package net.farzad.twisted_and_carved.client.properties;
 
 import com.mojang.serialization.MapCodec;
-import net.farzad.twisted_and_carved.common.register.TCDataComponents;
+import net.farzad.twisted_and_carved.common.init.TCDataComponents;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.item.properties.conditional.ConditionalItemModelProperty;
 import net.minecraft.world.entity.LivingEntity;

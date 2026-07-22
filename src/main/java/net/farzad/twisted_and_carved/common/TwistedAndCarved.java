@@ -1,10 +1,13 @@
 package net.farzad.twisted_and_carved.common;
 
+import eu.midnightdust.lib.config.MidnightConfig;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.registry.FlattenableBlockRegistry;
 import net.fabricmc.fabric.api.registry.StrippableBlockRegistry;
 import net.fabricmc.fabric.api.registry.TillableBlockRegistry;
-import net.farzad.twisted_and_carved.common.register.*;
+import net.farzad.twisted_and_carved.common.config.TwistedAndCarvedConfigScreen;
+import net.farzad.twisted_and_carved.common.init.*;
+import net.farzad.twisted_and_carved.common.init.client.TCParticles;
 import net.farzad.twisted_and_carved.common.util.TwistedToolPiecePlacer;
 import net.farzad.twisted_and_carved.common.world.TCBiomes;
 import net.farzad.twisted_and_carved.common.world.TCSurfaceRules;
@@ -40,7 +43,7 @@ public class TwistedAndCarved implements ModInitializer, TerraBlenderApi {
         TCBlockEntities.init();
         TwistedToolPiecePlacer.init();
         TCBiomes.init();
-        TCConfiguredFeatures.init();
+        MidnightConfig.init(MOD_ID, TwistedAndCarvedConfigScreen.class);
 
         // will be used later on, do not delete
 
@@ -58,6 +61,8 @@ public class TwistedAndCarved implements ModInitializer, TerraBlenderApi {
         StrippableBlockRegistry.register(TCBlocks.TWISTED_LOG, TCBlocks.STRIPPED_TWISTED_LOG);
         StrippableBlockRegistry.register(TCBlocks.TWISTED_WOOD, TCBlocks.STRIPPED_TWISTED_WOOD);
     }
+
+
 
     @Override
     public void onTerraBlenderInitialized() {

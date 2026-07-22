@@ -3,19 +3,13 @@ package net.farzad.twisted_and_carved.common.item;
 import net.farzad.twisted_and_carved.common.TwistedAndCarved;
 import net.farzad.twisted_and_carved.common.component.TwistedSpiritComponent;
 import net.farzad.twisted_and_carved.common.entity.TwistedGreataxeEntity;
-import net.farzad.twisted_and_carved.common.networking.RiptideModificationPayload;
-import net.farzad.twisted_and_carved.common.register.TCDataComponents;
-import net.farzad.twisted_and_carved.common.register.TCNetworking;
-import net.farzad.twisted_and_carved.common.register.TCSounds;
+import net.farzad.twisted_and_carved.common.init.TCDataComponents;
 import net.farzad.twisted_and_carved.common.util.TwistedWeaponUtil;
-import net.farzad.twisted_and_carved.common.util.interfaces.CustomAttackSoundInterface;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
@@ -175,7 +169,6 @@ public class TwistedGreataxeItem extends TwistedToolItem {
             if (getCharge(stack) < maxCharge && Objects.equals(TwistedWeaponUtil.getAbilityID(stack), "stride")) {
                 int val = Math.min(getCharge(stack) + 1, maxCharge);
                 setCharge(stack, val);
-                System.out.println("1");
             }
         }
     }

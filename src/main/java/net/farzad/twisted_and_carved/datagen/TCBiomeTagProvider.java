@@ -1,4 +1,4 @@
-package net.farzad.twisted_and_carved.common.datagen;
+package net.farzad.twisted_and_carved.datagen;
 
 
 import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
@@ -11,9 +11,9 @@ import net.minecraft.world.level.biome.Biome;
 
 import java.util.concurrent.CompletableFuture;
 
-public class ModBiomeTagProvider extends FabricTagsProvider<Biome> {
+public class TCBiomeTagProvider extends FabricTagsProvider<Biome> {
 
-    public ModBiomeTagProvider(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
+    public TCBiomeTagProvider(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
         super(output, Registries.BIOME, registriesFuture);
     }
 

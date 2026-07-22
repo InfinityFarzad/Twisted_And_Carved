@@ -2,8 +2,8 @@ package net.farzad.twisted_and_carved.client.render.hud;
 
 import net.fabricmc.fabric.api.client.rendering.v1.hud.HudElement;
 import net.farzad.twisted_and_carved.common.TwistedAndCarved;
-import net.farzad.twisted_and_carved.common.register.TCDataComponents;
-import net.farzad.twisted_and_carved.common.register.TCItems;
+import net.farzad.twisted_and_carved.common.init.TCDataComponents;
+import net.farzad.twisted_and_carved.common.init.TCItems;
 import net.farzad.twisted_and_carved.common.util.TwistedWeaponUtil;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;

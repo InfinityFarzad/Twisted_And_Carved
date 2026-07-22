@@ -1,6 +1,6 @@
 package net.farzad.twisted_and_carved.common.block;
 
-import net.farzad.twisted_and_carved.common.register.TCBlocks;
+import net.farzad.twisted_and_carved.common.init.TCBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.RandomSource;

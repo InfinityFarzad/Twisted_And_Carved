@@ -1,4 +1,4 @@
-package net.farzad.twisted_and_carved.common.register;
+package net.farzad.twisted_and_carved.common.init;
 
 import com.mojang.serialization.Codec;
 import net.farzad.twisted_and_carved.common.TwistedAndCarved;
@@ -7,7 +7,6 @@ import net.minecraft.core.Registry;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.codec.ByteBufCodecs;
-import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 
 public class TCDataComponents {

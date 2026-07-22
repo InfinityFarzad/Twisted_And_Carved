@@ -1,7 +1,7 @@
 package net.farzad.twisted_and_carved.common.util;
 
 import net.farzad.twisted_and_carved.common.component.TwistedSpiritComponent;
-import net.farzad.twisted_and_carved.common.register.TCDataComponents;
+import net.farzad.twisted_and_carved.common.init.TCDataComponents;
 import net.minecraft.world.item.ItemStack;
 
 public class TwistedWeaponUtil {

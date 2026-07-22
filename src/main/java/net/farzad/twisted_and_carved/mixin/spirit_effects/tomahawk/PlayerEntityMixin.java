@@ -2,8 +2,8 @@ package net.farzad.twisted_and_carved.mixin.spirit_effects.tomahawk;
 
 
 import net.farzad.twisted_and_carved.common.entity.TwistedGreataxeEntity;
-import net.farzad.twisted_and_carved.common.register.TCParticles;
-import net.farzad.twisted_and_carved.common.register.TCSounds;
+import net.farzad.twisted_and_carved.common.init.client.TCParticles;
+import net.farzad.twisted_and_carved.common.init.TCSounds;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;

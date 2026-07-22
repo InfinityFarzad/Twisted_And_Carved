@@ -26,7 +26,7 @@
 			"net.farzad.twisted_and_carved.common.TwistedAndCarved"
 		],
 		"fabric-datagen": [
-			"net.farzad.twisted_and_carved.common.TwistedAndCarvedDataGenerator"
+			"net.farzad.twisted_and_carved.datagen.TCDataGenerator"
 		],
 		"client": [
 			"net.farzad.twisted_and_carved.client.TwistedAndCarvedClient"
@@ -40,7 +40,7 @@
 		"twisted_and_carved.mixins.json"
 	],
 	"depends": {
-		"fabricloader": ">=0.19.2",
+		"fabricloader": ">=0.19.3",
 		"minecraft": "~26.1",
 		"java": ">=25",
 		"fabric-api": "*"

@@ -1,7 +1,7 @@
 package net.farzad.twisted_and_carved.common.block.entity;
 
 import net.farzad.twisted_and_carved.common.TwistedAndCarved;
-import net.farzad.twisted_and_carved.common.register.TCBlockEntities;
+import net.farzad.twisted_and_carved.common.init.TCBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
@@ -26,8 +26,6 @@ import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.storage.TagValueOutput;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
-
-import java.util.List;
 
 
 public class SpiritForgeEntity extends BlockEntity implements ListBackedContainer {

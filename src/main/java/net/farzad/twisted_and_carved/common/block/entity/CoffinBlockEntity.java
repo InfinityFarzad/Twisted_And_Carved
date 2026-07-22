@@ -1,6 +1,6 @@
 package net.farzad.twisted_and_carved.common.block.entity;
 
-import net.farzad.twisted_and_carved.common.register.TCBlockEntities;
+import net.farzad.twisted_and_carved.common.init.TCBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponentGetter;

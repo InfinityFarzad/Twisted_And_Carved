@@ -1,6 +1,6 @@
 package net.farzad.twisted_and_carved.common.world;
 
-import net.farzad.twisted_and_carved.common.register.TCBlocks;
+import net.farzad.twisted_and_carved.common.init.TCBlocks;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.levelgen.SurfaceRules;

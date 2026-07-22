@@ -8,7 +8,7 @@ import net.fabricmc.api.Environment;
 import net.farzad.twisted_and_carved.client.render.entity.state.TwistedScytheEntityRenderstate;
 import net.farzad.twisted_and_carved.common.TwistedAndCarved;
 import net.farzad.twisted_and_carved.common.entity.TwistedScytheEntity;
-import net.farzad.twisted_and_carved.common.register.TCItems;
+import net.farzad.twisted_and_carved.common.init.TCItems;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;

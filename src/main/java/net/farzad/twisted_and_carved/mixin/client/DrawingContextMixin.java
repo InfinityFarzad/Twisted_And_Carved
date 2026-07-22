@@ -1,9 +1,9 @@
 package net.farzad.twisted_and_carved.mixin.client;
 
 import net.farzad.twisted_and_carved.common.item.TwistedToolItem;
-import net.farzad.twisted_and_carved.common.register.TCDataComponents;
-import net.farzad.twisted_and_carved.common.register.TCItems;
-import net.farzad.twisted_and_carved.common.register.TCTags;
+import net.farzad.twisted_and_carved.common.init.TCDataComponents;
+import net.farzad.twisted_and_carved.common.init.TCItems;
+import net.farzad.twisted_and_carved.common.init.TCTags;
 import net.farzad.twisted_and_carved.common.util.interfaces.TwistedGlintInterface;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphicsExtractor;

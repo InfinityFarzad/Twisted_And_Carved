@@ -4,7 +4,7 @@ package net.farzad.twisted_and_carved.client.particle;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.farzad.twisted_and_carved.common.register.TCParticles;
+import net.farzad.twisted_and_carved.common.init.client.TCParticles;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.network.RegistryFriendlyByteBuf;
