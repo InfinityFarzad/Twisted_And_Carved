@@ -3,6 +3,7 @@ package net.farzad.twisted_and_carved.common.item;
 import net.farzad.twisted_and_carved.client.particle.FalchionSlashEffect;
 import net.farzad.twisted_and_carved.common.TwistedAndCarved;
 import net.farzad.twisted_and_carved.common.component.TwistedSpiritComponent;
+import net.farzad.twisted_and_carved.common.config.TwistedAndCarvedConfigScreen;
 import net.farzad.twisted_and_carved.common.init.TCDamageTypes;
 import net.farzad.twisted_and_carved.common.init.TCDataComponents;
 import net.farzad.twisted_and_carved.common.init.TCSounds;
@@ -89,7 +90,7 @@ public class TwistedFalchionItem extends TwistedToolItem {
 
             for (Entity entity : entities) {
                 if (entity instanceof LivingEntity livingEntity && user instanceof Player player) {
-                    livingEntity.hurtServer(serverWorld, entity.damageSources().source(TCDamageTypes.FALCHION_SLASH,user),3f);
+                    livingEntity.hurtServer(serverWorld, entity.damageSources().source(TCDamageTypes.FALCHION_SLASH,user), TwistedAndCarvedConfigScreen.falchion_damage);
                 }
             }
         }
@@ -107,9 +108,10 @@ public class TwistedFalchionItem extends TwistedToolItem {
             if (getBlood(stack) >= (100 / 3)) {
                 if (world instanceof ServerLevel serverWorld) {
                     serverWorld.sendParticles(new FalchionSlashEffect(user.getYRot()), user.getX(), user.getY() + 0.5, user.getZ(), 1, 0, 0, 0, 1);
-                    serverWorld.playSound(null, user.getX(), user.getY(), user.getZ(), SoundEvents.MUD_HIT, user.getSoundSource(), 2.0F, Mth.randomBetween(user.getRandom(), 3.8f, 3.5f));
-                    serverWorld.playSound(null, user.getX(), user.getY(), user.getZ(), SoundEvents.PLAYER_ATTACK_SWEEP, user.getSoundSource(), 2.0F, Mth.randomBetween(user.getRandom(), 0.5f, 0.7f));
-                    serverWorld.playSound(null, user.getX(), user.getY(), user.getZ(), TCSounds.SCYTHE_SWEEP_0, user.getSoundSource(), 1.0F, Mth.randomBetween(user.getRandom(), 0.7f, 1f));
+                    serverWorld.playSound(null, user.getX(), user.getY(), user.getZ(), SoundEvents.MUD_HIT, user.getSoundSource(), 1.0F, Mth.randomBetween(user.getRandom(), 3.8f, 3.5f));
+                    serverWorld.playSound(null, user.getX(), user.getY(), user.getZ(), SoundEvents.PLAYER_ATTACK_SWEEP, user.getSoundSource(), 1.0F, Mth.randomBetween(user.getRandom(), 0.5f, 0.7f));
+                    serverWorld.playSound(null, user.getX(), user.getY(), user.getZ(), TCSounds.SCYTHE_SWEEP, user.getSoundSource(), 2.0F, Mth.randomBetween(user.getRandom(), 0.5f, 0.7f));
+
                 }
 
                 if (!user.isCreative()) {

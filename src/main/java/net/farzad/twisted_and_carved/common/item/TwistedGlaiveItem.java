@@ -1,13 +1,16 @@
 package net.farzad.twisted_and_carved.common.item;
 
+import net.farzad.twisted_and_carved.client.particle.FalchionSlashEffect;
 import net.farzad.twisted_and_carved.common.TwistedAndCarved;
 import net.farzad.twisted_and_carved.common.component.TwistedSpiritComponent;
 import net.farzad.twisted_and_carved.common.init.TCDamageTypes;
 import net.farzad.twisted_and_carved.common.init.TCDataComponents;
-import net.farzad.twisted_and_carved.common.init.client.TCParticles;
 import net.farzad.twisted_and_carved.common.init.TCSounds;
+import net.farzad.twisted_and_carved.common.init.client.TCParticles;
 import net.farzad.twisted_and_carved.common.util.TwistedWeaponUtil;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
@@ -56,15 +59,15 @@ public class TwistedGlaiveItem extends TwistedToolItem {
                         livingEntity.knockback(0.05 * distance,user.getX(), user.getY());
                     }
                 }
-                serverWorld.sendParticles(TCParticles.TWISTED_GLAIVE_SWEEP, user.getX(), user.getY() + 1.0, user.getZ(),1, 0, 0, 0,2);
+                serverWorld.sendParticles(TCParticles.TWISTED_GLAIVE_SWEEP, user.getX(), user.getY() + 0.5, user.getZ(), 1, 0, 0, 0, 2);
+                serverWorld.playSound(null, user.getX(), user.getY(), user.getZ(), TCSounds.TWISTED_GLAIVE_SWEEP, user.getSoundSource(), 2.0F, 1.0f);
 
             }
 
-            level.playSound(null, user.getX(), user.getY(), user.getZ(), TCSounds.TWISTED_GLAIVE_SWEEP, user.getSoundSource(), 1.0F, 1.0F);
-            user.swing(hand);
             if (!user.isCreative()) {
                 user.getCooldowns().addCooldown(user.getItemInHand(hand), 20 * 4);
             }
+            user.swing(hand);
         }
         return super.use(level, user, hand);
     }

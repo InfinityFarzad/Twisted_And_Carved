@@ -5,6 +5,6 @@ import eu.midnightdust.lib.config.MidnightConfig;
 public class TwistedAndCarvedConfigScreen extends MidnightConfig {
     public static final String SERVER = "server";
 
-    @Server @Entry(category = SERVER) public static float falchion_damage = 3;
+    @Server @Entry(category = SERVER, min = 0.0f) public static float falchion_damage = 3;
 
 }

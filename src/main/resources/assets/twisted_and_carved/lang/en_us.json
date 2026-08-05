@@ -41,6 +41,7 @@
   "block.twisted_and_carved.twisted_button": "Twisted Button",
   "block.twisted_and_carved.twisted_fence": "Twisted Fence",
   "block.twisted_and_carved.spirit_forge": "Spirit Forge",
+  "block.twisted_and_carved.festering_roots": "Festering Roots",
   "block.twisted_and_carved.twisted_fence_gate": "Twisted Fence Gate",
   "block.twisted_and_carved.twisted_stairs": "Twisted Stairs",
   "block.twisted_and_carved.twisted_vines": "Twisted Vines",
@@ -53,7 +54,6 @@
   "block.twisted_and_carved.karmium_chain": "Karmium Chain",
   "block.twisted_and_carved.twisted_leaves": "Twisted Leaves",
   "block.twisted_and_carved.karmium_block": "Karmium Block",
-  "sound.twisted_and_carved.twisted_glaive_sweep": "Twisted Glaive Sweep",
   "sound.twisted_and_carved.parry": "Parry",
   "massage.twisted_and_carved.unable_to_harvest": "there are no crops near by",
   "biome.twisted_and_carved.twisted_forest": "Twisted Forest",
@@ -78,8 +78,10 @@
   "tooltip.twisted_and_carved.twisted_spirit": "Current Spirit : [ %s ]",
 
 
-
-  "twisted_and_carved.midnightconfig.fuuuu" : "no hastings, it is completely empty"
+  "twisted_and_carved.midnightconfig.sounds_title" : "-{ Volume }-",
+  "twisted_and_carved.midnightconfig.falchion_volume" : "Falchion Volume",
+  "twisted_and_carved.midnightconfig.glaive_volume" : "Glaive Volume",
+  "twisted_and_carved.midnightconfig.title" : "Twisted And Carved Config"
 
 
 

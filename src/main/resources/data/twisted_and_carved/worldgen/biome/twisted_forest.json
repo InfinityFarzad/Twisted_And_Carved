@@ -73,15 +73,18 @@
       "minecraft:spring_lava"
     ],
     [
+      "minecraft:glow_lichen",
       "twisted_and_carved:trees_twisted_forest",
       "minecraft:patch_grass_forest",
       "minecraft:patch_grass_normal",
-      "minecraft:patch_dead_bush",
+      "minecraft:patch_tall_grass",
+      "minecraft:patch_grass_badlands",
       "minecraft:brown_mushroom_normal",
       "minecraft:red_mushroom_normal",
-      "minecraft:patch_leaf_litter",
       "minecraft:patch_pumpkin",
-      "minecraft:patch_firefly_bush_near_water"
+      "minecraft:patch_sugar_cane",
+      "minecraft:patch_firefly_bush_near_water",
+      "minecraft:forest_rock"
     ],
     [
       "minecraft:freeze_top_layer"
@@ -102,12 +105,6 @@
     "creature": [],
     "misc": [],
     "monster": [
-      {
-        "type": "minecraft:enderman",
-        "maxCount": 2,
-        "minCount": 1,
-        "weight": 10
-      }
     ],
     "underground_water_creature": [
       {
@@ -120,5 +117,5 @@
     "water_ambient": [],
     "water_creature": []
   },
-  "temperature": 0.25
+  "temperature": -0.25
 }

@@ -19,15 +19,14 @@ import net.farzad.twisted_and_carved.client.render.entity.TwistedScytheEntityRen
 import net.farzad.twisted_and_carved.client.render.hud.BloodBarHudRenderer;
 import net.farzad.twisted_and_carved.common.TwistedAndCarved;
 import net.farzad.twisted_and_carved.common.component.TwistedSpiritComponent;
+import net.farzad.twisted_and_carved.common.config.TwistedAndCarvedConfigScreen;
 import net.farzad.twisted_and_carved.common.entity.TwistedGreataxeEntity;
 import net.farzad.twisted_and_carved.common.entity.TwistedScytheEntity;
 import net.farzad.twisted_and_carved.common.init.client.TCModelLayers;
 import net.farzad.twisted_and_carved.common.init.client.TCParticles;
 import net.farzad.twisted_and_carved.common.item.TwistedItemPieceItem;
 import net.farzad.twisted_and_carved.common.item.TwistedSpiritItem;
-import net.farzad.twisted_and_carved.common.networking.GreataxeSoundLoopS2CPayload;
-import net.farzad.twisted_and_carved.common.networking.RiptideModificationPayload;
-import net.farzad.twisted_and_carved.common.networking.ScytheSoundLoopS2CPayload;
+import net.farzad.twisted_and_carved.common.networking.*;
 import net.farzad.twisted_and_carved.common.init.*;
 import net.farzad.twisted_and_carved.common.sound.WeaponEntitySoundInstance;
 import net.farzad.twisted_and_carved.common.util.TwistedWeaponUtil;
@@ -41,6 +40,8 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.Mth;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 
@@ -87,6 +88,7 @@ public class TwistedAndCarvedClient implements ClientModInitializer {
                 context.client().getSoundManager().play(instance);
             }
         });
+
 
         ClientPlayNetworking.registerGlobalReceiver(RiptideModificationPayload.ID, (payload, context) -> {
             Player entity = ((Player)context.player().level().getEntity(payload.entityID()));
