@@ -25,7 +25,7 @@ public class BloodBarHudRenderer implements HudElement {
 
     public void tick() {
         Minecraft client = Minecraft.getInstance();
-        if (client != null && client.player != null) {
+        if (client.player != null) {
             currentVal = client.player.getMainHandItem().getOrDefault(TCDataComponents.BLOOD_CHARGE,0);
 
             if (!getStack(client.player).has(TCDataComponents.BLOOD_CHARGE)) {

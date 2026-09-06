@@ -102,133 +102,130 @@ public class TwistedAndCarvedClient implements ClientModInitializer {
     }
 
     private static void applyItemTooltips() {
-        Minecraft client = Minecraft.getInstance() != null ? Minecraft.getInstance() : null;
+        Minecraft client = Minecraft.getInstance();
 
-        if (client != null) {
-
-            ItemTooltipCallback.EVENT.register((itemStack, tooltipContext, tooltipType, list) -> {
-                String rightClick  = Component.translatable(Minecraft.getInstance().options.keyUse.saveString()).getString();
-                boolean isShifting = Minecraft.getInstance().hasShiftDown();
-                if (itemStack.has(TCDataComponents.TWISTED_SPIRIT)) {
-                    if (itemStack.getOrDefault(TCDataComponents.TWISTED_SPIRIT, ItemStack.EMPTY) != ItemStack.EMPTY) {
-                        list.add(1,
-                                Component.translatable(
-                                        "tooltip.twisted_and_carved.twisted_spirit",
-                                        Component.literal(itemStack.get(TCDataComponents.TWISTED_SPIRIT).getItemName().getString()).withStyle(ChatFormatting.GOLD)
-                                ));
-                    } else {
-                        list.add(1,
-                                Component.translatable(
-                                        "tooltip.twisted_and_carved.twisted_spirit",
-                                        Component.literal(". . .").withStyle(ChatFormatting.GOLD)));
-                    }
+        ItemTooltipCallback.EVENT.register((itemStack, tooltipContext, tooltipType, list) -> {
+            String rightClick = Component.translatable(Minecraft.getInstance().options.keyUse.saveString()).getString();
+            boolean isShifting = Minecraft.getInstance().hasShiftDown();
+            if (itemStack.has(TCDataComponents.TWISTED_SPIRIT)) {
+                if (itemStack.getOrDefault(TCDataComponents.TWISTED_SPIRIT, ItemStack.EMPTY) != ItemStack.EMPTY) {
+                    list.add(1,
+                            Component.translatable(
+                                    "tooltip.twisted_and_carved.twisted_spirit",
+                                    Component.literal(itemStack.get(TCDataComponents.TWISTED_SPIRIT).getItemName().getString()).withStyle(ChatFormatting.GOLD)
+                            ));
+                } else {
+                    list.add(1,
+                            Component.translatable(
+                                    "tooltip.twisted_and_carved.twisted_spirit",
+                                    Component.literal(". . .").withStyle(ChatFormatting.GOLD)));
                 }
-                if (itemStack.is(TCItems.TWISTED_GREATAXE)) {
-                    if (isShifting) {
-                        list.add(2,Component.translatable(
-                                "tooltip.twisted_and_carved.twisted_greataxe_info"
+            }
+            if (itemStack.is(TCItems.TWISTED_GREATAXE)) {
+                if (isShifting) {
+                    list.add(2, Component.translatable(
+                            "tooltip.twisted_and_carved.twisted_greataxe_info"
+                    ).withStyle(ChatFormatting.DARK_GRAY));
+                    if (TwistedWeaponUtil.getAbilityID(itemStack) == "stride") {
+                        list.add(2, Component.translatable(
+                                "tooltip.twisted_and_carved.twisted_dash",
+                                Component.literal("Attack").withStyle(ChatFormatting.GOLD)
                         ).withStyle(ChatFormatting.DARK_GRAY));
-                        if (TwistedWeaponUtil.getAbilityID(itemStack) == "stride") {
-                            list.add(2,Component.translatable(
-                                    "tooltip.twisted_and_carved.twisted_dash",
-                                    Component.literal("Attack").withStyle(ChatFormatting.GOLD)
-                            ).withStyle(ChatFormatting.DARK_GRAY));
-                            list.add(3,Component.translatable(
-                                    "tooltip.twisted_and_carved.twisted_dash1",
-                                    Component.literal(rightClick).withStyle(ChatFormatting.GOLD)
-                            ).withStyle(ChatFormatting.DARK_GRAY));
-                        } else if (TwistedWeaponUtil.getAbilityID(itemStack) == "tomahawk") {
-                            list.add(2,Component.translatable(
-                                    "tooltip.twisted_and_carved.twisted_tomahawk",
-                                    Component.literal("Tomahawk").withStyle(ChatFormatting.GOLD)
-                            ).withStyle(ChatFormatting.DARK_GRAY));
-                        }
-                    } else {
-                        list.add(2,Component.translatable(
-                                "tooltip.twisted_and_carved.twisted_info",
-                                Component.literal("Shift").withStyle(ChatFormatting.GOLD)
+                        list.add(3, Component.translatable(
+                                "tooltip.twisted_and_carved.twisted_dash1",
+                                Component.literal(rightClick).withStyle(ChatFormatting.GOLD)
+                        ).withStyle(ChatFormatting.DARK_GRAY));
+                    } else if (TwistedWeaponUtil.getAbilityID(itemStack) == "tomahawk") {
+                        list.add(2, Component.translatable(
+                                "tooltip.twisted_and_carved.twisted_tomahawk",
+                                Component.literal("Tomahawk").withStyle(ChatFormatting.GOLD)
                         ).withStyle(ChatFormatting.DARK_GRAY));
                     }
-                } else if (itemStack.is(TCItems.TWISTED_GLAIVE)) {
-                    if (isShifting) {
-
-                        list.add(2,Component.translatable(
-                                "tooltip.twisted_and_carved.twisted_glaive_info"
-                        ).withStyle(ChatFormatting.DARK_GRAY));
-
-                        if (TwistedWeaponUtil.getAbilityID(itemStack) == "sweeping") {
-                            list.add(2,Component.translatable(
-                                    "tooltip.twisted_and_carved.twisted_sweep",
-                                    Component.literal(rightClick).withStyle(ChatFormatting.GOLD)
-                            ).withStyle(ChatFormatting.DARK_GRAY));
-                        }
-
-                    } else {
-                        list.add(2,Component.translatable(
-                                "tooltip.twisted_and_carved.twisted_info",
-                                Component.literal("Shift").withStyle(ChatFormatting.GOLD)
-                        ).withStyle(ChatFormatting.DARK_GRAY));
-                    }
-                } else if (itemStack.is(TCItems.TWISTED_SCYTHE)) {
-                    if (isShifting) {
-
-                        list.add(2,Component.translatable(
-                                "tooltip.twisted_and_carved.twisted_greataxe_info"
-                        ).withStyle(ChatFormatting.DARK_GRAY));
-                        if (TwistedWeaponUtil.getAbilityID(itemStack) == "harvest") {
-                            list.add(2,Component.translatable(
-                                    "tooltip.twisted_and_carved.twisted_harvest",
-                                    Component.literal(rightClick + " + Shift").withStyle(ChatFormatting.GOLD)
-                            ).withStyle(ChatFormatting.DARK_GRAY));
-                        }
-                        if (TwistedWeaponUtil.getAbilityID(itemStack) == "grappling") {
-                            list.add(2,Component.translatable(
-                                    "tooltip.twisted_and_carved.twisted_grapple",
-                                    Component.literal(rightClick).withStyle(ChatFormatting.GOLD)
-                            ).withStyle(ChatFormatting.DARK_GRAY));
-                        }
-
-                    } else {
-                        list.add(2,Component.translatable(
-                                "tooltip.twisted_and_carved.twisted_info",
-                                Component.literal("Shift").withStyle(ChatFormatting.GOLD)
-                        ).withStyle(ChatFormatting.DARK_GRAY));
-                    }
-                } else if (itemStack.is(TCItems.TWISTED_FALCHION)) {
-                    if (isShifting) {
-
-                        list.add(2,Component.translatable(
-                                "tooltip.twisted_and_carved.twisted_falchion_info"
-                        ).withStyle(ChatFormatting.DARK_GRAY));
-                        if (TwistedWeaponUtil.getAbilityID(itemStack) == "bleeding") {
-                            list.add(2,Component.translatable(
-                                    "tooltip.twisted_and_carved.twisted_bleeding",
-                                    Component.literal("Attack").withStyle(ChatFormatting.GOLD)
-                            ).withStyle(ChatFormatting.DARK_GRAY));
-                            list.add(2,Component.translatable(
-                                    "tooltip.twisted_and_carved.twisted_falchion_slash",
-                                    Component.literal(rightClick).withStyle(ChatFormatting.GOLD)).withStyle(ChatFormatting.DARK_GRAY));
-                        }
-
-                    } else {
-                        list.add(2,Component.translatable(
-                                "tooltip.twisted_and_carved.twisted_info",
-                                Component.literal("Shift").withStyle(ChatFormatting.GOLD)
-                        ).withStyle(ChatFormatting.DARK_GRAY));
-                    }
-                } else if (itemStack.getItem() instanceof TwistedItemPieceItem) {
-                    if (isShifting) {
-                        list.add(Component.translatable("tooltip.twisted_and_carved.twisted_piece").withStyle(ChatFormatting.DARK_GRAY));
-                    } else {
-                        list.add(Component.translatable(
-                                "tooltip.twisted_and_carved.twisted_info",
-                                Component.literal("Shift").withStyle(ChatFormatting.GOLD)
-                        ).withStyle(ChatFormatting.DARK_GRAY));
-                    }
-                } else if (itemStack.getItem() instanceof TwistedSpiritItem) {
-                    list.add(Component.translatable(itemStack.getOrDefault(TCDataComponents.TWISTED_SPIRIT_DATA, TwistedSpiritComponent.EMPTY).type()).withStyle(ChatFormatting.GOLD));
+                } else {
+                    list.add(2, Component.translatable(
+                            "tooltip.twisted_and_carved.twisted_info",
+                            Component.literal("Shift").withStyle(ChatFormatting.GOLD)
+                    ).withStyle(ChatFormatting.DARK_GRAY));
                 }
-            });
-        }
+            } else if (itemStack.is(TCItems.TWISTED_GLAIVE)) {
+                if (isShifting) {
+
+                    list.add(2, Component.translatable(
+                            "tooltip.twisted_and_carved.twisted_glaive_info"
+                    ).withStyle(ChatFormatting.DARK_GRAY));
+
+                    if (TwistedWeaponUtil.getAbilityID(itemStack) == "sweeping") {
+                        list.add(2, Component.translatable(
+                                "tooltip.twisted_and_carved.twisted_sweep",
+                                Component.literal(rightClick).withStyle(ChatFormatting.GOLD)
+                        ).withStyle(ChatFormatting.DARK_GRAY));
+                    }
+
+                } else {
+                    list.add(2, Component.translatable(
+                            "tooltip.twisted_and_carved.twisted_info",
+                            Component.literal("Shift").withStyle(ChatFormatting.GOLD)
+                    ).withStyle(ChatFormatting.DARK_GRAY));
+                }
+            } else if (itemStack.is(TCItems.TWISTED_SCYTHE)) {
+                if (isShifting) {
+
+                    list.add(2, Component.translatable(
+                            "tooltip.twisted_and_carved.twisted_greataxe_info"
+                    ).withStyle(ChatFormatting.DARK_GRAY));
+                    if (TwistedWeaponUtil.getAbilityID(itemStack) == "harvest") {
+                        list.add(2, Component.translatable(
+                                "tooltip.twisted_and_carved.twisted_harvest",
+                                Component.literal(rightClick + " + Shift").withStyle(ChatFormatting.GOLD)
+                        ).withStyle(ChatFormatting.DARK_GRAY));
+                    }
+                    if (TwistedWeaponUtil.getAbilityID(itemStack) == "grappling") {
+                        list.add(2, Component.translatable(
+                                "tooltip.twisted_and_carved.twisted_grapple",
+                                Component.literal(rightClick).withStyle(ChatFormatting.GOLD)
+                        ).withStyle(ChatFormatting.DARK_GRAY));
+                    }
+
+                } else {
+                    list.add(2, Component.translatable(
+                            "tooltip.twisted_and_carved.twisted_info",
+                            Component.literal("Shift").withStyle(ChatFormatting.GOLD)
+                    ).withStyle(ChatFormatting.DARK_GRAY));
+                }
+            } else if (itemStack.is(TCItems.TWISTED_FALCHION)) {
+                if (isShifting) {
+
+                    list.add(2, Component.translatable(
+                            "tooltip.twisted_and_carved.twisted_falchion_info"
+                    ).withStyle(ChatFormatting.DARK_GRAY));
+                    if (TwistedWeaponUtil.getAbilityID(itemStack) == "bleeding") {
+                        list.add(2, Component.translatable(
+                                "tooltip.twisted_and_carved.twisted_bleeding",
+                                Component.literal("Attack").withStyle(ChatFormatting.GOLD)
+                        ).withStyle(ChatFormatting.DARK_GRAY));
+                        list.add(2, Component.translatable(
+                                "tooltip.twisted_and_carved.twisted_falchion_slash",
+                                Component.literal(rightClick).withStyle(ChatFormatting.GOLD)).withStyle(ChatFormatting.DARK_GRAY));
+                    }
+
+                } else {
+                    list.add(2, Component.translatable(
+                            "tooltip.twisted_and_carved.twisted_info",
+                            Component.literal("Shift").withStyle(ChatFormatting.GOLD)
+                    ).withStyle(ChatFormatting.DARK_GRAY));
+                }
+            } else if (itemStack.getItem() instanceof TwistedItemPieceItem) {
+                if (isShifting) {
+                    list.add(Component.translatable("tooltip.twisted_and_carved.twisted_piece").withStyle(ChatFormatting.DARK_GRAY));
+                } else {
+                    list.add(Component.translatable(
+                            "tooltip.twisted_and_carved.twisted_info",
+                            Component.literal("Shift").withStyle(ChatFormatting.GOLD)
+                    ).withStyle(ChatFormatting.DARK_GRAY));
+                }
+            } else if (itemStack.getItem() instanceof TwistedSpiritItem) {
+                list.add(Component.translatable(itemStack.getOrDefault(TCDataComponents.TWISTED_SPIRIT_DATA, TwistedSpiritComponent.EMPTY).type()).withStyle(ChatFormatting.GOLD));
+            }
+        });
     }
 }

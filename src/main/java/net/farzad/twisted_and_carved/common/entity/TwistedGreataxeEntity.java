@@ -43,6 +43,7 @@ public class TwistedGreataxeEntity extends AbstractArrow {
     public float damageMultiplier;
     private int slot;
     private boolean initiaitedSound;
+    private int parry_count = 0;
 
     public TwistedGreataxeEntity(Level world, LivingEntity owner, ItemStack stack) {
         super(TCEntities.TWISTED_GREATAXE_ENTITY, owner, world, stack, null);
@@ -74,8 +75,9 @@ public class TwistedGreataxeEntity extends AbstractArrow {
     public void applyParryKnockback() {
         if (this.getOwner() != null) {
             this.resetGroundTime();
-            this.setDeltaMovement(this.getOwner().getLookAngle().normalize().scale(2));
+            this.setDeltaMovement(this.getOwner().getLookAngle().normalize().scale(2 + parry_count));
             this.needsSync = true;
+            this.parry_count++;
         }
     }
 
@@ -209,9 +211,14 @@ public class TwistedGreataxeEntity extends AbstractArrow {
                 }
             } else {
                 Vec3 target = new Vec3(ownerPos.x(), ownerPos.y() + 0.8, ownerPos.z());
-                Vec3 direction = target.subtract(pos.add(entity.getDeltaMovement())).normalize();
+                Vec3 direction = target.subtract(pos.add(entity.getDeltaMovement())).normalize().scale(0.5);
 
-                this.setDeltaMovement(direction.scale(0.55));
+                if (direction.lengthSqr() >= 2) {
+                    this.setDeltaMovement(direction);
+                } else {
+                    this.addDeltaMovement(direction.scale(0.05f));
+                }
+
                 this.setNoPhysics(true);
                 this.move(MoverType.SELF, this.getDeltaMovement());
             }

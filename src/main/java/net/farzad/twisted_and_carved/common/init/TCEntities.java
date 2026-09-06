@@ -37,7 +37,7 @@ public class TCEntities {
     public static final EntityType<TwistedGreataxeEntity> TWISTED_GREATAXE_ENTITY = Registry.register(BuiltInRegistries.ENTITY_TYPE,
             TwistedAndCarved.id("twisted_greataxe_entity"),
             EntityType.Builder.<TwistedGreataxeEntity>of(TwistedGreataxeEntity::new, MobCategory.MISC)
-                    .sized(0.8f, 0.8f).build(TWISTED_GREATAXE_ENTITY_KEY));
+                    .sized(1.2f, 1.2f).build(TWISTED_GREATAXE_ENTITY_KEY));
 
     public static final EntityType<TwistedScytheEntity> TWISTED_SCYTHE_ENTITY = Registry.register(BuiltInRegistries.ENTITY_TYPE,
             TwistedAndCarved.id("twisted_scythe_entity"),

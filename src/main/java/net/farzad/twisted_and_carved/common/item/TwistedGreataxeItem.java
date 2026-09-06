@@ -142,6 +142,11 @@ public class TwistedGreataxeItem extends TwistedToolItem {
                         TwistedGreataxeEntity.spawnTwistedGreataxeWithVelocity(TwistedGreataxeEntity::new, player.getInventory().findSlotMatchingItem(stack), serverWorld, stack.copy(), user, 0.0F, 3f, 0.0F);
                     }
                     stack.shrink(player.isCreative() ? 0 : 1);
+
+                    Vec3 viewVector = user.getViewVector(1.0f);
+                    Vec3 vel = viewVector.reverse();
+                    user.addDeltaMovement(vel);
+
                     return true;
                 }
             } else {
